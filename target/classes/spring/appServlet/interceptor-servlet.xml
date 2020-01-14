@@ -10,7 +10,7 @@
     <interceptors>
        <interceptor>
            <mapping path="/**"/>
-           <beans:bean id="commonInterceptor" class="tody.lovely.common.interceptor.CommonInterceptor"/>
+           <beans:bean id="commonInterceptor" class="com.happy.common.interceptor.CommonInterceptor"/>
        </interceptor>
     </interceptors>
      
@@ -20,6 +20,6 @@
       <beans:property name="order" value="0"/>
     </beans:bean>
      
-    <beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+    <beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
        
 </beans:beans>
