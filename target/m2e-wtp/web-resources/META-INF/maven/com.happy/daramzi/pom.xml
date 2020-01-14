@@ -111,6 +111,13 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!-- slf4j 를 사용하면 적절한 log4j 를 연결해 줌. -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
 
 		<!-- @Inject -->
 		<dependency>
