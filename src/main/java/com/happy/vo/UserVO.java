@@ -2,7 +2,7 @@ package com.happy.vo;
 
 import java.util.Date;
 
-public class UserVO {
+public class UserVO { 
 	
     private int IDX;
     private String ID;
