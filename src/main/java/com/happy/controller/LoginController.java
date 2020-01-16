@@ -36,8 +36,6 @@ public class LoginController {
             session.setAttribute("authInfo", authInfo);
             Cookie rememberCookie = new Cookie("REMEMBER", loginCommand.getId());
             rememberCookie.setPath("/");
-            System.out.println("리멤버 아이디 확인 : " + loginCommand.isRememberId());
-            System.out.println("리멤버 쿠키값 확인1 : " + rememberCookie);
             
             if(loginCommand.isRememberId()) {
                 rememberCookie.setMaxAge(60*60*24*7);
@@ -47,7 +45,7 @@ public class LoginController {
             response.addCookie(rememberCookie);
             
         } catch (IdPasswordNotMatchingException e) {
-            bindingResult.rejectValue("pw", "notMatch", "아이디와 비밀번호가 맞지않습니다.");
+            bindingResult.rejectValue("pw", "notMatch", "�븘�씠�뵒�� 鍮꾨�踰덊샇媛� 留욎��븡�뒿�땲�떎.");
             ModelAndView mv = new ModelAndView("user/login/loginForm");
             return mv;
         }
