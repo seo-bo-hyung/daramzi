@@ -18,7 +18,7 @@ import com.happy.util.RegisterRequest;
 public class UserController {
     @RequestMapping("/register/step1")
     public String step1() throws Exception {
-        return "user/register/step1.page";
+        return "user/register/step1.part";
     }
     
     @RequestMapping("/register/step2")
@@ -27,7 +27,7 @@ public class UserController {
             ModelAndView mv = new ModelAndView("user/register/step1.page");
             return mv;
         }
-        ModelAndView mv = new ModelAndView("user/register/step2.page");
+        ModelAndView mv = new ModelAndView("user/register/step2.part");
         mv.addObject("registerRequest", new RegisterRequest());
         return mv;
     }
@@ -40,7 +40,7 @@ public class UserController {
         
         //@Valid 검증        
         if(bindingResult.hasErrors()) {
-            ModelAndView mv = new ModelAndView("user/register/step2.page");
+            ModelAndView mv = new ModelAndView("user/register/step2.part");
             return mv;
         }
  
@@ -48,7 +48,7 @@ public class UserController {
         boolean check = regReq.isPwEqualToCheckPw();
         if(!check) {
             bindingResult.rejectValue("checkPw", "noMatch", "비밀번호를 확인해주세요.");
-            ModelAndView mv = new ModelAndView("user/register/step2.page");
+            ModelAndView mv = new ModelAndView("user/register/step2.part");
             return mv;
         }
         
@@ -56,15 +56,15 @@ public class UserController {
             userSer.register(regReq);
         } catch (AlreadyExistingEmailException e) {
             bindingResult.rejectValue("email", "duplicate", "이미 가입된 이메일입니다.");
-            ModelAndView mv = new ModelAndView("user/register/step2.page");
+            ModelAndView mv = new ModelAndView("user/register/step2.part");
             return mv;
         } catch (AlreadyExistingIdException e) {
             bindingResult.rejectValue("id", "duplicate", "이미 가입된 아이디입니다.");
-            ModelAndView mv = new ModelAndView("user/register/step2.page");
+            ModelAndView mv = new ModelAndView("user/register/step2.part");
             return mv;
         }
  
-        ModelAndView mv = new ModelAndView("user/register/step3.page");
+        ModelAndView mv = new ModelAndView("user/register/step3.part");
         return mv;
     }
 }

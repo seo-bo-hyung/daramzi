@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 </head>
 <body>
 <div class="panel-body">

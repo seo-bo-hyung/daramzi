@@ -1,9 +1,15 @@
 package com.happy.daramzi;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Handles requests for the application home page.
@@ -16,22 +22,22 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-//	@RequestMapping(value = "/", method = RequestMethod.GET)
-//	public String home(Locale locale, Model model) {
-//		logger.info("Welcome home! The client locale is {}.", locale);
-//		
-//		Date date = new Date();
-//		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-//		
-//		String formattedDate = dateFormat.format(date);
-//		
-//		model.addAttribute("serverTime", formattedDate );
-//		
-//		return "home";
-//	}
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		return "index.page";
+	}
 	
     /**
-     * Tiles¸¦ »ç¿ëÇÏÁö ¾ÊÀº ÀÏ¹ÝÀûÀÎ ÇüÅÂ git ¿¡ ¿Ã¸®±â À§ÇÑ ÁÖ¼®¹® º¯°æ
+     * Tilesï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ git ï¿½ï¿½ ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
      */    
     @RequestMapping("/test.do")
     public String test() {
@@ -39,7 +45,7 @@ public class HomeController {
     }    
     
     /**
-     * Tiles¸¦ »ç¿ë(header, left, footer Æ÷ÇÔ)
+     * Tilesï¿½ï¿½ ï¿½ï¿½ï¿½(header, left, footer ï¿½ï¿½ï¿½ï¿½)
      */        
     @RequestMapping("/testPage.do")
     public String testPage() {
@@ -47,7 +53,7 @@ public class HomeController {
     }
     
     /**
-     * Tiles¸¦ »ç¿ë(header, left, footer Á¦¿Ü)
+     * Tilesï¿½ï¿½ ï¿½ï¿½ï¿½(header, left, footer ï¿½ï¿½ï¿½ï¿½)
      */    
     @RequestMapping("/testPart.do")
     public String testPart() {

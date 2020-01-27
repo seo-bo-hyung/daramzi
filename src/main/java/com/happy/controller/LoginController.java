@@ -25,12 +25,10 @@ public class LoginController {
     @RequestMapping(value="/login")
     public ModelAndView loginSuccess(@Valid LoginCommand loginCommand, BindingResult bindingResult,
                                     HttpSession session, HttpServletResponse response) throws Exception {
- 
         if(bindingResult.hasErrors()) {
-            ModelAndView mv = new ModelAndView("user/login/loginForm");
+            ModelAndView mv = new ModelAndView("user/login/loginForm.part");
             return mv;
         }
-        
         try {
             AuthInfo authInfo = userSer.loginAuth(loginCommand);
             session.setAttribute("authInfo", authInfo);
@@ -43,10 +41,9 @@ public class LoginController {
                 rememberCookie.setMaxAge(0);
             }
             response.addCookie(rememberCookie);
-            
         } catch (IdPasswordNotMatchingException e) {
-            bindingResult.rejectValue("pw", "notMatch", "�븘�씠�뵒�� 鍮꾨�踰덊샇媛� 留욎��븡�뒿�땲�떎.");
-            ModelAndView mv = new ModelAndView("user/login/loginForm");
+            bindingResult.rejectValue("pw", "notMatch", "아이디와 비밀번호가 맞지않습니다.");
+            ModelAndView mv = new ModelAndView("user/login/loginForm.part");
             return mv;
         }
         

@@ -18,6 +18,7 @@
         <![CDATA[
           SELECT
               ID,
+              PASSWORD,
               NAME
           FROM
               USER
