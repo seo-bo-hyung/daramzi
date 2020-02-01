@@ -1,0 +1,16 @@
+#layer1 {
+	position: absolute;
+	padding: 5px;
+	filter: alpha(opacity = 50);
+	width: 250px;
+	height: auto;
+	background-color: white;
+	border: 2px #000000 dotted;
+	visibility: hidden;
+}
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+body {
+	font-family: 'Nanum Gothic', sans-serif;
+}

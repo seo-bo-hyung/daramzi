@@ -7,6 +7,7 @@
 </head>
 <body>
 <span>다람쥐에 오신걸 환영합니다!!</span>
+<a href="/">홈</a>
 <c:catch>
 		    <c:choose>
 		        <c:when test="${empty authInfo }">
@@ -27,6 +28,7 @@
 		        </c:otherwise>
 		    </c:choose>
 		</c:catch>
+		<!-- <marquee width="500">♡&lt;다람쥐에 오신걸 환영합니다.&gt;♡</marquee><font size="5"></font> -->
 </body>
 </html>
  
