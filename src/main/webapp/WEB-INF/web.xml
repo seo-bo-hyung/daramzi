@@ -14,12 +14,7 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
-	
-	<!-- 초기 접근 파일 -->
-<!--     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list> -->
-    
+	  
     <!-- UTF-8 설정 -->
     <filter>
         <filter-name>encodingFilter</filter-name>

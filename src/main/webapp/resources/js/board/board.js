@@ -1,11 +1,19 @@
-    function check() {
-        if (document.search.keyWord.value == "") {
+    function check_search() {
+        if (document.boardListVO.keyWord.value == "") {
             alert("검색어를 입력하세요.");
-            document.search.keyWord.focus();
+            document.boardListVO.keyWord.focus();
             return;
         }
-        document.search.submit();
+        document.boardListVO.submit();
     }
+    
+    function listCnt_search() {
+        document.boardListVO.submit();
+    }
+    
+    function go_write() {
+    	location.href="/board/boardWrite";
+    }    
  
     function list() {
         document.list.action = "boardList.action";

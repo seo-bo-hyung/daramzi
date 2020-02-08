@@ -3,19 +3,20 @@ package com.board.service;
 
 import java.util.List;
 
-import com.board.dto.BoardDto;
-import com.board.dto.PageDto;
+import com.board.vo.BoardListVO;
+import com.board.vo.BoardVO;
+import com.board.vo.PageVO;
 
 public interface BoardService {
  
-    public List<BoardDto> boardList(String keyfield, String keyword);
-    public BoardDto findBySeq(int seq);
-    public BoardDto viewContent(int seq);
-    public void insertBoard(BoardDto board);
-    public int updateBoard(BoardDto board, String pass);
+    public List<BoardVO> boardList(BoardListVO boardListVO); 
+    public BoardVO findBySeq(int seq);
+    public BoardVO viewContent(int seq);
+    public void insertBoard(BoardVO board);
+    public int updateBoard(BoardVO board, String pass);
     public String deleteView(int seq);
     public int deleteBoard(int seq, String storpass);
-    public void replyBoard(BoardDto board);
-    public void replyUpPos(BoardDto board);
-    public PageDto pagingProc(int nowPage, int nowBlock, int totalRecord);
+    public void replyBoard(BoardVO board);
+    public void replyUpPos(BoardVO board);
+    public PageVO pagingProc(int nowPage, int nowBlock, int totalRecord);
 }

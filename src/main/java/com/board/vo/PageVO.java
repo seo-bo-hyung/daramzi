@@ -1,6 +1,6 @@
-package com.board.dto;
+package com.board.vo;
 
-public class PageDto {
+public class PageVO {
 
     private int totalRecord = 0;    // 전체 게시물 갯수
     private int numPerPage = 0;     // 한페이지에 보여지는 게시물 갯수

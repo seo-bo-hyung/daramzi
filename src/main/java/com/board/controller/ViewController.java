@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.board.dto.BoardDto;
 import com.board.service.BoardService;
+import com.board.vo.BoardVO;
  
 @Controller
 public class ViewController {
@@ -23,7 +23,7 @@ public class ViewController {
     {
         ModelAndView view = new ModelAndView();
         view.setViewName("Board_View");
-        BoardDto dto = boardService.viewContent(seq);
+        BoardVO dto = boardService.viewContent(seq);
         view.addObject("dto",dto);
         view.addObject("keyField",keyField);
         view.addObject("keyWord",keyWord);

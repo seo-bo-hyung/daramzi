@@ -8,37 +8,37 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.board.dao.BoardDao;
-import com.board.dto.BoardDto;
-import com.board.dto.PageDto;
+import com.board.vo.BoardListVO;
+import com.board.vo.BoardVO;
+import com.board.vo.PageVO;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
  
-    @Resource(name="boardDaoImpl")
+    @Resource(name="boardDao")
     private BoardDao boardDao;
     
     @Override
-    public List<BoardDto> boardList(String keyfield, String keyword) {
-        System.out.println("BoardService.BoardList( ) 접속됨");
-        return boardDao.boardList(keyfield, keyword);
+    public List<BoardVO> boardList(BoardListVO boardListVO) {
+        return boardDao.boardList(boardListVO);
     }
  
-    public BoardDto findBySeq(int seq) {
+    public BoardVO findBySeq(int seq) {
         return boardDao.findBySeq(seq);
     }
  
     @Override
-    public BoardDto viewContent(int seq) {
+    public BoardVO viewContent(int seq) {
         return boardDao.viewContent(seq);
     }
  
     @Override
-    public void insertBoard(BoardDto board) {
+    public void insertBoard(BoardVO board) {
         boardDao.insertBoard(board);        
     }
  
     @Override
-    public int updateBoard(BoardDto board, String pass) {
+    public int updateBoard(BoardVO board, String pass) {
         return boardDao.updateBoard(board, pass);
     }
  
@@ -53,26 +53,28 @@ public class BoardServiceImpl implements BoardService {
     }
  
     @Override
-    public void replyBoard(BoardDto board) {
+    public void replyBoard(BoardVO board) {
         boardDao.replyBoard(board);
     }
  
     @Override
-    public void replyUpPos(BoardDto board) {
+    public void replyUpPos(BoardVO board) {
         boardDao.replyUpPos(board);
     }
  
     // 아래부터 페이징 
  
-    public PageDto pagingProc(int nowPage, int nowBlock, int totalRecord) {
+    public PageVO pagingProc(int nowPage, int nowBlock, int totalRecord) {
+    	System.out.println("nowPage1 : " + nowPage + ",nowBlock: " +nowBlock + ",totalRecord:" +totalRecord);
+    	
         int numPerPage = 5;
         int pagePerBlock = 4;
         int totalPage = (int)Math.ceil((double)totalRecord / numPerPage); 
         int beginPerPage = nowPage * numPerPage;
         int totalBlock = (int)Math.ceil((double)totalPage / pagePerBlock);
         
-        PageDto page = new PageDto();
-        
+        PageVO page = new PageVO();
+        System.out.println("nowPage2 : " + nowPage + ",nowBlock: " +nowBlock + ",totalRecord:" +totalRecord);
         page.setBeginPerPage(beginPerPage);
         page.setNowBlock(nowBlock);
         page.setNowPage(nowPage);
@@ -81,7 +83,7 @@ public class BoardServiceImpl implements BoardService {
         page.setTotalBlock(totalBlock);
         page.setTotalPage(totalPage);
         page.setTotalRecord(totalRecord);
-        
+        System.out.println("nowPage3 : " + nowPage + ",nowBlock: " +nowBlock + ",totalRecord:" +totalRecord);
         return page;
     } 
 

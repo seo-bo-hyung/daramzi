@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.board.dto.BoardDto;
 import com.board.service.BoardService;
+import com.board.vo.BoardVO;
  
 @Controller
 public class ReplyController {
@@ -21,7 +21,7 @@ public class ReplyController {
     @RequestMapping(value="/boardReply.action",method=RequestMethod.GET)
     public ModelAndView read(@RequestParam int seq){
         ModelAndView view = new ModelAndView();
-        BoardDto dto = boardService.findBySeq(seq);
+        BoardVO dto = boardService.findBySeq(seq);
         view.addObject("dto",dto);
         view.setViewName("Board_Reply");
         return view;
@@ -30,11 +30,11 @@ public class ReplyController {
     //답변작성후 Board_List로 돌아가는 컨트롤러
     // 부모의 dto = board
     @RequestMapping(value="/boardReply.action",method=RequestMethod.POST)
-    public String read(@ModelAttribute BoardDto dto,@RequestParam int temp_seq){
+    public String read(@ModelAttribute BoardVO dto,@RequestParam int temp_seq){
         ModelAndView view =new ModelAndView();
         view.setViewName("Board_List");
         
-        BoardDto board = boardService.findBySeq(temp_seq);
+        BoardVO board = boardService.findBySeq(temp_seq);
         boardService.replyUpPos(board);
         dto.setPos(board.getPos());
         dto.setDepth(board.getDepth());

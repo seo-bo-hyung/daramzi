@@ -1,6 +1,6 @@
-package com.board.dto;
+package com.board.vo;
 
-public class BoardDto {
+public class BoardVO {
 
     private int seq;
     private String name;
@@ -14,6 +14,7 @@ public class BoardDto {
     private String regdate;
     private int pos;
     private int depth;
+    
 	public int getSeq() {
 		return seq;
 	}
@@ -86,7 +87,4 @@ public class BoardDto {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
-
-
-	
 }

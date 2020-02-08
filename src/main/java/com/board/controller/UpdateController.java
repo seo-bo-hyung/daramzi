@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.board.dto.BoardDto;
 import com.board.service.BoardService;
+import com.board.vo.BoardVO;
  
 @Controller
 public class UpdateController {
@@ -21,14 +21,14 @@ public class UpdateController {
     public ModelAndView updateView(@RequestParam int seq){
         ModelAndView view = new ModelAndView();
         System.out.println(seq);
-        BoardDto dto = boardService.findBySeq(seq);
+        BoardVO dto = boardService.findBySeq(seq);
         view.addObject("dto",dto);
         view.setViewName("Board_Update");
         return view;        
     }
  
     @RequestMapping(value="boardUpdate.action", method=RequestMethod.POST)
-    public ModelAndView updateView(@ModelAttribute BoardDto board,@RequestParam String pass)
+    public ModelAndView updateView(@ModelAttribute BoardVO board,@RequestParam String pass)
     {
         ModelAndView view = new ModelAndView();
         int result = boardService.updateBoard(board, pass);
