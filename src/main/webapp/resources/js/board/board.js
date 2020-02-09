@@ -7,10 +7,17 @@
         document.boardListVO.submit();
     }
     
+    //리스트 검색부    
     function listCnt_search() {
         document.boardListVO.submit();
     }
     
+    //페이지 이동부
+    function pagemove(i) {
+        document.boardListVO.page.value = Number(i);
+        document.boardListVO.submit();
+    }    
+
     function go_write() {
     	location.href="/board/boardWrite";
     }    
@@ -28,12 +35,7 @@
         document.read.submit();
     }
  
-    function pagemove(i) {
-        var nowPage = document.pagemove.nowPage.value;
-        document.pagemove.nowPage.value = Number(nowPage) + Number(i);
- 
-        document.pagemove.submit();
-    }
+
  
     function blockmovef() {
         document.blockmovef.submit();

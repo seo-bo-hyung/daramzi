@@ -65,13 +65,6 @@
             <version>2.9.10.1</version>
         </dependency>
         
-        <!-- ibatis -->
-		<dependency>
-			<groupId>org.apache.ibatis</groupId>
-			<artifactId>ibatis-sqlmap</artifactId>
-			<version>2.3.4.726</version>
-		</dependency>
-        
 		<!-- MyBatis -->
 		<dependency>
 		    <groupId>org.springframework</groupId>

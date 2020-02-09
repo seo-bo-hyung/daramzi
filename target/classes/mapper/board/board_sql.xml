@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
 	<sql id="COMMON_PAGING_HEADER">
-		select R1.* FROM(	
+		select R.* FROM(	
 	</sql>
 	
 	<sql id="COMMON_PAGING_TAIL">
-		) R1
+		) R
 		LIMIT #{listNum, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}	
 	</sql>
 
@@ -26,11 +26,43 @@
 		            pos, 
 		            depth
 		    from tbl_board
-		]]>    
-
+		]]> 
+		<where>
+		<if test="keyWord != null and keyWord != ''">   
+				<if test="keyField == 'name'">
+					and NAME = #{keyWord, jdbcType=VARCHAR}
+				</if>
+				<if test="keyField == 'title'">
+					and title = #{keyWord, jdbcType=VARCHAR}
+				</if>
+				<if test="keyField == 'content'">
+					and content = #{keyWord, jdbcType=VARCHAR}
+				</if>	
+		</if>
+		</where>
 		<![CDATA[
     		order by seq desc
 		]]> 
       <include refid="COMMON_PAGING_TAIL"/>
     </select> 
+    
+	<select id="boardListCnt" parameterType="BoardListVO" resultType="integer">
+      <![CDATA[
+		    select count(1) as cnt
+		    from tbl_board
+		]]> 
+		<where>
+		<if test="keyWord != null and keyWord != ''">   
+				<if test="keyField == 'name'">
+					and NAME = #{keyWord, jdbcType=VARCHAR}
+				</if>
+				<if test="keyField == 'title'">
+					and title = #{keyWord, jdbcType=VARCHAR}
+				</if>
+				<if test="keyField == 'content'">
+					and content = #{keyWord, jdbcType=VARCHAR}
+				</if>	
+		</if>
+		</where>
+    </select>     
 </mapper>

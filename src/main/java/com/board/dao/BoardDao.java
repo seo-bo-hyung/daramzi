@@ -11,16 +11,17 @@ import com.happy.common.dao.AbstractDAO;
 
 @Repository("boardDao")
 public class BoardDao extends AbstractDAO  {
- 
 
-    // 상속받은걸 오버라이드함
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public List<BoardVO> boardList(BoardListVO boardListVO) {
         List<BoardVO> result = new ArrayList<BoardVO>();
-		/* result = BoardManager.boardList(keyfield, keyword); */
-        
         result = (List<BoardVO>)selectList("board.boardList",boardListVO);
         return result;
+    }
+    
+	public int boardListCnt(BoardListVO boardListVO) {
+        int resultCnt = (Integer)selectOne("board.boardListCnt",boardListVO);
+        return resultCnt;
     }
  
     public String preView(int seq) {

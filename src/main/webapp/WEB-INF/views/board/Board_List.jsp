@@ -39,18 +39,19 @@
 				</td>
 				<tr>
 	            <!-- 정보 part -->
-	            <td align=left>▶게시물수 : ${page.totalRecord }개 </td><tr>
-	            <td align=left>▶현재 페이지 ( <font color=red> ${page.nowPage+1 } / ${page.totalPage} 페이지</font>)</td><tr>
+	            <td align=left>▶게시물수 : ${page.totalCount }개 </td><tr>
 	            <td align=right valign=top>
-				
-	            <input type="hidden" name="page" value="0">
-            </td>
+	            
+	            <!-- 페이지 이동시 값 유지를 위한 hidden 값 -->
+				<input type="hidden" name="listNumOrg" 	value="${boardListVO.listNum}" /> 
+		        <input type="hidden" name="keyFieldOrg" value="${boardListVO.keyField }" /> 
+		        <input type="hidden" name="keyWordOrg" 	value="${boardListVO.keyWord }" />
+		        <input type="hidden" name="page" 		value="${boardListVO.page}" /> 
+		        <input type="hidden" name="pageYN" 		value="N" />
         	</tr>                
         </table>
     </form:form>   
      
-         page.beginPerPage 확인  : <c:out value="${page.beginPerPage }"/>
-        page.numPerPage 확인  : <c:out value="${page.numPerPage }"/>
      <!-- 글쓰기 -->
     <div align=Right>
     	<input type="button" value="글쓰기" onClick="go_write()">
@@ -76,29 +77,30 @@
         <tbody>
             <tr>
                 <c:choose>
-                    <c:when test="${empty list }">
+                    <c:when test="${empty resultlist }">
                     	등록된 글이 없습니다.
                     </c:when>
                     <c:otherwise>
                         <c:set var="doneLoop" value="false" />
-                        <c:forEach begin="${page.beginPerPage }" end="${page.beginPerPage + page.numPerPage -1}" var="i">
+                        <c:forEach begin="0" end="${resultlist.size()-1}" var="i">
                                 <c:if test="${not doneLoop }">
                                     <tr>
-                                        <td align=center>${list[i].seq }</td>
+                                        <td align=center>${resultlist[i].seq }</td>
                                         <td>
                                             <!-- depth --> 
-                                            <c:if test="${list[i].depth != 0 }">
-                                                <c:forEach begin="0" end="${list[i].depth}">
-                                                   
+                                            <c:if test="${resultlist[i].depth != 0 }">
+                                                <c:forEach begin="0" end="${resultlist[i].depth}">
                                                 </c:forEach>
-                                            </c:if><a href="javascript:read(${list[i].seq })" onmouseover="contentprev('${list[i].seq}');showlayer('layer1');" 
-                                                            onmouseout="hidelayer('layer1');">${list[i].title }</a>
+                                            </c:if>
+                                            <a href="javascript:read(${resultlist[i].seq })" 
+                                            	onmouseover="contentprev('${resultlist[i].seq}');showlayer('layer1');" 
+                                                onmouseout="hidelayer('layer1');">${resultlist[i].title }</a>
                                         </td>
-                                        <td align="center"><a href="mailto:${list[i].email}">${list[i].name }</a>
-                                        <td align=center>${list[i].regdate }</td>
-                                        <td align=center>${list[i].count }</td>
+                                        <td align="center"><a href="mailto:${resultlist[i].email}">${resultlist[i].name }</a>
+                                        <td align=center>${resultlist[i].regdate }</td>
+                                        <td align=center>${resultlist[i].count }</td>
                                     </tr>
-                                    <c:if test="${i+1 == page.totalRecord} }">
+                                    <c:if test="${i+1 == page.totalCount} }">
                                         <c:set var="doneLoop" value="true" />
                                     </c:if>
                                 </c:if>
@@ -106,41 +108,30 @@
                     </c:otherwise>
                 </c:choose>
         </tbody>
-        <tfoot>
- 
-        </tfoot>
+        <tfoot></tfoot>
     </table>
-        <table border=0 width=800 cellpadding=5 cellspacing=0>
-                        <tr>
-                <td align="left"><c:if test="${page.totalRecord !=0}">Page→ 
-                
-                <c:if test="${page.nowBlock >0 }">
-                    <a href="javascript:blockMoveb()"><font color="red"> 이전 ${page.pagePerBlock }개</font></a>
-                </c:if>
-                
-                
-                <c:set var="doneLoop2" value="false" />
-                <c:forEach begin="0" end="${page.pagePerBlock-1 }" var="i">
-                    <c:if test="${not doneLoop2 }">
-                    <a href="javascript:pagemove(${i })"> ${(page.nowBlock*page.pagePerBlock)+i+1}</a>
-                    <c:if test="${(page.pagePerBlock*page.nowBlock+i+1) == page.totalPage }">
-                    <c:set var="doneLoop2" value="true" />  
-                    </c:if>
-                    </c:if>
-                </c:forEach>
-                
-                
-                <c:if test="${page.totalBlock > page.nowBlock+1 }">
-                    <a href="javascript:blockmovef()"><font color="red"> 다음 ${page.pagePerBlock }개</font></a>
-                </c:if>
-                </c:if>
-                </td> 
-                    <td align=right>    <a href="boardWrite.action">[글쓰기]</a> <a href ="javascript:list()">[목록으로]</a>
-                </td>
-            </tr>
-        </table>
-    
-    
+        
+	<div id="paging">
+		<!-- 1~10까지 있는 페이지의 페이징 -->
+		<c:if test="${page.prev}">
+		    <a href="javascript:pagemove(${page.beginPage+1})">prev</a>
+		</c:if>
+		<c:forEach begin="${page.beginPage}" end="${page.endPage}" step="1" var="index">
+		    <c:choose>
+		        <c:when test="${page.page==index}">
+		            ${index}
+		        </c:when>
+		        <c:otherwise>
+		            <a href="javascript:pagemove(${index})"> ${index}</a>
+		        </c:otherwise>
+		    </c:choose>
+		</c:forEach>
+		<c:if test="${page.next}">
+		    <a href="javascript:pagemove(${page.endPage+1})">next</a>
+		</c:if>
+	</div>
+	
+    <%-- 
     <!-- 히든 정의 -->
     <form name="read" method="post">
         <input type="hidden" name="seq"/><input type="hidden" name="keyField"/><input type="hidden" name="keyWord"/>
@@ -169,7 +160,7 @@
     
     <form name="list" method="GET">
         <input type="hidden" name="reload" value="true">
-    </form>
+    </form> --%>
  
 </body>
 </html>
