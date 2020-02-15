@@ -1,24 +1,24 @@
-package com.happy.service;
+package com.user.service;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.happy.dao.UserDAO;
 import com.happy.exception.AlreadyExistingEmailException;
 import com.happy.exception.AlreadyExistingIdException;
 import com.happy.exception.IdPasswordNotMatchingException;
 import com.happy.util.AuthInfo;
 import com.happy.util.LoginCommand;
 import com.happy.util.RegisterRequest;
-import com.happy.vo.UserVO;
+import com.user.dao.UserDAO;
+import com.user.vo.UserVO;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
  
     @Resource(name="userDAO")
     private UserDAO userDAO;
- 
+  
     @Override
     public void register(RegisterRequest regReq) throws Exception {
         UserVO email = userDAO.selectByEmail(regReq.getEmail());

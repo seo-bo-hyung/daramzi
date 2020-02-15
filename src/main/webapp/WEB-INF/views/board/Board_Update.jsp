@@ -28,12 +28,6 @@
             <col width="80%">
         </colgroup>
        
-        listNum : <c:out value="${search.listNum}" /> <br>
-        keyField :<c:out value="${search.keyField }" /><br> 
-        keyWord :<c:out value="${search.keyWord }" /><br>
-        page :<c:out value="${search.page}" /> <br>
-       
- 
         <table summary="테이블 구성" >
         <caption>글 수정하기 [${modContent.seq }번] 게시물</caption>    
             <tr>

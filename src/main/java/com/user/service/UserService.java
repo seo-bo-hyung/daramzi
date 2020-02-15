@@ -1,4 +1,4 @@
-package com.happy.service;
+package com.user.service;
 
 import com.happy.util.AuthInfo;
 import com.happy.util.LoginCommand;

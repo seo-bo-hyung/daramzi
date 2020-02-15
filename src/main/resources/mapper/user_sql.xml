@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user">
 
-    <select id="selectByEmail" resultType="com.happy.vo.UserVO">
+    <select id="selectByEmail" resultType="UserVO">
         <![CDATA[
           SELECT
               EMAIL,
@@ -14,7 +14,7 @@
       ]]>
     </select>
     
-    <select id="selectById" resultType="com.happy.vo.UserVO">
+    <select id="selectById" resultType="UserVO">
         <![CDATA[
           SELECT
               ID,

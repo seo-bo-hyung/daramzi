@@ -1,4 +1,4 @@
-package com.happy.controller;
+package com.user.controller;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -11,8 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.happy.exception.AlreadyExistingEmailException;
 import com.happy.exception.AlreadyExistingIdException;
-import com.happy.service.UserService;
 import com.happy.util.RegisterRequest;
+import com.user.service.UserService;
 
 @Controller
 public class UserController {
@@ -20,7 +20,7 @@ public class UserController {
     public String step1() throws Exception {
         return "user/register/step1.part";
     }
-    
+     
     @RequestMapping("/register/step2")
     public ModelAndView step2(@RequestParam(value="agree", defaultValue="false") Boolean agree) throws Exception {
         if(!agree) {

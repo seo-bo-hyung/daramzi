@@ -23,7 +23,7 @@ public class WriteController {
     @RequestMapping(value="/board/boardWrite", method=RequestMethod.GET)
     public ModelAndView wirteView(@ModelAttribute("writeRequest") BoardVO vo){
     	ModelAndView view = new ModelAndView();
-        view.setViewName("board/Board_Write.page");
+        view.setViewName("board/Board_Write.view");
         
         return view;
     }
@@ -52,7 +52,7 @@ public class WriteController {
         view.addObject("search",searchInfo);
         view.addObject("modContent",modContent);
         
-        view.setViewName("board/Board_Update.page");
+        view.setViewName("board/Board_Update.view");
         return view; 
     }
     
@@ -69,7 +69,7 @@ public class WriteController {
             view.setViewName("forward:/board/boardList");
         }else{
             view.addObject("modContent",modComp);
-            view.setViewName("board/Board_Update.page");
+            view.setViewName("board/Board_Update.view");
         }return view;
     }    
 }

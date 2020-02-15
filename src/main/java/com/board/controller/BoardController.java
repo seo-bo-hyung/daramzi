@@ -51,9 +51,10 @@ public class BoardController {
         int seq = searchInfo.getSeq();
         BoardVO viewContent = boardService.viewContent(seq);
         view.addObject("viewContent",viewContent);
+        
         //검색조건 유지
         view.addObject("search",searchInfo);
-        view.setViewName("board/Board_View.page");
+        view.setViewName("board/Board_View.view");
         return view;        
     }
     

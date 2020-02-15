@@ -1,6 +1,8 @@
 package com.board.vo;
 
-public class PageVO {
+import com.happy.common.vo.commonVO;
+
+public class PageVO extends commonVO{
 
 	private int page =1; //현재 페이지 (get)
     private int totalCount; //row 전체의 수 (get)

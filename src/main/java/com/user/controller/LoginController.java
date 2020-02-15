@@ -1,4 +1,4 @@
-package com.happy.controller;
+package com.user.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.happy.exception.IdPasswordNotMatchingException;
-import com.happy.service.UserService;
 import com.happy.util.AuthInfo;
 import com.happy.util.LoginCommand;
+import com.user.service.UserService;
 
 @Controller
 public class LoginController {
-
+ 
     @Resource(name="userService")
     private UserService userSer;
  

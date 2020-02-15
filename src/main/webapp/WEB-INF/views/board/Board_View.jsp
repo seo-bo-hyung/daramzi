@@ -9,12 +9,8 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/board/board.css" />
 <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/js/board/board.js"></script>
 </head>
-         listNum : <c:out value="${search.listNum}" /> <br>
-        keyField :<c:out value="${search.keyField }" /><br> 
-        keyWord :<c:out value="${search.keyWord }" /><br>
-        page :<c:out value="${search.page}" /> <br>
+
 <body>
-<!--     <form name="BoardViewForm" method="post"> -->
 	<table summary="전체 테이블 구성" width=600 height=400 cellpadding=5 cellspacing=0>
 	    <tr>
 	        <td ><div align="center"><h3><b>글 읽기</b></h3></div></td>

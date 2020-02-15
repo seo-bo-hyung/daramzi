@@ -35,30 +35,4 @@ public class HomeController {
 		
 		return "index.page";
 	}
-	
-    /**
-     * Tiles�� ������� ���� �Ϲ����� ���� git �� �ø��� ���� �ּ��� ����
-     */    
-    @RequestMapping("/test.do")
-    public String test() {
-        return "test";
-    }    
-    
-    /**
-     * Tiles�� ���(header, left, footer ����)
-     */        
-    @RequestMapping("/testPage.do")
-    public String testPage() {
-        return "test.page";
-    }
-    
-    /**
-     * Tiles�� ���(header, left, footer ����)
-     */    
-    @RequestMapping("/testPart.do")
-    public String testPart() {
-        return "test.part";
-    }        
-    	
-	
 }

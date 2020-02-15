@@ -1,10 +1,10 @@
-package com.happy.dao;
+package com.user.dao;
 
 import org.springframework.stereotype.Repository;
 
 import com.happy.common.dao.AbstractDAO;
 import com.happy.util.RegisterRequest;
-import com.happy.vo.UserVO;
+import com.user.vo.UserVO;
 
 @Repository("userDAO")
 public class UserDAO extends AbstractDAO {
@@ -15,7 +15,7 @@ public class UserDAO extends AbstractDAO {
     public UserVO selectById(String id) {
         return (UserVO)selectOne("user.selectById", id);
     }
- 
+  
     public void insertUser(RegisterRequest regReq) {
         insert("user.register", regReq);
     }
