@@ -14,27 +14,27 @@
  
 <body>
 <div id="layer1">게시물 본문 미리 보기</div>
-    <form:form action="/board/boardList" name="boardListVO" ModelAttribute="boardListVO" method="post">
+    <form:form action="/board/boardList" name="search" ModelAttribute="search" method="post">
         <table width=610 >
         		<tr>
 	            <!-- 검색 part -->
 	            <td align=Right>
 		            <select name="keyField" size="1">
-		                <option value="name" 	<c:if test="${boardListVO.keyField eq 'name'}"> 	selected</c:if>> 이름 </option>
-		                <option value="title" 	<c:if test="${boardListVO.keyField eq 'title'}"> 	selected</c:if>> 제목 </option>
-		                <option value="content" <c:if test="${boardListVO.keyField eq 'content'}"> 	selected</c:if>> 내용 </option>
+		                <option value="name" 	<c:if test="${search.keyField eq 'name'}"> 	selected</c:if>> 이름 </option>
+		                <option value="title" 	<c:if test="${search.keyField eq 'title'}"> 	selected</c:if>> 제목 </option>
+		                <option value="content" <c:if test="${search.keyField eq 'content'}"> 	selected</c:if>> 내용 </option>
 		            </select>
-		            <input type="text" size="16" name="keyWord" value="${boardListVO.keyWord}">
+		            <input type="text" size="16" name="keyWord" value="${search.keyWord}">
 		            <input type="button" value="검색" onClick="check_search()">
 	            </td>
 	            <tr>
 	            <!-- 리스트 선택 -->
 	            <td align=Right>
 	            <select name="listNum" onchange="listCnt_search()" >
-	            	<option value="2"   <c:if test="${boardListVO.listNum eq '2'  }"> selected</c:if>> 2개씩보기  </option>
-	            	<option value="20"  <c:if test="${boardListVO.listNum eq '20' }"> selected</c:if>> 20개씩보기  </option>
-					<option value="50"  <c:if test="${boardListVO.listNum eq '50' }"> selected</c:if>> 50개씩보기  </option>
-					<option value="100" <c:if test="${boardListVO.listNum eq '100'}"> selected</c:if>> 100개씩보기</option>
+	            	<option value="2"   <c:if test="${search.listNum eq '2'  }"> selected</c:if>> 2개씩보기  </option>
+	            	<option value="20"  <c:if test="${search.listNum eq '20' }"> selected</c:if>> 20개씩보기  </option>
+					<option value="50"  <c:if test="${search.listNum eq '50' }"> selected</c:if>> 50개씩보기  </option>
+					<option value="100" <c:if test="${search.listNum eq '100'}"> selected</c:if>> 100개씩보기</option>
 				</select>
 				</td>
 				<tr>
@@ -43,10 +43,10 @@
 	            <td align=right valign=top>
 	            
 	            <!-- 페이지 이동시 값 유지를 위한 hidden 값 -->
-				<input type="hidden" name="listNumOrg" 	value="${boardListVO.listNum}" /> 
-		        <input type="hidden" name="keyFieldOrg" value="${boardListVO.keyField }" /> 
-		        <input type="hidden" name="keyWordOrg" 	value="${boardListVO.keyWord }" />
-		        <input type="hidden" name="page" 		value="${boardListVO.page}" /> 
+				<input type="hidden" name="listNumOrg" 	value="${search.listNum}" /> 
+		        <input type="hidden" name="keyFieldOrg" value="${search.keyField }" /> 
+		        <input type="hidden" name="keyWordOrg" 	value="${search.keyWord }" />
+		        <input type="hidden" name="page" 		value="${search.page}" /> 
 		        <input type="hidden" name="pageYN" 		value="N" />
         	</tr>                
         </table>
@@ -131,12 +131,19 @@
 		</c:if>
 	</div>
 	
-    <%-- 
-    <!-- 히든 정의 -->
-    <form name="read" method="post">
-        <input type="hidden" name="seq"/><input type="hidden" name="keyField"/><input type="hidden" name="keyWord"/>
+   
+    <!-- 게시글 상세 -->
+    <form action="/board/boardView" name="read" method="post"  >
+        <input type="hidden" name="seq"/>
+		<input type="hidden" name="listNum" 	value="${search.listNum}" /> 
+        <input type="hidden" name="keyField" 	value="${search.keyField }" /> 
+        <input type="hidden" name="keyWord" 	value="${search.keyWord }" />
+        <input type="hidden" name="page" 		value="${search.page}" /> 
+        <input type="hidden" name="pageYN" 		value="N" />
     </form>
- 
+
+
+  <%-- 
         <form name="pagemove" method="POST" action="boardList.action" >
             <input type="hidden" name="nowBlock" value="${page.nowBlock}" /> 
             <input type="hidden" name="nowPage" value="${page.nowBlock*page.pagePerBlock}" /> 

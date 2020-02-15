@@ -36,12 +36,9 @@ public class DeleteController {
     public ModelAndView delete(@RequestParam int seq, @RequestParam String storPass){
         ModelAndView view = new ModelAndView();
         int result = boardService.deleteBoard(seq, storPass);
-        System.out.println("딜레트의 결과값은 : " + result);
         if(result == 1){
-            System.out.println("삭제에 성공하였습니다.");
             view.setViewName("redirect:boardList.action");
         }else{
-            System.out.println("삭제에 실패하였습니다.");
             view.setViewName("redirect:boardDelete.action?seq="+ seq);
             view.addObject("result",result);
         } return view;

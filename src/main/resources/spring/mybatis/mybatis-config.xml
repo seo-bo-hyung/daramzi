@@ -5,6 +5,5 @@
 	<!-- vo 별칭 설정을 이곳에다 해줍니다. -->
 	<typeAliases>
 		<typeAlias type="com.board.vo.BoardVO" alias="BoardVO"/>
-		<typeAlias type="com.board.vo.BoardListVO" alias="BoardListVO"/>
 	</typeAliases>
 </configuration>

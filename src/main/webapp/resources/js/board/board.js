@@ -1,39 +1,49 @@
-    function check_search() {
-        if (document.boardListVO.keyWord.value == "") {
+    
+	//검색 버튼
+	function check_search() {
+        if (document.search.keyWord.value == "") {
             alert("검색어를 입력하세요.");
-            document.boardListVO.keyWord.focus();
+            document.search.keyWord.focus();
             return;
         }
-        document.boardListVO.submit();
+        document.search.submit();
     }
     
-    //리스트 검색부    
+    //드롭리스트 검색
     function listCnt_search() {
-        document.boardListVO.submit();
+        document.search.submit();
     }
     
-    //페이지 이동부
+    //페이지 이동
     function pagemove(i) {
-        document.boardListVO.page.value = Number(i);
-        document.boardListVO.submit();
-    }    
+        document.search.page.value = Number(i);
+        document.search.submit();
+    }
+    
+    //게시판 글 보기
+    function read(seq) {
+        document.read.seq.value = seq; // 해당 게시글 번호
+        document.read.submit();
+    }
+    
+    //게시판 글 수정
+    function modContent(seq) {
+        document.modContent.seq.value = seq; // 해당 게시글 번호
+        document.modContent.submit();
+    }
 
     function go_write() {
     	location.href="/board/boardWrite";
     }    
- 
+    
+    
+    //목록으로 돌아가기
     function list() {
-        document.list.action = "boardList.action";
-        document.list.submit();
+    	document.search.submit();
     }
+    
  
-    function read(value) {
-        document.read.action = "boardView.action";
-        document.read.seq.value = value; // 해당 게시글 번호
-        document.read.keyField.value = document.search.keyField.value;
-        document.read.keyWord.value = document.search.keyWord.value;
-        document.read.submit();
-    }
+
  
 
  

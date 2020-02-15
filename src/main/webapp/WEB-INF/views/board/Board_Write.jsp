@@ -9,7 +9,7 @@
 <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/js/board/boardWrite.js"></script>
 </head>
 <body>
-	<form:form role="form" commandName="writeRequest" method="post" id="boardWrite" action="/board/boardWrite">
+	<form:form role="form" commandName="writeRequest" method="post" id="boardWrite" name="boardWrite" action="/board/boardWrite">
 	    <table>
 	            <colgroup>
 	                <col width="20%">

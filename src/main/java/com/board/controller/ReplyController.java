@@ -38,7 +38,6 @@ public class ReplyController {
         boardService.replyUpPos(board);
         dto.setPos(board.getPos());
         dto.setDepth(board.getDepth());
-        System.out.println("원본 Pos" + board.getPos());
         String content = dto.getContent();
         String content2 = content.replace("\n", "<br/>");
         dto.setContent(content2);

@@ -3,18 +3,17 @@ package com.board.service;
 
 import java.util.List;
 
-import com.board.vo.BoardListVO;
 import com.board.vo.BoardVO;
 
 public interface BoardService {
  
-    public List<BoardVO> boardList(BoardListVO boardListVO); 
-    public int boardListCnt(BoardListVO boardListVO);
+    public List<BoardVO> boardList(BoardVO boardVO); 
+    public int boardListCnt(BoardVO boardVO);
     
     public BoardVO findBySeq(int seq);
     public BoardVO viewContent(int seq);
     public void insertBoard(BoardVO board);
-    public int updateBoard(BoardVO board, String pass);
+    public int updateBoard(BoardVO board);
     public String deleteView(int seq);
     public int deleteBoard(int seq, String storpass);
     public void replyBoard(BoardVO board);

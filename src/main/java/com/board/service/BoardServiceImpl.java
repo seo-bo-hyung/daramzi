@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.board.dao.BoardDao;
-import com.board.vo.BoardListVO;
 import com.board.vo.BoardVO;
 
 @Service("boardService")
@@ -18,12 +17,12 @@ public class BoardServiceImpl implements BoardService {
     private BoardDao boardDao;
     
     @Override
-    public List<BoardVO> boardList(BoardListVO boardListVO) {
-        return boardDao.boardList(boardListVO);
+    public List<BoardVO> boardList(BoardVO boardVO) {
+        return boardDao.boardList(boardVO);
     }
     
-    public int boardListCnt(BoardListVO boardListVO) {
-        return boardDao.boardListCnt(boardListVO);
+    public int boardListCnt(BoardVO boardVO) {
+        return boardDao.boardListCnt(boardVO);
     }
  
     public BoardVO findBySeq(int seq) {
@@ -41,8 +40,8 @@ public class BoardServiceImpl implements BoardService {
     }
  
     @Override
-    public int updateBoard(BoardVO board, String pass) {
-        return boardDao.updateBoard(board, pass);
+    public int updateBoard(BoardVO board) {
+        return boardDao.updateBoard(board);
     }
  
     @Override

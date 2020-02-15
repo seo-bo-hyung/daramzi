@@ -6,73 +6,78 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>글 읽기</title>
-<script type="text/javascript">
-    function list(){
-        document.list.action="boardList.action";
-         document.list.submit();
-     } 
-</script>
- 
-<style>
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
-
-body {
-    font-family: 'Nanum Gothic', sans-serif;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/board/board.css" />
+<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/js/board/board.js"></script>
 </head>
- 
+         listNum : <c:out value="${search.listNum}" /> <br>
+        keyField :<c:out value="${search.keyField }" /><br> 
+        keyWord :<c:out value="${search.keyWord }" /><br>
+        page :<c:out value="${search.page}" /> <br>
 <body>
 <!--     <form name="BoardViewForm" method="post"> -->
-    <table summary="전체 테이블 구성" width=600 height=400 cellpadding=5 cellspacing=0>
-    <tr>
-        <td ><div align="center"><h3><b>글 읽기</b></h3></div></td>
-    </tr>
-    <tr>
-        <td colspan=2>
-        <table border="1" summary="목록 테이블 구성"> 
-    <tr> 
-        <td align=center bgcolor=#dddddd width=20%> 작성자</td>
-        <td bgcolor=#ffffe8 width=30%>${dto.name}</td>
-        <td align=center bgcolor=#dddddd width=15%> 작성일</td>
-        <td bgcolor=#ffffe8 width=50%>${dto.regdate }</td>
-    </tr>
-    <tr>
-        <td align=center bgcolor=#dddddd> E-mail </td>
-        <td bgcolor=#ffffe8 >${dto.email }</td> 
-        <td align=center bgcolor=#dddddd> 홈페이지 </td>
-        <td bgcolor=#ffffe8><a href="http://${dto.homepage}" target="_new">http://${dto.homepage}</a></td> 
-    </tr>
-    <tr> 
-        <td align=center bgcolor=#dddddd> 제 목</td>
-        <td bgcolor=#ffffe8 colspan=3>${dto.title}</td>
-   </tr>
-   <tr> 
-        <td colspan=4><br>${dto.content }<br></td>
-   </tr>
-   <tr>
-        <td colspan=4 align=right> 조회수  : ${dto.count}</td>
-   </tr>
-    </table>
-    </td>
-     </tr>
+	<table summary="전체 테이블 구성" width=600 height=400 cellpadding=5 cellspacing=0>
+	    <tr>
+	        <td ><div align="center"><h3><b>글 읽기</b></h3></div></td>
+	    </tr>
+	    <tr>
+	        <td colspan=2>
+	        <table border="1" summary="목록 테이블 구성"> 
+	        </td>
+	    <tr> 
+	        <td align=center bgcolor=#dddddd width=20%> 작성자</td>
+	        <td bgcolor=#ffffe8 width=30%>${viewContent.name}</td>
+	        <td align=center bgcolor=#dddddd width=15%> 작성일</td>
+	        <td bgcolor=#ffffe8 width=50%>${viewContent.regdate }</td>
+	    </tr>
+	    <tr>
+	        <td align=center bgcolor=#dddddd> E-mail </td>
+	        <td bgcolor=#ffffe8 >${viewContent.email }</td> 
+	        <td align=center bgcolor=#dddddd> 홈페이지 </td>
+	        <td bgcolor=#ffffe8><a href="http://${viewContent.homepage}" target="_new">http://${viewContent.homepage}</a></td> 
+	    </tr>
+	    <tr> 
+	        <td align=center bgcolor=#dddddd> 제 목</td>
+	        <td bgcolor=#ffffe8 colspan=3>${viewContent.title}</td>
+	    </tr>
+		<tr> 
+		     <td colspan=4><br>${viewContent.content }<br></td>
+		</tr>
+		<tr>
+		     <td colspan=4 align=right> 조회수  : ${viewContent.count}</td>
+		</tr>
+	</table>
+    
     <tr>
         <td align=center colspan=2> 
         <hr size=1>
         <div align="center">
         [ <a href="javascript:list()">목 록</a> | 
-            <a href="boardUpdate.action?seq=${dto.seq}">수 정</a> |
-            <a href="boardReply.action?seq=${dto.seq}">답 변</a> |
-            <a href="boardDelete.action?seq=${dto.seq}">삭 제 </a>]<br>
+            <a href="javascript:modContent(${viewContent.seq})">수 정</a> |
+            <a href="boardReply.action?seq=${viewContent.seq}">답 변</a> |
+            <a href="boardDelete.action?seq=${viewContent.seq}">삭 제 </a>]<br>
         </div>
         </td>
     </tr>
     </table>
-    <form name="list" method="post">
-        <input type="hidden" name="seq" value="${dto.seq}">
-        <input type="hidden" name="keyField" value="${keyField}">
-        <input type="hidden" name="keyWord" value="${keyWord}">
-    </form>
- 
 </body>
+    <!-- 게시글 수정 -->
+    <form action="/board/boardUpdate" name="modContent" method="post"  >
+        <input type="hidden" name="seq"/>
+       	<input type="hidden" name="listNum" 	value="${search.listNum}" /> 
+        <input type="hidden" name="keyField" 	value="${search.keyField }" /> 
+        <input type="hidden" name="keyWord" 	value="${search.keyWord }" />
+        <input type="hidden" name="page" 		value="${search.page}" /> 
+        <input type="hidden" name="pageYN" 		value="N" />
+    </form>
+    
+    <!-- 목록으로 -->
+    <form action="/board/boardList" name="search" method="post"  >
+     	<input type="hidden" name="listNum" 	value="${search.listNum}" /> 
+        <input type="hidden" name="keyField" 	value="${search.keyField }" /> 
+        <input type="hidden" name="keyWord" 	value="${search.keyWord }" />
+        <input type="hidden" name="page" 		value="${search.page}" /> 
+        <input type="hidden" name="pageYN" 		value="N" />
+    </form>
+    
+
 </html>

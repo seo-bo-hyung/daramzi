@@ -33,5 +33,17 @@
 		            ) 
         ]]>
     </insert>
+    
+	<update id="updateBoard">
+	<![CDATA[
+		UPDATE tbl_board 
+		SET    title = #{title}, 
+		       content = #{content}, 
+		       email = #{email}, 
+		       NAME = #{name} 
+		WHERE  seq = #{seq} 
+		       AND password = #{password}
+	]]>
+    </update>  
  
 </mapper>

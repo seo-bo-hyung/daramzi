@@ -11,7 +11,7 @@
 	</sql>
 
     
-    <select id="boardList" parameterType="BoardListVO" resultType="BoardVO">
+    <select id="boardList" parameterType="BoardVO" resultType="BoardVO">
       <include refid="COMMON_PAGING_HEADER"/>
       <![CDATA[
 		    select seq, 
@@ -46,7 +46,7 @@
       <include refid="COMMON_PAGING_TAIL"/>
     </select> 
     
-	<select id="boardListCnt" parameterType="BoardListVO" resultType="integer">
+	<select id="boardListCnt" parameterType="BoardVO" resultType="integer">
       <![CDATA[
 		    select count(1) as cnt
 		    from tbl_board
@@ -64,5 +64,15 @@
 				</if>	
 		</if>
 		</where>
-    </select>     
+    </select> 
+
+	<select id="findBySeq" parameterType="int" resultType="BoardVO">
+      <![CDATA[
+		select * from tbl_board 
+		]]>
+		where seq = #{seq} 
+    </select>
+    
+ 
+    
 </mapper>
