@@ -4,12 +4,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.happy.exception.AlreadyExistingEmailException;
-import com.happy.exception.AlreadyExistingIdException;
-import com.happy.exception.IdPasswordNotMatchingException;
-import com.happy.util.AuthInfo;
-import com.happy.util.LoginCommand;
-import com.happy.util.RegisterRequest;
+import com.common.exception.AlreadyExistingEmailException;
+import com.common.exception.AlreadyExistingIdException;
+import com.common.exception.IdPasswordNotMatchingException;
+import com.common.util.AuthInfo;
+import com.common.util.LoginCommand;
+import com.common.util.RegisterRequest;
 import com.user.dao.UserDAO;
 import com.user.vo.UserVO;
 
@@ -34,11 +34,16 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public AuthInfo loginAuth(LoginCommand loginCommand) throws Exception {
-        UserVO user = userDAO.selectById(loginCommand.getId());
+        UserVO user = userDAO.selectUser(loginCommand);
+        System.out.println("검색후");
         if(user == null) {
+        	
+        	System.out.println("검색후11");
             throw new IdPasswordNotMatchingException();
         }
         if(!user.matchPassword(loginCommand.getPw())) {
+        	
+        	System.out.println("검색후22");
             throw new IdPasswordNotMatchingException();
         }
         return new AuthInfo(user.getID(), user.getNAME(), user.getGRADE());

@@ -1,45 +1,54 @@
     
 	//검색 버튼
 	function check_search() {
-        if (document.search.keyWord.value == "") {
+        if ($("input[name=keyWord]", "form[name=search]").val() == "") {
             alert("검색어를 입력하세요.");
-            document.search.keyWord.focus();
+            $("input[name=keyWord]", "form[name=search]").focus();
             return;
         }
-        document.search.submit();
+        
+        $('form[name="search"]').submit();
     }
     
     //드롭리스트 검색
     function listCnt_search() {
-        document.search.submit();
+    	$('form[name="search"]').submit();
     }
     
     //페이지 이동
     function pagemove(i) {
-        document.search.page.value = Number(i);
-        document.search.submit();
+        $("input[name=page]", "form[name=search]").val(Number(i));
+        $('form[name="search"]').submit();
     }
     
     //게시판 글 보기
     function read(seq) {
-        document.read.seq.value = seq; // 해당 게시글 번호
-        document.read.submit();
+        $("input[name=seq]", "form[name=read]").val(seq);
+        $('form[name="read"]').submit();
+        
     }
     
     //게시판 글 수정
     function modContent(seq) {
-        document.modContent.seq.value = seq; // 해당 게시글 번호
-        document.modContent.submit();
+    	$('form[name="modContent"]').attr("action","/board/boardUpdate");
+    	$("input[name=seq]", "form[name=modContent]").val(seq);
+    	$('form[name="modContent"]').submit();
+    }
+    
+    //게시판 글삭제
+    function delContent(seq) {
+    	$('form[name="modContent"]').attr("action","/board/boardDelete");
+    	$("input[name=seq]", "form[name=modContent]").val(seq);
+    	$('form[name="modContent"]').submit();
     }
 
     function go_write() {
     	location.href="/board/boardWrite";
     }    
     
-    
     //목록으로 돌아가기
     function list() {
-    	document.search.submit();
+    	$('form[name="search"]').submit();
     }
     
  

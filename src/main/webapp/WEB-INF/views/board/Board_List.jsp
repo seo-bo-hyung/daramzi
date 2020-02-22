@@ -78,7 +78,9 @@
             <tr>
                 <c:choose>
                     <c:when test="${empty resultlist }">
-                    	등록된 글이 없습니다.
+                    	<td colspan="5" align="center">
+                    		등록된 글이 없습니다.
+                    	</td>
                     </c:when>
                     <c:otherwise>
                         <c:set var="doneLoop" value="false" />

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.happy.exception.AlreadyExistingEmailException;
-import com.happy.exception.AlreadyExistingIdException;
-import com.happy.util.RegisterRequest;
+import com.common.exception.AlreadyExistingEmailException;
+import com.common.exception.AlreadyExistingIdException;
+import com.common.util.RegisterRequest;
 import com.user.service.UserService;
 
 @Controller

@@ -15,7 +15,7 @@ public interface BoardService {
     public void insertBoard(BoardVO board);
     public int updateBoard(BoardVO board);
     public String deleteView(int seq);
-    public int deleteBoard(int seq, String storpass);
+    public int deleteBoard(BoardVO board);
     public void replyBoard(BoardVO board);
     public void replyUpPos(BoardVO board);
 }

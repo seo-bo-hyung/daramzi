@@ -73,6 +73,14 @@
 		where seq = #{seq} 
     </select>
     
+    
+    
+   	<update id="readCount">
+		<![CDATA[
+		update tbl_board set count = count + 1 where seq = #{seq}
+		]]>
+    </update>  
+    
  
     
 </mapper>

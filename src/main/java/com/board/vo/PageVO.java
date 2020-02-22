@@ -1,6 +1,6 @@
 package com.board.vo;
 
-import com.happy.common.vo.commonVO;
+import com.common.vo.commonVO;
 
 public class PageVO extends commonVO{
 

@@ -1,8 +1,8 @@
 package com.user.service;
 
-import com.happy.util.AuthInfo;
-import com.happy.util.LoginCommand;
-import com.happy.util.RegisterRequest;
+import com.common.util.AuthInfo;
+import com.common.util.LoginCommand;
+import com.common.util.RegisterRequest;
 
 public interface UserService {
 	void register(RegisterRequest regReq) throws Exception;

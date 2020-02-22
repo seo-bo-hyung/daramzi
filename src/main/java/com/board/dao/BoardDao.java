@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.board.vo.BoardVO;
-import com.happy.common.dao.AbstractDAO;
+import com.common.dao.AbstractDAO;
 
 @Repository("boardDao")
 public class BoardDao extends AbstractDAO  {
@@ -36,8 +36,7 @@ public class BoardDao extends AbstractDAO  {
     }
  
     public BoardVO viewContent(int seq) {
-//        BoardManager.readCount(seq);        // 글보면 카운트수 증가
-//        BoardDto result = BoardManager.findBySeq(seq); // 실질적인 글읽기
+    	update("board.readCount",seq);	// 글보면 카운트수 증가
     	BoardVO result = new BoardVO();
     	result = (BoardVO) selectOne("board.findBySeq",seq);
         return result;
@@ -58,15 +57,14 @@ public class BoardDao extends AbstractDAO  {
     
     // 게시글 수정,삭제는 바로 리턴 ...... 글쓰기는 void처리
     public int updateBoard(BoardVO board) {
-		/* return BoardManager.updateBoard(board, pass); */
     	update("boardWrite.updateBoard",board);
         return 1;
     }
  
-    // 게시글 수정,삭제는 바로 리턴
-    public int deleteBoard(int seq, String storPass) {
-		/* return BoardManager.deleteBoard(seq, storPass); */
-    	return 0;
+    // 글삭제
+    public int deleteBoard(BoardVO board) {
+		 delete("boardWrite.deleteBoard",board);
+		 return 1;
     }
  
     public String deleteView(int seq) {

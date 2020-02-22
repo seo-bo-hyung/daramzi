@@ -46,4 +46,10 @@
 	]]>
     </update>  
  
+	<delete id="deleteBoard">
+	<![CDATA[
+		delete from tbl_board where seq=#{seq}
+	]]>
+    </delete>
+ 
 </mapper>

@@ -50,8 +50,8 @@ public class BoardServiceImpl implements BoardService {
     }
  
     @Override
-    public int deleteBoard(int seq, String storPass) {
-        return boardDao.deleteBoard(seq, storPass);
+    public int deleteBoard(BoardVO board) {
+        return boardDao.deleteBoard(board);
     }
  
     @Override

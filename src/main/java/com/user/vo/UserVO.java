@@ -2,7 +2,7 @@ package com.user.vo;
 
 import java.util.Date;
 
-import com.happy.common.vo.commonVO;
+import com.common.vo.commonVO;
 
 public class UserVO extends commonVO { 
 	

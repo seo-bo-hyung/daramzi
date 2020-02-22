@@ -11,9 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.happy.exception.IdPasswordNotMatchingException;
-import com.happy.util.AuthInfo;
-import com.happy.util.LoginCommand;
+import com.common.exception.IdPasswordNotMatchingException;
+import com.common.util.AuthInfo;
+import com.common.util.LoginCommand;
 import com.user.service.UserService;
 
 @Controller
@@ -42,6 +42,7 @@ public class LoginController {
             }
             response.addCookie(rememberCookie);
         } catch (IdPasswordNotMatchingException e) {
+        	System.out.println("이걸탔나 IdPasswordNotMatchingException");
             bindingResult.rejectValue("pw", "notMatch", "아이디와 비밀번호가 맞지않습니다.");
             ModelAndView mv = new ModelAndView("user/login/loginForm.part");
             return mv;

@@ -71,6 +71,21 @@ public class WriteController {
             view.addObject("modContent",modComp);
             view.setViewName("board/Board_Update.view");
         }return view;
-    }    
+    }   
+    
+    //글삭제
+    @RequestMapping(value="/board/boardDelete", method=RequestMethod.POST)
+    public ModelAndView boardDelete(@ModelAttribute("modContent") BoardVO modContent,ModelMap model)
+    {
+    	ModelAndView view = new ModelAndView();
+        int result = boardService.deleteBoard(modContent);
+        if(result == 1){
+            view.addObject("search",modContent);
+            view.setViewName("forward:/board/boardList");
+        }else{
+            view.addObject("modContent",modContent);
+            view.setViewName("board/Board_View.view");
+        }return view;
+    } 
 }
 

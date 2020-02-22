@@ -48,6 +48,8 @@ public class BoardController {
     public ModelAndView boardView(@ModelAttribute("read") BoardVO searchInfo,ModelMap model)
     {
         ModelAndView view = new ModelAndView();
+        
+        //내용불러오기
         int seq = searchInfo.getSeq();
         BoardVO viewContent = boardService.viewContent(seq);
         view.addObject("viewContent",viewContent);

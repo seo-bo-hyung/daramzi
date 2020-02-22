@@ -50,14 +50,14 @@
         [ <a href="javascript:list()">목 록</a> | 
             <a href="javascript:modContent(${viewContent.seq})">수 정</a> |
             <a href="boardReply.action?seq=${viewContent.seq}">답 변</a> |
-            <a href="boardDelete.action?seq=${viewContent.seq}">삭 제 </a>]<br>
+            <a href="javascript:delContent(${viewContent.seq})">삭 제 </a>]<br>
         </div>
         </td>
     </tr>
     </table>
 </body>
     <!-- 게시글 수정 -->
-    <form action="/board/boardUpdate" name="modContent" method="post"  >
+    <form name="modContent" method="post"  >
         <input type="hidden" name="seq"/>
        	<input type="hidden" name="listNum" 	value="${search.listNum}" /> 
         <input type="hidden" name="keyField" 	value="${search.keyField }" /> 
