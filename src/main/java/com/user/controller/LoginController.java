@@ -29,6 +29,7 @@ public class LoginController {
             ModelAndView mv = new ModelAndView("user/login/loginForm.part");
             return mv;
         }
+        
         try {
             AuthInfo authInfo = userSer.loginAuth(loginCommand);
             session.setAttribute("authInfo", authInfo);
@@ -42,7 +43,6 @@ public class LoginController {
             }
             response.addCookie(rememberCookie);
         } catch (IdPasswordNotMatchingException e) {
-        	System.out.println("이걸탔나 IdPasswordNotMatchingException");
             bindingResult.rejectValue("pw", "notMatch", "아이디와 비밀번호가 맞지않습니다.");
             ModelAndView mv = new ModelAndView("user/login/loginForm.part");
             return mv;

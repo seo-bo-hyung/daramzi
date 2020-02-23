@@ -10,7 +10,6 @@ public class BoardVO extends commonVO {
     private String homepage;
     private String title;
     private String content;
-    private String password;
     private int count;
     private String ip;
     private String regdate;
@@ -66,12 +65,6 @@ public class BoardVO extends commonVO {
 	}
 	public void setContent(String content) {
 		this.content = content;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	public int getCount() {
 		return count;

@@ -21,11 +21,5 @@
 
 		<div id="jb-footer"><tiles:insertAttribute name="footer" /></div>
 	</div>
-
-	<script type="text/javascript">
-        $(function() {
-        	
-        });    
-    </script>    
 </body>
 </html>

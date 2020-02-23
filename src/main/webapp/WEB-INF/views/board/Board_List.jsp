@@ -51,10 +51,10 @@
         	</tr>                
         </table>
     </form:form>   
-     
+
      <!-- 글쓰기 -->
     <div align=Right>
-    	<input type="button" value="글쓰기" onClick="go_write()">
+    	<input type="button" value="글쓰기" onClick="go_write(${authInfo.name })">
     </div>
  
     <table class="bbs" width="610" border="2" bgcolor="D8D8D8">

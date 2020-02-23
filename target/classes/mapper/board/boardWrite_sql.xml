@@ -12,7 +12,6 @@
 			             homepage, 
 			             title, 
 			             content, 
-			             password, 
 			             count, 
 			             regdate, 
 			             pos, 
@@ -25,7 +24,6 @@
 			            #{homepage}, 
 			            #{title}, 
 			            #{content}, 
-			            #{password}, 
 			            0, 
 			            sysdate(), 
 			            0, 
@@ -42,7 +40,6 @@
 		       email = #{email}, 
 		       NAME = #{name} 
 		WHERE  seq = #{seq} 
-		       AND password = #{password}
 	]]>
     </update>  
  

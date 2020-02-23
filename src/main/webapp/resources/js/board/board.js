@@ -42,7 +42,13 @@
     	$('form[name="modContent"]').submit();
     }
 
-    function go_write() {
+    //글쓰기
+    function go_write(loginId) {
+    	if(loginId == null){
+    		alert("글쓰기는 로그인 후 가능합니다.");
+    		return 0;
+    	}
+    	
     	location.href="/board/boardWrite";
     }    
     

@@ -18,11 +18,11 @@
 		        <c:otherwise>
 		            <c:choose>
 		                <c:when test="${authInfo.grade eq '1' }">
-		                       <p>관리자 ${authInfo.name }님, 환영합니다.</p>
+		                       	관리자 ${authInfo.name }님, 환영합니다.
 		                       <a href="/logout"><i class="fa fa-sign-out"></i> 로그아웃</a>
 		                </c:when>
 		                <c:otherwise>
-		                       <p>${authInfo.name }님, 반갑습니다!</p>
+		                       ${authInfo.name }님, 반갑습니다!
 		                       <a href="/logout"><i class="fa fa-sign-out"></i> 로그아웃</a>
 		                </c:otherwise>
 		            </c:choose>

@@ -14,7 +14,6 @@
     <table summary="글수정 전체 테이블">
         <form:form name="modComp" id="modComp" ModelAttribute="modComp" method="post" action="/board/boardUpdateComp" >
         <input type="hidden" name="seq" 		value="${modContent.seq }"/>
-        <input type="hidden" id="password" name="password" 	value="${modContent.password }"/>     
         
         <!-- 검색조건 유지를 위한 값 -->
         <input type="hidden" name="listNum" 	value="${search.listNum}" /> 
@@ -45,10 +44,6 @@
             <tr>
                  <td>내 용</td>
                  <td><textarea id="content" name=content rows ="10" cols="100">${modContent.content }</textarea></td>
-            </tr>
-            <tr>
-                 <td>비밀번호</td> 
-                 <td><input type=password id="pass" name=pass size=15 maxlength=15>수정시에는 비밀번호가 필요합니다.</td>
             </tr>
             <tr>
                  <td colspan=2><hr size=1></td>

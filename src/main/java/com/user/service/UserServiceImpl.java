@@ -35,15 +35,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public AuthInfo loginAuth(LoginCommand loginCommand) throws Exception {
         UserVO user = userDAO.selectUser(loginCommand);
-        System.out.println("검색후");
         if(user == null) {
-        	
-        	System.out.println("검색후11");
             throw new IdPasswordNotMatchingException();
         }
         if(!user.matchPassword(loginCommand.getPw())) {
-        	
-        	System.out.println("검색후22");
             throw new IdPasswordNotMatchingException();
         }
         return new AuthInfo(user.getID(), user.getNAME(), user.getGRADE());

@@ -15,11 +15,7 @@
             alert("내용을 입력하세요.");
             $("#content").focus();
             return;
-        } else if ( $("#password").val() == "" || $("#password").val() == null) {
-            alert("비밀번호를 입력하세요.");
-            $("#password").focus();
-            return;
-        } else {
+        }  else {
         	$("#boardWrite").submit();
         }
     }
@@ -40,14 +36,6 @@
         } else if ($("#content").val() == "" || $("#content").val() == null) {
             alert("내용을 입력하세요.");
             $("#content").focus();
-            return;
-        } else if ( $("#pass").val() == "" || $("#pass").val() == null) {
-            alert("비밀번호를 입력하세요.");
-            $("#pass").focus();
-            return;
-        }else if ( $("#pass").val() != $("#password").val()) {
-            alert("입력하신 비밀번호가 상이합니다.");
-            $("#pass").focus();
             return;
         }else {
         	$("#modComp").submit();

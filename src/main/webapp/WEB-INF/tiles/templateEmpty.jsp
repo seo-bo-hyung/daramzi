@@ -11,11 +11,5 @@
 </head>
 <body>
     <div id="main"><tiles:insertAttribute name="body" /></div>
-        
-    <script type="text/javascript">
-        $(function() {
-                  
-        });    
-    </script>    
 </body>
 </html>

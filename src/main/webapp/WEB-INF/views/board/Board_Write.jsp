@@ -20,7 +20,7 @@
 	                <caption>게시판 글쓰기</caption>
 	                <tr>
 	                    <td>작성자</td>
-	                    <td><form:input type="text" path="name" id="name" size="10" maxlength="8"/></td>
+	                    <td><form:input type="text" path="name" id="name" size="10" value="${authInfo.name }" maxlength="8" readonly="true"/></td>
 	                </tr>
 	                <tr>
 	                    <td>E-Mail</td>
@@ -37,10 +37,6 @@
 	                <tr>
 	                    <td>내 용</td>
 	                    <td><form:textarea path="content" id="content" rows="10" cols="100" /></td>
-	                </tr>
-	                <tr>
-	                    <td>비밀번호</td>
-	                    <td><form:input type="password" path="password" id="password" size="15" maxlength="15"/></td>
 	                </tr>
 	                <tr>
 	                    <td colspan=2><hr size=1></td>

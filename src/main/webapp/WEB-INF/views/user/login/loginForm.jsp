@@ -13,9 +13,11 @@
         <fieldset>
             <div class="form-group">
                 <form:input type="text" class="form-control" placeholder="ID" path="id"/>
+                <form:errors path="id"/>
             </div>
             <div class="form-group">
                  <form:password class="form-control" placeholder="Password" path="pw"/>
+                 <form:errors path="pw"/>
             </div>
             <div class="checkbox">
                 <label>
