@@ -1,16 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <%@ page contentType = "text/html; charset=euc-kr" %>
 <%@ page import = "javax.servlet.ServletException" %>
 <%@ page isErrorPage = "true" %>
 
 
 <html>
-<head><title>ì—ëŸ¬ ë°œìƒ</title></head>
+<head><title>¿¡·¯ ¹ß»ý</title></head>
 <body>
-      ì—ëŸ¬ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤!!<br><br>
-      ì—ëŸ¬ ë©”ì‹œì§€ : <%= exception.getMessage() %>
+      ¿¡·¯°¡ ¹ß»ýÇÏ¿´½À´Ï´Ù!!<br><br>
+      ¿¡·¯ ¸Þ½ÃÁö : <%= exception.getMessage() %>
 <% exception.printStackTrace(); %>
 <p>
 <%
@@ -31,7 +28,7 @@
             do
             {
 %>
-ì˜ˆì™¸ ì¶”ì  : <%= rootCause.getMessage() %><br>
+¿¹¿Ü ÃßÀû : <%= rootCause.getMessage() %><br>
 <%
                   rootCause = rootCause.getCause();
             }while(rootCause != null);

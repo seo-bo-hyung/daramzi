@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <%@ page contentType = "text/html; charset=euc-kr" %>
 <%@ page import = "java.util.List" %>
 <%@ page import = "java.util.Map" %>
@@ -57,8 +54,8 @@
       List list = null;
  
       int count = manager.count(whereCond, whereValue);
-      int totalPageCount = 0; // ì „ì²´ íŽ˜ì´ì§€ ê°œìˆ˜ë¥¼ ì €ìž¥í•œë‹¤.
-      int startRow = 0, endRow = 0; // ì‹œìž‘ í–‰ê³¼ ë í–‰ì˜ ê°œìˆ˜ë¥¼ êµ¬í•œë‹¤.
+      int totalPageCount = 0; // ÀüÃ¼ ÆäÀÌÁö °³¼ö¸¦ ÀúÀåÇÑ´Ù.
+      int startRow = 0, endRow = 0; // ½ÃÀÛ Çà°ú ³¡ ÇàÀÇ °³¼ö¸¦ ±¸ÇÑ´Ù.
  
       if(count > 0)
       {
@@ -79,8 +76,8 @@
 %>
 <c:set var = "list" value = "<%= list %>" />
 <c:if test = "<%= searchCondTitle || searchCondName %>">
-ê²€ìƒ‰ ì¡°ê±´: [<c:if test = "<%= searchCondTitle %>">ì œëª©</c:if>
-                  <c:if test = "<%= searchCondName %>">ì´ë¦„</c:if>
+°Ë»ö Á¶°Ç: [<c:if test = "<%= searchCondTitle %>">Á¦¸ñ</c:if>
+                  <c:if test = "<%= searchCondName %>">ÀÌ¸§</c:if>
                   = ${param.search_key}]
 </c:if>
 
@@ -100,16 +97,16 @@
 
 <table width = "100%" cellpadding = "1" cellspacing = "2">
 <tr>
-      <td bgcolor = "#e9e9e9"><b>ì´ë¯¸ì§€</b></td>
-      <td bgcolor = "#e9e9e9"><b>ì œëª©</b></td>
-      <td bgcolor = "#e9e9e9"><b>ìž‘ì„±ìž</b></td>
-      <td bgcolor = "#e9e9e9"><b>ìž‘ì„±ì¼</b></td>
+      <td bgcolor = "#e9e9e9"><b>ÀÌ¹ÌÁö</b></td>
+      <td bgcolor = "#e9e9e9"><b>Á¦¸ñ</b></td>
+      <td bgcolor = "#e9e9e9"><b>ÀÛ¼ºÀÚ</b></td>
+      <td bgcolor = "#e9e9e9"><b>ÀÛ¼ºÀÏ</b></td>
 </tr>
 
 <c:if test = "${empty list}">
 <tr>
       <td bgcolor = "#f0f0f0" colspan = "4" align = "center">
-            ë“±ë¡ëœ ì´ë¯¸ì§€ê°€ ì—†ìŠµë‹ˆë‹¤.
+            µî·ÏµÈ ÀÌ¹ÌÁö°¡ ¾ø½À´Ï´Ù.
       </td>
 </tr>
 </c:if>
@@ -134,7 +131,7 @@
 </c:forEach>
 </c:if>
 <tr>
-      <td colspan = "4" align = "right"><a href = "writeForm.jsp">[ì´ë¯¸ì§€ ë“±ë¡]</a></td>
+      <td colspan = "4" align = "right"><a href = "writeForm.jsp">[ÀÌ¹ÌÁö µî·Ï]</a></td>
 </tr>
 </table>
 
@@ -174,7 +171,7 @@
             <c:set var = "endPage" value = "${pageCount}" />
       </c:if>
       <c:if test = "${startPage > 10}">
-            <a href = "javascript<x>:goPage(</x>${startPage - 10})">[ì´ì „]</a>
+            <a href = "javascript<x>:goPage(</x>${startPage - 10})">[ÀÌÀü]</a>
       </c:if>
       <c:forEach var = "pageNo" begin = "${startPage}" end = "${endPage}">
             <c:if test = "${currentPage == pageNo}"><b></c:if>
@@ -182,7 +179,7 @@
             <c:if test = "${currentPage == pageNo}"></c:if></b>
       </c:forEach>
       <c:if test = "${endPage < pageCount}">
-            <a href = "javascript<x>:goPage(</x>${startPage + 10})">[ë‹¤ìŒ]</a>
+            <a href = "javascript<x>:goPage(</x>${startPage + 10})">[´ÙÀ½]</a>
       </c:if>
 </c:if>
 
@@ -205,9 +202,9 @@
  
 
 <form name = "search" action = "list.jsp" method = "post">
-      <input type = "checkbox" name = "search_cond" value = "title">ì œëª©
-      <input type = "checkbox" name = "search_cond" value = "name">ì´ë¦„
+      <input type = "checkbox" name = "search_cond" value = "title">Á¦¸ñ
+      <input type = "checkbox" name = "search_cond" value = "name">ÀÌ¸§
       <input type = "text" name = "search_key" value = "" size = "10">
-      <input type = "submit" value = "ê²€ìƒ‰">
-      <input type = "button" value = "ì „ì²´ëª©ë¡" onClick = "location.href='list.jsp?page=1'">
+      <input type = "submit" value = "°Ë»ö">
+      <input type = "button" value = "ÀüÃ¼¸ñ·Ï" onClick = "location.href='list.jsp?page=1'">
 </form>

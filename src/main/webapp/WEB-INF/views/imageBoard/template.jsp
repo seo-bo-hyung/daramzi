@@ -1,13 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <%@ page contentType = "text/html; charset=euc-kr" %>
 <%@ page errorPage = "error_view.jsp" %>
 
- 
-
 <html>
-<head><title>í…Œë§ˆ ê°¤ëŸ¬ë¦¬</title></head>
+<head><title>Å×¸¶ °¶·¯¸®</title></head>
 <style>
 A { color: blue; font-weight: bold; text-decoration: none }
 A:hover { color: blue; font-weight: bold; text-decoration: underline }
@@ -21,9 +16,9 @@ A:hover { color: blue; font-weight: bold; text-decoration: underline }
 </tr>
 <tr>
       <td>
-            <!--  ë‚´ìš© ë¶€ë¶„ : ì‹œìž‘ -->
+            <!--  ³»¿ë ºÎºÐ : ½ÃÀÛ -->
             <jsp:include page = "${param.CONTENTPAGE}" flush = "false" />
-            <!--  ë‚´ìš© ë¶€ë¶„ : ë -->
+            <!--  ³»¿ë ºÎºÐ : ³¡ -->
       </td>
 </tr>
 <tr>

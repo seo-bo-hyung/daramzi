@@ -1,10 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <%@ page contentType = "text/html; charset=euc-kr" %>
 
  
 
-<b>í…Œë§ˆ ê²”ëŸ¬ë¦¬ - ì‚¬ì§„ì„ ì˜¬ë ¤ì£¼ì„¸ìš”!</b>
+<b>Å×¸¶ °Ö·¯¸® - »çÁøÀ» ¿Ã·ÁÁÖ¼¼¿ä!</b>
 
 
