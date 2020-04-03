@@ -63,5 +63,10 @@ public class BoardServiceImpl implements BoardService {
     public void replyUpPos(BoardVO board) {
         boardDao.replyUpPos(board);
     }
+    
+    @Override
+    public void fileupload(BoardVO board) {
+    	boardDao.fileupload(board);
+    }
  
 }

@@ -29,6 +29,11 @@ public class BoardVO extends commonVO {
     private int page = 1;
     private String pageYN;
     
+    //파일업로드용
+    private String file;
+    private String fileName;
+    private String fileRealName;
+    
     
 	public int getSeq() {
 		return seq;
@@ -152,6 +157,26 @@ public class BoardVO extends commonVO {
 	}
 	public void setPageYN(String pageYN) {
 		this.pageYN = pageYN;
+	}
+	
+	//파일업로드
+	public String getFile() {
+		return file;
+	}
+	public void setFile(String file) {
+		this.file = file;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getFileRealName() {
+		return fileRealName;
+	}
+	public void setFileRealName(String fileRealName) {
+		this.fileRealName = fileRealName;
 	}
 
 }

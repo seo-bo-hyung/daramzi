@@ -18,4 +18,6 @@ public interface BoardService {
     public int deleteBoard(BoardVO board);
     public void replyBoard(BoardVO board);
     public void replyUpPos(BoardVO board);
+    
+    public void fileupload(BoardVO board);
 }

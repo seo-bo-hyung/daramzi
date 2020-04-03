@@ -30,6 +30,19 @@
         <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
     </filter-mapping>
+	
+	<!-- 파일업로드를위한 request 매핑 -->
+	<filter>
+		<filter-name>multipart</filter-name>
+		<filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>multipart</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+
+
 
 	<!-- Processes application requests -->
 	<servlet>

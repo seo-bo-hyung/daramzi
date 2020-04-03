@@ -81,5 +81,9 @@ public class BoardDao extends AbstractDAO  {
     public void replyUpPos(BoardVO board) {
 		/* BoardManager.replyUpPos(board); */
     }
+    
+    public void fileupload(BoardVO board) {
+    	insert("imageboard.fileupload", board);
+    }
 }
 

@@ -35,7 +35,14 @@
 		<beans:property name="suffix" value=".jsp" />
 		<beans:property name="order" value="2" />
 	</beans:bean>
+
+	<!-- 파일업로드 -->
+	<beans:bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="100000000" />
+		<beans:property name="maxInMemorySize" value="100000000" />
+	</beans:bean>
 	
+	<!-- 매퍼접근을 허용할 최상위 디렉토리 -->
 	<context:component-scan base-package="com" />
 	
 	

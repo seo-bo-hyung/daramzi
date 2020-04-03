@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/js/board/boardWrite.js"></script>
 </head>
 <body>
-	<form:form role="form" commandName="writeRequest" method="post" id="boardWrite" name="boardWrite" action="/board/boardWrite">
+	<form:form role="form" commandName="writeRequest" method="post" id="boardWrite" name="boardWrite" action="/board/boardWrite" enctype="multipart/form-data">
 	    <table>
 	            <colgroup>
 	                <col width="20%">
@@ -38,6 +38,23 @@
 	                    <td>내 용</td>
 	                    <td><form:textarea path="content" id="content" rows="10" cols="100" /></td>
 	                </tr>
+					<tr>
+					    <td colspan="2">
+					    <input type="file" id="file" name="file" class="multi" maxlength="5">
+						<!-- <input type="file" name="file"> -->
+	                    </td>
+	                    <%-- <td>첨부파일</td>
+	                    <td>
+							<ul>
+							  <li>
+							    <p class="cau">※ 최대 업로드 파일 수 : 5개</p>
+							    <form:input type="file" id="file" path="file" class="multi" maxlength="5" />
+							    <input type="file" name="file"> 
+							</ul>
+						</td> --%>
+						
+	                </tr>
+	                
 	                <tr>
 	                    <td colspan=2><hr size=1></td>
 	                </tr>

@@ -15,7 +15,8 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        if (log.isDebugEnabled()) {
+        
+    	if (log.isDebugEnabled()) {
             log.debug("===================       START       ===================");
             log.debug(" Request URI \t:  " + request.getRequestURI());
         }
