@@ -14,7 +14,7 @@ public class ImageBoardDao extends AbstractDAO  {
 	@SuppressWarnings("unchecked")
 	public List<ImageBoardVO> imageboardList(ImageBoardVO imageboardVO) {
         List<ImageBoardVO> result = new ArrayList<ImageBoardVO>();
-        result = (List<ImageBoardVO>)selectList("imageboard.boardList",imageboardVO);
+        result = (List<ImageBoardVO>)selectList("imageboard.imageboardList",imageboardVO);
         return result;
     }
     
@@ -84,7 +84,18 @@ public class ImageBoardDao extends AbstractDAO  {
     
     
     public void fileupload(ImageBoardVO imageboard) {
-    	insert("imageboard.fileupload", imageboard);
+    	insert("fileupload.fileupload", imageboard);
+    }
+    
+    public ImageBoardVO selectFile(String fileIdx) {
+    	ImageBoardVO result = new ImageBoardVO();
+    	result = (ImageBoardVO) selectOne("imageboard.selectFile",fileIdx);
+        return result;
+    }
+    
+    public String deleteFile(String fileIdx) {
+    	delete("imageboard.deleteFile",fileIdx);
+        return "1";
     }
 }
 

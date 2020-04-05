@@ -17,7 +17,7 @@
 
 #jb-sidebar-left {
 	background-color: #F7F8E0;
-	height: 500px;
+	height: 100%;
 	width: 100px;
 	padding: 20px;
 	margin-right: 2px;
@@ -28,7 +28,7 @@
 
 #jb-content {
 	background-color: #F5DA81;
-	height: 500px;
+	height: 100%;
 	overflow:hidden; 
 	width: 754px;
 	padding: 20px;

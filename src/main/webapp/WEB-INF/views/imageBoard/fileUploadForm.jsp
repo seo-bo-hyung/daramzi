@@ -9,13 +9,16 @@
 	<div id="form">
 		<ul>
 		  <li>
-		  	<input type="text" id="title" name="title"/>
-		  	<input type="text" id="description" name="description"/>
-		    <p class="cau">※ 최대 업로드 파일 수 : 5개</p>
-		    <input type="file" name="file">
+		  	<p>사진제목</p><input type="text" id="title" name="title"/>
+		  	<p>사진설명</p><input type="text" id="description" name="description"/>
+		    <p></p>
+		    <input type="file" name="file" multiple="multiple">
 		  <li>    
-		    <input type="submit" id="upPro1" value="다중 파일 업로드">
+		    <input type="submit" id="upPro1" value="사진올리기">
 		</ul>
 	</div>
 </form>
-<div id="upResult"></div>			
+<div id="upResult"></div>
+
+
+			

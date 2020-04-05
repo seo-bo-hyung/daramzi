@@ -8,13 +8,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시판 목록</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/board/board.css" />
-<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/js/board/board.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/css/imageboard/style.css" />
+<script language="javascript" type="text/javascript" src="/resources/js/imageBoard/imageBoard.js"></script>
 </head>
  
 <body>
 <div id="layer1">게시물 본문 미리 보기</div>
-    <form:form action="/board/boardList" name="search" ModelAttribute="search" method="post">
+    <form:form action="imageboard/imageboardList" name="search" ModelAttribute="search" method="post">
         <table width=610 >
         		<tr>
 	            <!-- 검색 part -->
@@ -22,7 +22,7 @@
 		            <select name="keyField" size="1">
 		                <option value="name" 	<c:if test="${search.keyField eq 'name'}"> 		selected</c:if>> 이름 </option>
 		                <option value="title" 	<c:if test="${search.keyField eq 'title'}"> 	selected</c:if>> 제목 </option>
-		                <option value="content" <c:if test="${search.keyField eq 'content'}"> 	selected</c:if>> 내용 </option>
+		                <option value="content" <c:if test="${search.keyField eq 'tag'}"> 		selected</c:if>> 태그 </option>
 		            </select>
 		            <input type="text" size="16" name="keyWord" value="${search.keyWord}">
 		            <input type="button" value="검색" onClick="check_search()">
@@ -52,26 +52,24 @@
         </table>
     </form:form>   
 
-     <!-- 글쓰기 -->
+     <!-- 사진올리기 -->
     <div align=Right>
-    	<input type="button" value="글쓰기" onClick="go_write(${authInfo.name })">
+    	<input type="button" value="사진올리기" onClick="go_upload(${authInfo.name })">
     </div>
- 
+    
     <table class="bbs" width="610" border="2" bgcolor="D8D8D8">
         <colgroup>
-            <col width="50" />
-            <col width="300" />
-            <col width="50" />
-            <col width="50" />
-            <col width="50" />
+            <col width="100" />
+            <col width="100"/>
+            <col width="100" />
+            <col width="100" />
+            <col width="100" />
         </colgroup>
         <thead>
             <tr>
                 <th>번 호</th>
                 <th>제 목</th>
-                <th>작성자</th>
-                <th>작성일</th>
-                <th>조 회</th>
+                <th>이미지 미리보기</th>
             </tr>
         </thead>
         <tbody>
@@ -96,11 +94,9 @@
                                             </c:if>
                                             <a href="javascript:read(${resultlist[i].seq })" 
                                             	onmouseover="contentprev('${resultlist[i].seq}');showlayer('layer1');" 
-                                                onmouseout="hidelayer('layer1');">${resultlist[i].title }</a>
+                                                onmouseout="hidelayer('layer1');">${resultlist[i].fileName }</a>
                                         </td>
-                                        <td align="center"><a href="mailto:${resultlist[i].email}">${resultlist[i].name }</a>
-                                        <td align=center>${resultlist[i].regdate }</td>
-                                        <td align=center>${resultlist[i].count }</td>
+                                        <td><img alt="" src="/resources/uploadImage/${resultlist[i].fileRealName}" style="width: 100px; height:auto;"></td>
                                     </tr>
                                     <c:if test="${i+1 == page.totalCount} }">
                                         <c:set var="doneLoop" value="true" />
@@ -145,32 +141,89 @@
     </form>
 
 
-  <%-- 
-        <form name="pagemove" method="POST" action="boardList.action" >
-            <input type="hidden" name="nowBlock" value="${page.nowBlock}" /> 
-            <input type="hidden" name="nowPage" value="${page.nowBlock*page.pagePerBlock}" /> 
-            <input type="hidden"name="keyField" value="${keyField }" /> 
-            <input type="hidden"name="keyWord" value="${keyWord }" />
-        </form>
-    
-    <form name="blockmovef" method="get" action="boardList.action">
-        <input type="hidden" name="nowBlock" value="${page.nowBlock+1 }" /> 
-        <input type="hidden" name="nowPage" value="${(page.nowBlock+1)*page.pagePerBlock}" />
-        <input type="hidden" name="keyField" value="${keyField }" />
-        <input type="hidden" name="keyWord" value="${keyWord }" />
-    </form>
-    
-    <form name="blockmoveb" method="POST" action="boardList.action">
-        <input type="hidden" name="nowBlock" value="${page.nowBlock-1 }" /> 
-        <input type="hidden" name="nowPage" value="${(page.nowBlock-1)*page.pagePerBlock}" />
-        <input type="hidden" name="keyField" value="${keyField }" />
-        <input type="hidden" name="keyWord" value="${keyWord }" />
-    </form>
-    
-    <form name="list" method="GET">
-        <input type="hidden" name="reload" value="true">
-    </form> --%>
- 
+	<table width="600" align="center" style="font-family: &; font-size: 10pt;" cellspacing="2" cellpadding="1">
+		<tr id="bbsList">
+			<td id="bbsList_title" colspan="3">이미지 게시판</td>
+		<tr>
+			<td align="left" colspan="2" width="400">
+				<!-- 1~10까지 있는 페이지의 페이징 -->
+				<c:if test="${page.prev}">
+				    <a href="javascript:pagemove(${page.beginPage+1})">prev</a>
+				</c:if>
+				<c:forEach begin="${page.beginPage}" end="${page.endPage}" step="1" var="index">
+				    <c:choose>
+				        <c:when test="${page.page==index}">
+				            ${index}
+				        </c:when>
+				        <c:otherwise>
+				            <a href="javascript:pagemove(${index})"> ${index}</a>
+				        </c:otherwise>
+				    </c:choose>
+				</c:forEach>
+				<c:if test="${page.next}">
+				    <a href="javascript:pagemove(${page.endPage+1})">next</a>
+				</c:if>
+			</td>
+			<td align="right" colspan="1" width="200">
+				<input type="button" value="사진올리기" onClick="go_upload(${authInfo.name })">
+			</td>
+		<tr>
+			<td style="border-bottom: 2px solid #DBDBDB;" colspan="3"></td>
+		</tr>
+	<%
+		int newLine = 0;
+		int articleCount=0; 
+		int cnt = 0;
+	%>
+		<c:forEach var="fileDtl" items="${resultlist}">
+		<%
+		 if(newLine ==0){
+			 out.print("<tr>");
+		 }
+		newLine++;
+		articleCount++;
+		%>
+		<td id="${fileDtl.fileIdx}" align="center" valign="bottom" width= "190">
+			<%-- <input type="hidden" value="${dto.fileIdx}" name="num" /> --%>
+			<a style="cursor:pointer;" onclick="javascript:viewPic('/resources/uploadImage/${fileDtl.fileRealName}')">
+			 
+
+				<img alt="" src="/resources/uploadImage/${fileDtl.fileRealName}" style="width: 190px; height:auto;"><br>
+				${fileDtl.fileName }
+			</a>
+			<a href="javascript:void(0);" onclick="go_fileDel(${fileDtl.fileIdx});">삭제</a>
+		</td>
+		<%
+		if(newLine==3){
+		
+		out.print("</tr>"); 
+		newLine = 0;
+		}
+		%>
+		</c:forEach>
+		<%
+				while(newLine>0&&newLine<3){ 
+					out.print("<td width='180'></td>"); 
+					newLine++; 
+				}
+		
+				out.print("</tr>"); 
+		%>
+		<tr>
+			<td style="border-bottom: 2px solid #DBDBDB;" colspan="3"></td>
+		</tr>
+		<tr>
+
+			<td align="center" colspan="3">
+				<c:if test="${dataCount!=0}">
+				${pagelndexList } 
+				</c:if>
+				
+				<c:if test="${dataCount==0}"> | 등록된 파일이 없습니다. 
+				</c:if>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>
 

@@ -28,6 +28,7 @@ public class ImageBoardVO extends commonVO {
     private String pageYN;
     
     //파일업로드용
+    private String fileIdx;
     private String fileName;
     private String fileRealName;
     private long fileSize;
@@ -145,6 +146,12 @@ public class ImageBoardVO extends commonVO {
 	}
 	
 	//파일업로드
+	public String getFileIdx() {
+		return fileIdx;
+	}
+	public void setFileIdx(String fileIdx) {
+		this.fileIdx = fileIdx;
+	}
 	public String getFileName() {
 		return fileName;
 	}

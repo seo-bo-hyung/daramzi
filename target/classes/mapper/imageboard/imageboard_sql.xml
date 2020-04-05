@@ -2,21 +2,93 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="imageboard">
     
-    <insert id="fileupload">
-        <![CDATA[
-		    INSERT INTO file_house (
-		        fileseq,
-		        filename,
-		        filerealname,
-		        filesize,
-		        ins_dt
-		    ) VALUES (
-		        (SELECT ifnull(MAX(fileseq) + 1, 1) FROM file_house A),
-		        #{fileName}, 
-		        #{fileRealName},
-		        #{fileSize},
-		        sysdate()
-	        )
-        ]]>
-    </insert>
+<sql id="COMMON_PAGING_HEADER">
+		select R.* FROM(	
+	</sql>
+	
+	<sql id="COMMON_PAGING_TAIL">
+		) R
+		LIMIT #{listNum, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}	
+	</sql>
+
+    
+    <select id="imageboardList" parameterType="ImageBoardVO" resultType="ImageBoardVO">
+      <include refid="COMMON_PAGING_HEADER"/>
+      <![CDATA[
+		    select fileIdx
+					,fileSeq
+					,fileName
+					,fileRealName
+					,fileSize
+					,board_idx
+					,userIdx
+					,folderIdx
+					,del_flag
+					,ins_dt
+					,upt_dt
+		    from file_house
+		]]> 
+		<where>
+		<if test="keyWord != null and keyWord != ''">   
+				<if test="keyField == 'name'">
+					and NAME = #{keyWord, jdbcType=VARCHAR}
+				</if>
+				<if test="keyField == 'title'">
+					and title = #{keyWord, jdbcType=VARCHAR}
+				</if>
+		</if>
+		</where>
+		<![CDATA[
+    		order by fileSeq desc
+		]]> 
+      <include refid="COMMON_PAGING_TAIL"/>
+    </select> 
+    
+	<select id="imageboardListCnt" parameterType="ImageBoardVO" resultType="integer">
+      <![CDATA[
+		    select count(1) as cnt
+		    from file_house
+		]]> 
+		<where>
+		<if test="keyWord != null and keyWord != ''">   
+				<if test="keyField == 'name'">
+					and NAME = #{keyWord, jdbcType=VARCHAR}
+				</if>
+				<if test="keyField == 'title'">
+					and title = #{keyWord, jdbcType=VARCHAR}
+				</if>
+				<if test="keyField == 'content'">
+					and content = #{keyWord, jdbcType=VARCHAR}
+				</if>	
+		</if>
+		</where>
+    </select> 
+
+	<select id="findBySeq" parameterType="int" resultType="ImageBoardVO">
+      <![CDATA[
+		select * from file_house 
+		]]>
+		where fileSeq = #{fileSeq} 
+    </select>
+    
+  	<select id="selectFile" parameterType="String" resultType="ImageBoardVO">
+      <![CDATA[
+		select * from file_house 
+		]]>
+		where fileIdx = #{fileIdx} 
+    </select>
+    
+   	<delete id="deleteFile">
+	<![CDATA[
+		delete from file_house where fileIdx = #{fileIdx}
+	]]>
+    </delete>
+    
+    
+    
+   	<update id="readCount">
+		<![CDATA[
+		update file_house set count = count + 1 where fileSeq = #{fileSeq}
+		]]>
+    </update>  
 </mapper>

@@ -68,5 +68,16 @@ public class ImageBoardServiceImpl implements ImageBoardService {
     public void fileupload(ImageBoardVO imageboard) {
         imageboardDao.fileupload(imageboard);
     }
+    
+    @Override
+    public ImageBoardVO selectFile(String fileIdx) {
+    	System.out.println("selectFile 탄다");
+    	return imageboardDao.selectFile(fileIdx);
+    }
+    
+    @Override
+    public String deleteFile(String fileIdx) {
+        return imageboardDao.deleteFile(fileIdx);
+    }
  
 }

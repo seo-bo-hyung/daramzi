@@ -20,4 +20,7 @@ public interface ImageBoardService {
     public void replyUpPos(ImageBoardVO imageboardVO);
     
     public void fileupload(ImageBoardVO imageboardVO);
+    
+    public ImageBoardVO selectFile(String fileIdx);
+    public String deleteFile(String fileIdx);
 }
