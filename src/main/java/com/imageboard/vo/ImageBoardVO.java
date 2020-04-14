@@ -1,5 +1,7 @@
 package com.imageboard.vo;
 
+import java.util.List;
+
 import com.common.vo.commonVO;
 
 public class ImageBoardVO extends commonVO {
@@ -27,11 +29,26 @@ public class ImageBoardVO extends commonVO {
     private int page = 1;
     private String pageYN;
     
+    
     //파일업로드용
     private String fileIdx;
     private String fileName;
     private String fileRealName;
     private long fileSize;
+    
+    // 게시판 표시 스타일
+    private String viewStyle;
+    private String viewStyleOrg;
+    
+    //선택파일
+    private List<String> idxArr;
+    
+    //폴더명
+    private String folderName;
+    
+    //체크 스타일 선택
+    private String sendStyle;
+
     
     public String getUserIdx() {
     	return userIdx;
@@ -171,7 +188,54 @@ public class ImageBoardVO extends commonVO {
 		this.fileSize = fileSize;
 	}
 	
+    // 게시판 표시 스타일
+	public String getViewStyle() {
+		System.out.println("get viewStyle 확인 : " + viewStyle);
+		return viewStyle;
+	}
+	public void setViewStyle(String viewStyle) {
+		System.out.println("set viewStyle 확인 : " + viewStyle);
+		this.viewStyle = viewStyle;
+	}
+	public String getViewStyleOrg() {
+		return viewStyleOrg;
+	}
+	public void setViewStyleOrg(String viewStyleOrg) {
+		this.viewStyleOrg = viewStyleOrg;
+	}
+	
+	//선택파일
+	public List<String> getIdxArr() {
+		return idxArr;
+	}
+	public void setIdxArr(List<String> idxArr) {
+		this.idxArr = idxArr;
+	}
+	
+	//폴더명
+	public String getFolderName() {
+		return folderName;
+	}
+	public void setFolderName(String folderName) {
+		this.folderName = folderName;
+	}
+	
+    //체크 스타일 선택
+	public String getSendStyle() {
+		return sendStyle;
+	}
+	public void setSendStyle(String sendStyle) {
+		this.sendStyle = sendStyle;
+	}
 	
 	
+
+	
+
+	
+	
+	
+	
+
 
 }

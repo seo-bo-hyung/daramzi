@@ -25,7 +25,16 @@ public class LoginController {
     @RequestMapping(value="/login")
     public ModelAndView loginSuccess(@Valid LoginCommand loginCommand, BindingResult bindingResult,
                                     HttpSession session, HttpServletResponse response) throws Exception {
-        if(bindingResult.hasErrors()) {
+    	//폼 변조 공격을 막기 위한 검사
+        if(loginCommand.getId() != null && loginCommand.getPw() != null) {
+	    	if(loginCommand.getId().indexOf("\'") > 0 || loginCommand.getPw().indexOf("\'") > 0 ){
+	            ModelAndView mv = new ModelAndView("user/login/loginForm.part");
+	            return mv;
+	    	}
+        }
+
+
+    	if(bindingResult.hasErrors()) {
             ModelAndView mv = new ModelAndView("user/login/loginForm.part");
             return mv;
         }

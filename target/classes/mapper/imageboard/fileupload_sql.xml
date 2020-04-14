@@ -9,14 +9,38 @@
 		        filename,
 		        filerealname,
 		        filesize,
+		        userIdx,
 		        ins_dt
 		    ) VALUES (
 		        (SELECT ifnull(MAX(fileseq) + 1, 1) FROM file_house A),
 		        #{fileName}, 
 		        #{fileRealName},
 		        #{fileSize},
+		        1,
 		        sysdate()
 	        )
         ]]>
     </insert>
+    
+    <insert id="mkDir">
+        <![CDATA[
+		    INSERT INTO file_folder (
+		        folderSeq,
+		        folderName,
+		        userIdx,
+		        ins_dt
+		    ) VALUES (
+		        (SELECT ifnull(MAX(folderSeq) + 1, 1) FROM file_folder A),
+		        #{folderName},
+		        1, 
+		        sysdate()
+	        )
+        ]]>
+    </insert>
+    
+   	<delete id="delDir">
+	<![CDATA[
+		delete from file_folder where folderName = #{folderName}
+	]]>
+    </delete>
 </mapper>

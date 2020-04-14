@@ -6,10 +6,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<script language="javascript" type="text/javascript" src="/resources/js/user/login/login.js"></script>
 </head>
 <body>
 <div class="panel-body">
-   <form:form role="form" commandName="loginCommand" action="/login" method="post">
+   <form:form role="form" commandName="loginCommand" action="/login" method="post" onsubmit="return validateLogin()" >
         <fieldset>
             <div class="form-group">
                 <form:input type="text" class="form-control" placeholder="ID" path="id"/>

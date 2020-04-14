@@ -1,4 +1,59 @@
-    
+	// 전체선택해제
+	$(document).ready(function(){
+	    //체크박스 전체 선탣&해제
+	    $('#ck_all').click(function(){
+	         if($("#ck_all").prop("checked")){
+	            $("input[type=checkbox]").prop("checked",true); 
+	        }else{
+	            $("input[type=checkbox]").prop("checked",false); 
+	        }
+	    });
+	});
+
+	
+	//폴더생성
+	function go_mkDir() {
+		$('form[name="mkDir"]').submit();
+    }
+	
+	//폴더삭제
+	function go_delDir() {
+		$('form[name="delDir"]').submit();
+    }
+	
+	//선택파일삭제
+	function go_chkDel() {
+		$('input[name="sendStyle"]').val('del');
+		$('form[name="chkFile"]').submit();
+    }
+	
+	//선택파일다운로드
+	function go_chkDown() {
+/*		$('input[name="sendStyle"]').val('down');
+		$('form[name="chkFile"]').submit();*/
+		var iFrameCnt = 0;
+        $('input[name="idxArr"]:checked').each(function(index, item){ //img 태그중 ImageList 명으로 시작하는 요소를 가져옴
+            var url = "/imageboard/fileDown?fileIdx="+ $(item).val(); //다운로드 받는 경로 와 변수
+            fnCreateIframe(iFrameCnt); // 보이지 않는 iframe 생성, name는 숫자로
+            $("iframe[name=" + iFrameCnt + "]").attr("src", url);
+            iFrameCnt++;
+            fnSleep(1000); //각 파일별 시간 텀을 준다
+
+        });
+        
+    }
+	
+	
+    function fnSleep(delay){
+        var start = new Date().getTime();
+        while (start + delay > new Date().getTime());
+    }
+	
+    function fnCreateIframe(name){
+        var frm = $('<iframe name="' + name + '" style="display: none;"></iframe>');
+        frm.appendTo("body");
+    }
+
 	//검색 버튼
 	function check_search() {
         if ($("input[name=keyWord]", "form[name=search]").val() == "") {
@@ -12,6 +67,11 @@
     
     //드롭리스트 검색
     function listCnt_search() {
+    	$('form[name="search"]').submit();
+    }
+    
+    //드롭리스트 검색
+    function viewStyle_search() {
     	$('form[name="search"]').submit();
     }
     

@@ -24,7 +24,7 @@ public class BoardController {
     @RequestMapping(value="/board/boardList")
     public ModelAndView boardList(@ModelAttribute("search") BoardVO info,ModelMap model)
     {
-    	
+    	System.out.println("인자값 확인 boardList: " + info.toStringMultiline());
         ModelAndView view = new ModelAndView();
         int totalCount = boardService.boardListCnt(info);
         PageVO page = new PageVO();

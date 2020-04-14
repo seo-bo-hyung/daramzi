@@ -68,6 +68,16 @@ public class ImageBoardServiceImpl implements ImageBoardService {
     public void fileupload(ImageBoardVO imageboard) {
         imageboardDao.fileupload(imageboard);
     }
+    @Override
+    public void mkDir(ImageBoardVO imageboard) {
+        imageboardDao.mkDir(imageboard);
+    }
+    
+    @Override
+    public void delDir(ImageBoardVO imageboard) {
+        imageboardDao.delDir(imageboard);
+    }
+    
     
     @Override
     public ImageBoardVO selectFile(String fileIdx) {

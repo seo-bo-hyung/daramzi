@@ -71,6 +71,7 @@
         document.blockmoveb.submit();
     }
     ///////////////////////////////////////////////////////////////////////////////////    
+    /*
     var xmlHttp;
  
     var xmlDoc;
@@ -126,5 +127,5 @@
         
         layer1.style.marginLeft = event.x + document.body.scrollLeft + 10 +"px";
     }
- 
+ */
 //    document.onmousemove = movetip;

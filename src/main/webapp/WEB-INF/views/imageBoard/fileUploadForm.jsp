@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/imageBoard/style.css"/>
-<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/js/imageBoard/multiupload.js"></script>
+<script language="javascript" type="text/javascript" src="/resources/js/imageBoard/multiupload.js"></script>
 
 <form id="upForm1" action="/imageboard/fileupload" method="post" enctype="multipart/form-data">
 	<div id="form">
@@ -14,7 +14,8 @@
 		    <p></p>
 		    <input type="file" name="file" multiple="multiple">
 		  <li>    
-		    <input type="submit" id="upPro1" value="사진올리기">
+		    <!-- <input type="submit" id="upPro1" value="사진올리기"> -->
+		    <input type="button" name="submitBtn" value="전송" onclick="fileCheck(this.form)"></center>
 		</ul>
 	</div>
 </form>

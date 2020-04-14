@@ -7,6 +7,7 @@
 		<typeAlias type="com.board.vo.BoardVO" alias="BoardVO"/>
 		<typeAlias type="com.imageboard.vo.ImageBoardVO" alias="ImageBoardVO"/>
 		
-		<typeAlias type="com.user.vo.UserVO" alias="UserVO"/>		
+		<typeAlias type="com.user.vo.UserVO" alias="UserVO"/>
+		<typeAlias type="com.Amember.vo.AmemberVO" alias="AmemberVO"/>				
 	</typeAliases>
 </configuration>

@@ -38,7 +38,7 @@ public class WriteController {
     
     //글쓰기
     @RequestMapping(value="/board/boardWrite", method=RequestMethod.POST)
-    public ModelAndView insert(@ModelAttribute("writeRequest") BoardVO vo,HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView insert(@ModelAttribute("writeRequest") BoardVO vo,MultipartHttpServletRequest request, HttpServletResponse response){
     	System.out.println("vo확인1 : " + vo.toStringMultiline());
     	ModelAndView view = new ModelAndView();
         view.setViewName("redirect:/board/boardList");

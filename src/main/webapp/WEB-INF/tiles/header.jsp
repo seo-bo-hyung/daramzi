@@ -20,10 +20,12 @@
 		                <c:when test="${authInfo.grade eq '1' }">
 		                       	관리자 ${authInfo.name }님, 환영합니다.
 		                       <a href="/logout"><i class="fa fa-sign-out"></i> 로그아웃</a>
+		                       <a href="/admin"><i class="fa fa-sign-out"></i> 관리자페이지</a>
 		                </c:when>
 		                <c:otherwise>
 		                       ${authInfo.name }님, 반갑습니다!
 		                       <a href="/logout"><i class="fa fa-sign-out"></i> 로그아웃</a>
+		                       <a href="/admin"><i class="fa fa-sign-out"></i> 관리자페이지</a>
 		                </c:otherwise>
 		            </c:choose>
 		        </c:otherwise>
