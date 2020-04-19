@@ -9,6 +9,7 @@
 		        filename,
 		        filerealname,
 		        filesize,
+		        folderIdx,
 		        userIdx,
 		        ins_dt
 		    ) VALUES (
@@ -16,6 +17,7 @@
 		        #{fileName}, 
 		        #{fileRealName},
 		        #{fileSize},
+				1,
 		        1,
 		        sysdate()
 	        )

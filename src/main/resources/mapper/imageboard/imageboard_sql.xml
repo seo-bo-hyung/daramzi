@@ -23,7 +23,9 @@
 					,board_idx
 					,userIdx
 					,folderIdx
-					,del_flag
+					,del_yn
+					,open_yn
+					,down_yn
 					,ins_dt
 					,upt_dt
 		    from file_house

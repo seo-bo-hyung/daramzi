@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myFileMng">
+    
+<sql id="COMMON_PAGING_HEADER">
+		select R.* FROM(	
+	</sql>
+	
+	<sql id="COMMON_PAGING_TAIL">
+		) R
+		LIMIT #{rows, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+	</sql>
+
+    
+    <select id="myFileList" parameterType="MyFileMngVO" resultType="MyFileMngVO">
+      <include refid="COMMON_PAGING_HEADER"/>
+      <![CDATA[
+		    select fileIdx
+					,fileSeq
+					,fileName
+					,fileRealName
+					,fileSize
+					,board_idx
+					,userIdx
+					,folderIdx
+					,del_yn
+					,open_yn
+					,down_yn
+					,ins_dt
+					,upt_dt
+		    from file_house
+		]]> 
+		<![CDATA[
+    		order by fileSeq desc
+		]]> 
+      <include refid="COMMON_PAGING_TAIL"/>
+    </select> 
+    
+	<select id="myFileListCnt" parameterType="MyFileMngVO" resultType="integer">
+      <![CDATA[
+		    select count(1) as cnt
+		    from file_house
+		]]> 
+    </select> 
+    
+	<update id="updateFileInfo">
+	<![CDATA[
+		UPDATE file_house 
+		SET    fileName = #{cellValue}
+		WHERE  fileIdx = #{fileIdx} 
+	]]>
+    </update>  
+
+</mapper>

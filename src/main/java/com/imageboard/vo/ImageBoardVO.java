@@ -48,8 +48,10 @@ public class ImageBoardVO extends commonVO {
     
     //체크 스타일 선택
     private String sendStyle;
-
     
+    
+    
+    //getter setter 시작
     public String getUserIdx() {
     	return userIdx;
     }
@@ -190,11 +192,9 @@ public class ImageBoardVO extends commonVO {
 	
     // 게시판 표시 스타일
 	public String getViewStyle() {
-		System.out.println("get viewStyle 확인 : " + viewStyle);
 		return viewStyle;
 	}
 	public void setViewStyle(String viewStyle) {
-		System.out.println("set viewStyle 확인 : " + viewStyle);
 		this.viewStyle = viewStyle;
 	}
 	public String getViewStyleOrg() {
@@ -227,15 +227,5 @@ public class ImageBoardVO extends commonVO {
 	public void setSendStyle(String sendStyle) {
 		this.sendStyle = sendStyle;
 	}
-	
-	
-
-	
-
-	
-	
-	
-	
-
 
 }

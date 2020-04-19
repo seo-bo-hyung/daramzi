@@ -9,17 +9,15 @@
 	<div id="form">
 		<ul>
 		  <li>
-		  	<p>사진제목</p><input type="text" id="title" name="title"/>
-		  	<p>사진설명</p><input type="text" id="description" name="description"/>
-		    <p></p>
-		    <input type="file" name="file" multiple="multiple">
+		    <input type="file" name="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp">
 		  <li>    
-		    <!-- <input type="submit" id="upPro1" value="사진올리기"> -->
-		    <input type="button" name="submitBtn" value="전송" onclick="fileCheck(this.form)"></center>
+		    <input type="button" name="submitBtn" value="사진올리기" onclick="fileCheck(this.form)">
 		</ul>
 	</div>
 </form>
-<div id="upResult"></div>
+<!-- 해당 위치 안에 이미지가 쌓이게 된다. -->
+<div id="preview"></div>
+
 
 
 			

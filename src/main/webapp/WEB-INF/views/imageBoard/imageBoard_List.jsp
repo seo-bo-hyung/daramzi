@@ -180,6 +180,7 @@
 						<input type="hidden" name="sendStyle"/> 
 						
 						<input type="button" value="사진올리기" onClick="go_upload(${authInfo.name })">
+						<input type="button" value="내사진관리" onClick="go_myFile(${authInfo.name })">
 					</td>
 				<tr>
 					<td style="border-bottom: 2px solid #DBDBDB;" colspan="3"></td>

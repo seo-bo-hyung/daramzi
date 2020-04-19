@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.board.vo.PageVO;
@@ -61,7 +61,6 @@ public class ImageBoardController {
         return view;
     }
     
-    
     //사진 업로드 화면
     @RequestMapping(value="/imageboard/fileUploadForm")
     public ModelAndView fileUploadForm(@ModelAttribute("search") ImageBoardVO info,ModelMap model)
@@ -72,40 +71,98 @@ public class ImageBoardController {
     }
     
     
-    //파일 업로드 수행
-    @RequestMapping(value="/imageboard/fileupload", method= RequestMethod.POST)
-    public ModelAndView fileupload(MultipartHttpServletRequest mtfRequest,ImageBoardVO info) throws Exception
+    //파일관리 화면
+    @RequestMapping(value="/imageboard/myFileMng")
+    public ModelAndView myImageMng(@ModelAttribute("search") ImageBoardVO info,ModelMap model)
     {
-    	
-    	System.out.println("fileupload 타는지 확인");
-    	List<MultipartFile> fileList = mtfRequest.getFiles("file");
-
         ModelAndView view = new ModelAndView();
+        view.setViewName("imageBoard/myFileMng.view");
+        return view;
+    }
+    
+
+    private static final int RESULT_EXCEED_SIZE = -2;
+    private static final int RESULT_UNACCEPTED_EXTENSION = -1;
+    private static final int RESULT_SUCCESS = 1;
+    private static final long LIMIT_SIZE = 100 * 1024 * 1024;
+
+    
+    //파일 업로드 수행
+    @ResponseBody //리턴되는 값은 View 를 통해서 출력되지 않고 HTTP Response Body 에 직접 쓰여지게 됨.
+    @RequestMapping(value="/imageboard/fileupload", method= RequestMethod.POST)
+    public int fileupload(@RequestParam("files")List<MultipartFile> fileList,ImageBoardVO info) throws Exception
+    {
+    	System.out.println("info인자값 확인 : " + info.toStringMultiline());
+    	System.out.println("fileupload 타는지 확인");
+//    	List<MultipartFile> fileList = mtfRequest.getFiles("file");
+
         String uploadDir =this.getClass().getResource("").getPath();
 
         uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
-
-        
+        long sizeSum = 0;
+        System.out.println("fileupload 타는지 확인1");
         for(MultipartFile f : fileList){
         	String uuid = UUID.randomUUID().toString();
         	uuid = uuid.replace("-", "");
         	
+        	
+        	System.out.println("f.getOriginalFilename() 갑확인 : " + f.getOriginalFilename());
+        	// check for Unix-style path
+    		int pos = f.getOriginalFilename().lastIndexOf("/");
+    		String getOrgFileName = "";
+    		if (pos == -1) {
+    			// check for Windows-style path
+    			pos = f.getOriginalFilename().lastIndexOf("\\");
+    		}
+    		if (pos != -1)  {
+    			// any sort of path separator found
+    			getOrgFileName= f.getOriginalFilename().substring(pos + 1);
+    		}
+    		
+    		System.out.println("getOrgFileName 갑확인 : " + getOrgFileName);
+    		
+            //확장자 검사
+            if(!isValidExtension(getOrgFileName)){
+                return RESULT_UNACCEPTED_EXTENSION;
+            }
+            
+            //용량 검사
+            sizeSum += f.getSize();
+            if(sizeSum >= LIMIT_SIZE) {
+                return RESULT_EXCEED_SIZE;
+            }
+
+
+        	
         	// 파일이 실제 저장될때 고유의 값으로 저장 되도록 random 값으로 파일명 설정
-        	String savedName = uuid + "_" + f.getOriginalFilename();
+        	String savedName = uuid + "_" + getOrgFileName;
         	
         	File target = new File(uploadDir,savedName);
         	FileCopyUtils.copy(f.getBytes(), target);
         	
-        	info.setFileName(f.getOriginalFilename());
+        	info.setFileName(getOrgFileName);
         	info.setFileRealName(savedName);
         	info.setFileSize(f.getSize());
         	
         	imageboardService.fileupload(info);
         }
-
-        view.setViewName("imageBoard/fileUploadForm.page");
-        return view;
+        System.out.println("fileupload 타는지 확인3");
+        return RESULT_SUCCESS;
     }
+    
+    
+    //required above jdk 1.7 - switch(String)
+	private boolean isValidExtension(String originalName) {
+		String originalNameExtension = originalName.substring(originalName.lastIndexOf(".") + 1);
+		switch (originalNameExtension) {
+		case "jpg":
+		case "png":
+		case "gif":
+			return true;
+		}
+		return false;
+	}
+
     
     //선택 파일 액션
     @RequestMapping(value="/imageboard/fileChk", method= RequestMethod.POST)
@@ -167,13 +224,10 @@ public class ImageBoardController {
 
     }
 
-    
-    
     //파일 다운로드 수행
     @RequestMapping(value="/imageboard/fileDown")
     public ResponseEntity<String> fileDown(@RequestParam String fileIdx, HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ImageBoardVO fileSelct= imageboardService.selectFile(fileIdx);
-		System.out.println("왜 네번이 돌아");
         String uploadDir =this.getClass().getResource("").getPath();
 
         uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
@@ -196,15 +250,8 @@ public class ImageBoardController {
 	    String client = "";
 	    
 	    String browser = getBrowser(request);
-
-        
-
         String dispositionPrefix = "attachment; filename=";
-
         String encodedFilename = null;
-
-	    
-	    
 
 	    try{
 	        // 파일을 읽어 스트림에 담기

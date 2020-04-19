@@ -104,13 +104,25 @@
 
     //사진업로드 화면
     function go_upload(loginId) {
-    	if(loginId == null){
+    	//개발편의를 위해 우선 막음
+/*    	if(loginId == null){
     		alert("사진업로드는 로그인 후 가능합니다.");
     		return 0;
-    	}
+    	}*/
     	
     	location.href="/imageboard/fileUploadForm";
-    }    
+    }
+    
+    //파일관리 화면
+    function go_myFile(loginId) {
+    	//개발편의를 위해 우선 막음
+/*    	if(loginId == null){
+    		alert("사진업로드는 로그인 후 가능합니다.");
+    		return 0;
+    	}*/
+    	
+    	location.href="/imageboard/myFileMng";
+    } 
     
     //사진삭제
     function go_fileDel(fileIdx) {
