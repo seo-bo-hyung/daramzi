@@ -1,5 +1,7 @@
 package com.user.controller;
 
+import java.io.File;
+
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -12,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.common.exception.AlreadyExistingEmailException;
 import com.common.exception.AlreadyExistingIdException;
 import com.common.util.RegisterRequest;
+import com.user.dao.UserDAO;
 import com.user.service.UserService;
+import com.user.vo.UserVO;
 
 @Controller
 public class UserController {
@@ -34,6 +38,9 @@ public class UserController {
     
     @Resource(name="userService")
     private UserService userSer;
+    
+    @Resource(name="userDAO")
+    private UserDAO userDAO;
  
     @RequestMapping("/register/step3")
     public ModelAndView step3(@Valid RegisterRequest regReq, BindingResult bindingResult) throws Exception{
@@ -63,6 +70,27 @@ public class UserController {
             ModelAndView mv = new ModelAndView("user/register/step2.part");
             return mv;
         }
+        
+        //회원가입 완료시 아이디로 파일 폴더 생성
+        UserVO userVo = new UserVO();
+        
+        userVo = userDAO.selectById(regReq.getId());
+        
+		String uploadDir = this.getClass().getResource("").getPath();
+
+		uploadDir = uploadDir.substring(1, uploadDir.indexOf(".metadata"))
+				+ "daramzi/src/main/webapp/resources/uploadImage";
+
+		String filePath = uploadDir + "/" + regReq.getId() + "/";
+
+		File fPath = new File(filePath); // 경로생성
+
+		if (!fPath.exists()) {
+			fPath.mkdirs(); // 상위 디렉토리가 존재하지 않으면 상위디렉토리부터 생성.
+			userSer.mkDir(userVo);
+		}
+        
+        
  
         ModelAndView mv = new ModelAndView("user/register/step3.part");
         return mv;

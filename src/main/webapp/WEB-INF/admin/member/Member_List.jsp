@@ -85,7 +85,7 @@
                                     <tr>
                                         <td align=center>${resultlist[i].idx }</td>
                                         <td align="center"><a href="mailto:${resultlist[i].email}">${resultlist[i].name }</a>
-                                        <td align=center>${resultlist[i].regdate }</td>
+                                        <td align=center>${resultlist[i].ins_dt }</td>
                                     </tr>
                                     <c:if test="${i+1 == page.totalCount} }">
                                         <c:set var="doneLoop" value="true" />

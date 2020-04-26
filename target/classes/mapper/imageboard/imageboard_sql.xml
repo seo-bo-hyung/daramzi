@@ -15,20 +15,24 @@
     <select id="imageboardList" parameterType="ImageBoardVO" resultType="ImageBoardVO">
       <include refid="COMMON_PAGING_HEADER"/>
       <![CDATA[
-		    select fileIdx
-					,fileSeq
-					,fileName
-					,fileRealName
-					,fileSize
-					,board_idx
-					,userIdx
-					,folderIdx
-					,del_yn
-					,open_yn
-					,down_yn
-					,ins_dt
-					,upt_dt
-		    from file_house
+		    select a.fileIdx
+					,a.fileSeq
+					,a.fileName
+					,a.fileRealName
+					,a.fileSize
+					,a.board_idx
+					,a.id
+					,a.folderPath
+					,a.del_yn
+					,a.open_yn
+					,a.down_yn
+					,a.fileDescription
+					,a.ins_dt
+					,a.upt_dt
+					,(select count(1) from file_recommend where fileIdx = a.fileIdx and recommendYN = 'Y') as recommendYcnt
+					,(select count(1) from file_recommend where fileIdx = a.fileIdx and recommendYN = 'N') as recommendNcnt
+					,(select recommendYN from file_recommend where fileIdx = a.fileIdx and id = #{id}) as recommendYN
+		    from file_house a
 		]]> 
 		<where>
 		<if test="keyWord != null and keyWord != ''">   
@@ -93,4 +97,55 @@
 		update file_house set count = count + 1 where fileSeq = #{fileSeq}
 		]]>
     </update>  
+    
+    
+    <select id="selectFolder" parameterType="String" resultType="ImageBoardVO">
+      <![CDATA[
+		    select folderName
+		    from file_folder
+		    where id = #{id}
+		]]> 
+    </select>
+    
+   	<delete id="delFileInPath">
+	<![CDATA[
+		delete from file_house 
+		where id = #{id}
+		and folderPath = #{folderPath}
+	]]>
+    </delete>
+    
+    
+    <insert id="insertFileRecommend">
+        <![CDATA[
+		    INSERT INTO file_recommend (
+		        fileIdx,
+		        id,
+		        recommendYN,
+		        ins_dt
+		    ) VALUES (
+		        #{fileIdx}, 
+		        #{id},
+		        #{recommendYN},
+		        sysdate()
+	        )
+        ]]>
+    </insert>
+    
+    <delete id="deleteFileRecommend">
+	<![CDATA[
+		delete from file_recommend 
+		where id = #{id}
+		and fileIdx = #{fileIdx}
+	]]>
+    </delete>
+    
+    <select id="selectRecommendCnt" parameterType="ImageBoardVO" resultType="ImageBoardVO">
+      <![CDATA[
+		    select 
+				(select count(1) from file_recommend where fileIdx = #{fileIdx} and recommendYN = 'Y') as recommendYcnt
+				,(select count(1) from file_recommend where fileIdx = #{fileIdx} and recommendYN = 'N') as recommendNcnt
+		]]> 
+    </select>
+     
 </mapper>

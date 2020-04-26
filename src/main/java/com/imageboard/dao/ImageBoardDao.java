@@ -88,6 +88,7 @@ public class ImageBoardDao extends AbstractDAO  {
     }
     
     public void mkDir(ImageBoardVO imageboard) {
+    	System.out.println("뭐야 이건");
     	insert("fileupload.mkDir", imageboard);
     }
     public void delDir(ImageBoardVO imageboard) {
@@ -105,6 +106,34 @@ public class ImageBoardDao extends AbstractDAO  {
     public String deleteFile(String fileIdx) {
     	delete("imageboard.deleteFile",fileIdx);
         return "1";
+    }
+    
+	@SuppressWarnings("unchecked")
+	public List<ImageBoardVO> selectFolder(String id) {
+        List<ImageBoardVO> result = new ArrayList<ImageBoardVO>();
+        result = (List<ImageBoardVO>)selectList("imageboard.selectFolder",id);
+        return result;
+    }
+	
+	
+    public int delFileInPath(ImageBoardVO imageboard) {
+    	delete("imageboard.delFileInPath",imageboard);
+        return 1;
+    }
+    
+    public void insertFileRecommend(ImageBoardVO imageboard) {
+        insert("imageboard.insertFileRecommend", imageboard);
+    }
+    
+    public int deleteFileRecommend(ImageBoardVO imageboard) {
+    	delete("imageboard.deleteFileRecommend",imageboard);
+        return 1;
+    }
+    
+    public ImageBoardVO selectRecommendCnt(ImageBoardVO imageboard) {
+    	ImageBoardVO result = new ImageBoardVO();
+    	result = (ImageBoardVO) selectOne("imageboard.selectRecommendCnt",imageboard);
+        return result;
     }
 }
 

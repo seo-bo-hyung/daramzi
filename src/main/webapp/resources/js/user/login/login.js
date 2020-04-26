@@ -37,3 +37,27 @@ function validateLogin(){
  }
 
 }
+
+
+//로그인
+function login(){
+    $.ajax({
+        type: "post",
+        url : "/loginConfirm",
+        data: {
+        	loginID : $('#loginID').val(),
+        	loginPW : $('#loginPW').val()
+        },
+
+        success:function (data) {//로그인성공
+        	location.reload();
+        },
+
+        error: function (data) {//로그인실패
+        	alert("아이디나 비밀번호가 맞지 않습니다.\n다시 입력해주시기 바랍니다.");
+        }
+
+ 	});
+	
+	
+}

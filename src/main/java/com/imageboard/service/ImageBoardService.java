@@ -25,4 +25,12 @@ public interface ImageBoardService {
     
     public ImageBoardVO selectFile(String fileIdx);
     public String deleteFile(String fileIdx);
+    
+    public List<ImageBoardVO> selectFolder(String id);
+    public int delFileInPath(ImageBoardVO imageboardVO);
+    
+    public void insertFileRecommend(ImageBoardVO imageboardVO);
+    public int deleteFileRecommend(ImageBoardVO imageboardVO);
+    
+    public ImageBoardVO selectRecommendCnt(ImageBoardVO imageboardVO);
 }

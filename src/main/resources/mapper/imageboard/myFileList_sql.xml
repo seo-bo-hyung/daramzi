@@ -12,7 +12,7 @@
 	</sql>
 
     
-    <select id="myFileList" parameterType="MyFileMngVO" resultType="MyFileMngVO">
+    <select id="myFileList" parameterType="MyFileMngVO" resultType="map">
       <include refid="COMMON_PAGING_HEADER"/>
       <![CDATA[
 		    select fileIdx
@@ -21,11 +21,12 @@
 					,fileRealName
 					,fileSize
 					,board_idx
-					,userIdx
-					,folderIdx
+					,id
+					,folderPath
 					,del_yn
 					,open_yn
 					,down_yn
+					,fileDescription
 					,ins_dt
 					,upt_dt
 		    from file_house
@@ -43,12 +44,29 @@
 		]]> 
     </select> 
     
-	<update id="updateFileInfo">
-	<![CDATA[
+	<update id="updateFileInfo" parameterType="MyFileMngVO">
+		<![CDATA[
 		UPDATE file_house 
-		SET    fileName = #{cellValue}
-		WHERE  fileIdx = #{fileIdx} 
-	]]>
+		SET del_yn = #{del_yn}
+			,open_yn = #{open_yn}
+			,down_yn = #{down_yn}
+			,fileDescription = #{fileDescription}
+			,upt_dt = sysdate()
+		WHERE  fileIdx = #{fileIdx}
+		]]>  
     </update>  
+    
+  	<select id="selectFile" parameterType="String" resultType="MyFileMngVO">
+      <![CDATA[
+		select * from file_house 
+		]]>
+		where fileIdx = #{fileIdx} 
+    </select>
+    
+    <delete id="deleteFile">
+	<![CDATA[
+		delete from file_house where fileIdx = #{fileIdx}
+	]]>
+    </delete>
 
 </mapper>

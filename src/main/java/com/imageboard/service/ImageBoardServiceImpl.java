@@ -81,7 +81,6 @@ public class ImageBoardServiceImpl implements ImageBoardService {
     
     @Override
     public ImageBoardVO selectFile(String fileIdx) {
-    	System.out.println("selectFile 탄다");
     	return imageboardDao.selectFile(fileIdx);
     }
     
@@ -89,5 +88,29 @@ public class ImageBoardServiceImpl implements ImageBoardService {
     public String deleteFile(String fileIdx) {
         return imageboardDao.deleteFile(fileIdx);
     }
+    
+    @Override
+    public List<ImageBoardVO> selectFolder(String id) {
+        return imageboardDao.selectFolder(id);
+    }
  
+    @Override
+    public int delFileInPath(ImageBoardVO imageboard) {
+        return imageboardDao.delFileInPath(imageboard);
+    }
+    
+    @Override
+    public void insertFileRecommend(ImageBoardVO imageboard) {
+        imageboardDao.insertFileRecommend(imageboard);        
+    }
+    
+    @Override
+    public int deleteFileRecommend(ImageBoardVO imageboard) {
+        int result = imageboardDao.deleteFileRecommend(imageboard);
+        return result;
+    }
+    
+    public ImageBoardVO selectRecommendCnt(ImageBoardVO imageboard) {
+        return imageboardDao.selectRecommendCnt(imageboard);
+    }
 }

@@ -29,11 +29,16 @@
     
     <select id="selectById" resultType="UserVO">
         <![CDATA[
-          SELECT
-              ID,
-              PASSWORD,
-              NAME
-          FROM
+        SELECT
+			userIdx
+			,id
+			,email
+			,name
+			,password
+			,grade
+			,ins_dt
+			,upt_dt
+		FROM
               USER
           WHERE
               ID = #{id}
@@ -48,7 +53,7 @@
                 ID,
                 NAME,
                 PASSWORD,
-                REGDATE
+                ins_dt
             )
             VALUES
             (
@@ -61,4 +66,20 @@
         ]]>
     </insert>
  
+ 
+     <insert id="mkDir">
+        <![CDATA[
+		    INSERT INTO file_folder (
+		        folderSeq,
+		        folderName,
+		        id,
+		        ins_dt
+		    ) VALUES (
+		        (SELECT ifnull(MAX(folderSeq) + 1, 1) FROM file_folder A),
+		        #{id},
+		        #{id}, 
+		        sysdate()
+	        )
+        ]]>
+    </insert>
 </mapper>

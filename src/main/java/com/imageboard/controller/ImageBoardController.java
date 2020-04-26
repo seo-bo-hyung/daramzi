@@ -28,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.board.vo.PageVO;
+import com.common.util.Const;
+import com.common.util.GetSession;
 import com.imageboard.service.ImageBoardService;
 import com.imageboard.vo.ImageBoardVO;
  
@@ -38,12 +40,19 @@ public class ImageBoardController {
     
     //사진게시판 목록
     @RequestMapping(value="/imageboard/imageboardList")
-    public ModelAndView imageboardList(@ModelAttribute("search") ImageBoardVO info,ModelMap model)
+    public ModelAndView imageboardList(@ModelAttribute("search") ImageBoardVO info,ModelMap model, HttpServletRequest request) throws Exception
     {
-    	
-    	System.out.println("인자값 확인: " + info.toStringMultiline());
-    	
         ModelAndView view = new ModelAndView();
+
+        String id = "";
+        try {
+        	id =  GetSession.GetSessionId(request); //세션아이디 가져오기
+        }catch (Exception e) {
+        	id = "";
+        }
+        
+        info.setId(id);
+        
         int totalCount = imageboardService.imageboardListCnt(info);
         PageVO page = new PageVO();
         page.setDisplayRow(info.getListNum());       
@@ -81,32 +90,36 @@ public class ImageBoardController {
     }
     
 
-    private static final int RESULT_EXCEED_SIZE = -2;
-    private static final int RESULT_UNACCEPTED_EXTENSION = -1;
-    private static final int RESULT_SUCCESS = 1;
-    private static final long LIMIT_SIZE = 100 * 1024 * 1024;
-
-    
     //파일 업로드 수행
     @ResponseBody //리턴되는 값은 View 를 통해서 출력되지 않고 HTTP Response Body 에 직접 쓰여지게 됨.
     @RequestMapping(value="/imageboard/fileupload", method= RequestMethod.POST)
-    public int fileupload(@RequestParam("files")List<MultipartFile> fileList,ImageBoardVO info) throws Exception
-    {
+	public int fileupload(@RequestParam("files") List<MultipartFile> fileList,
+			@RequestParam("folderName") String folderName
+			, HttpServletRequest request
+			, ImageBoardVO info) throws Exception {
+    	
     	System.out.println("info인자값 확인 : " + info.toStringMultiline());
-    	System.out.println("fileupload 타는지 확인");
-//    	List<MultipartFile> fileList = mtfRequest.getFiles("file");
 
         String uploadDir =this.getClass().getResource("").getPath();
-
         uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
+        
+    	String folderPath = "";
+    	
+    	String id = GetSession.GetSessionId(request); //세션아이디 가져오기
+    	//폴더별 사진 저장
+    	if(folderName.equals("..")) {//제일 상위폴더를 선택했을경우
+    		folderPath = id;
+    	}else {//폴더를 선택했을 경우 폴더 명에 파일을 업로드 시킴
+    		folderPath = id + "/" + folderName;
+    	}
+    	
+    	uploadDir = uploadDir + "/" + folderPath;
+        
         long sizeSum = 0;
-        System.out.println("fileupload 타는지 확인1");
         for(MultipartFile f : fileList){
         	String uuid = UUID.randomUUID().toString();
         	uuid = uuid.replace("-", "");
         	
-        	
-        	System.out.println("f.getOriginalFilename() 갑확인 : " + f.getOriginalFilename());
         	// check for Unix-style path
     		int pos = f.getOriginalFilename().lastIndexOf("/");
     		String getOrgFileName = "";
@@ -119,17 +132,15 @@ public class ImageBoardController {
     			getOrgFileName= f.getOriginalFilename().substring(pos + 1);
     		}
     		
-    		System.out.println("getOrgFileName 갑확인 : " + getOrgFileName);
-    		
             //확장자 검사
             if(!isValidExtension(getOrgFileName)){
-                return RESULT_UNACCEPTED_EXTENSION;
+                return Const.RESULT_UNACCEPTED_EXTENSION;
             }
             
             //용량 검사
             sizeSum += f.getSize();
-            if(sizeSum >= LIMIT_SIZE) {
-                return RESULT_EXCEED_SIZE;
+            if(sizeSum >= Const.LIMIT_SIZE) {
+                return Const.RESULT_EXCEED_SIZE;
             }
 
 
@@ -143,11 +154,13 @@ public class ImageBoardController {
         	info.setFileName(getOrgFileName);
         	info.setFileRealName(savedName);
         	info.setFileSize(f.getSize());
+        	info.setFolderPath(folderPath);
+        	info.setId(id);
         	
         	imageboardService.fileupload(info);
         }
-        System.out.println("fileupload 타는지 확인3");
-        return RESULT_SUCCESS;
+
+        return Const.RESULT_SUCCESS;
     }
     
     
@@ -164,32 +177,66 @@ public class ImageBoardController {
 	}
 
     
-    //선택 파일 액션
-    @RequestMapping(value="/imageboard/fileChk", method= RequestMethod.POST)
-    public ModelAndView fileChk(@ModelAttribute("chkFile") ImageBoardVO info,ModelMap model,HttpServletRequest request, HttpServletResponse response){
-    	ModelAndView view = new ModelAndView();
-    	System.out.println("getSendStyle  확인 : " + info.getSendStyle());
-        for( String value : info.getIdxArr() ){
-        	
-        	if(info.getSendStyle().equals("del")) { // 체크파일 삭제일경우
-        		fileDel(value);
-        	}
-        	
-        	if(info.getSendStyle().equals("down")) { // 체크파일 다운로드일경우
-        		try {
-        			System.out.println("down  확인 ");
-					fileDown(value,request,response);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-        		
-        	}
-        }
-         
-        //조건값 유지를 위한 model
-        view.setViewName("imageBoard/imageBoard_List.view");
-        return view;
+    //파일 추천 상태 변경
+    @RequestMapping(value="/imageboard/fileRecommend", method= RequestMethod.POST)
+    public @ResponseBody ImageBoardVO fileRecommend(ImageBoardVO info,HttpServletRequest request) throws Exception {
+    	
+    	System.out.println("info인자값 확인 : " + info.toStringMultiline());
+    	
+    	String id = GetSession.GetSessionId(request); //세션아이디 가져오기
+    	info.setId(id);
+    	
+    	//추천 상태 바꾸기전 기존 정보 삭제
+    	int delresult = imageboardService.deleteFileRecommend(info);
+    	
+    	if(delresult == 1) {
+    		imageboardService.insertFileRecommend(info);
+    	}
+    	
+    	ImageBoardVO getCnt = new ImageBoardVO();
+    	getCnt = imageboardService.selectRecommendCnt(info);
+    	
+    	info.setRecommendYcnt(getCnt.getRecommendYcnt());
+    	info.setRecommendNcnt(getCnt.getRecommendNcnt());
+    	
+    	System.out.println("나중 info인자값 확인 : " + info.toStringMultiline());
+    	
+    	
+	   return info;
+    }
+	
+    //선택 파일 삭제 액션 ajax 로 변경 -- 기능을 옮겨야할듯함
+	@RequestMapping(value = "/imageboard/fileChk", method = RequestMethod.POST)
+	public @ResponseBody List<String> fileChk(@RequestParam("sendStyle") String sendStyle,
+			@RequestParam("idxArr[]") List<String> idxArr) {
+
+		for (String value : idxArr) {
+
+			if (sendStyle.equals("del")) { // 체크파일 삭제일경우
+				fileDel(value);
+			}
+		}
+
+		return idxArr;
+	}
+    
+    
+    //파일 삭제 수행
+    @RequestMapping(value="/imageboard/fileDel", method= RequestMethod.POST)
+    public ResponseEntity<String> fileDel(String fileIdx){
+		ImageBoardVO fileSelct= imageboardService.selectFile(fileIdx);
+		
+        String uploadDir =this.getClass().getResource("").getPath();
+
+        uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
+    		
+		File f = new File(uploadDir +"/" + fileSelct.getFolderPath() + "/" + fileSelct.getFileRealName()); // 파일 객체생성
+    	if( f.exists()) {// 파일이 존재하면 파일을 삭제한다. 
+    		imageboardService.deleteFile(fileIdx);
+    		f.delete(); 
+    	}
+    	
+	   return new ResponseEntity<String>("deleted",HttpStatus.OK);
     }
     
     
@@ -230,7 +277,7 @@ public class ImageBoardController {
 		ImageBoardVO fileSelct= imageboardService.selectFile(fileIdx);
         String uploadDir =this.getClass().getResource("").getPath();
 
-        uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
+        uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage/" + fileSelct.getFolderPath() ;
         
 	    request.setCharacterEncoding("UTF-8");
 
@@ -362,91 +409,114 @@ public class ImageBoardController {
     }
     
     
-    //파일 삭제 수행
-    @RequestMapping(value="/imageboard/fileDel", method= RequestMethod.POST)
-    public ResponseEntity<String> fileDel(String fileIdx){
-		ImageBoardVO fileSelct= imageboardService.selectFile(fileIdx);
-		
-        String uploadDir =this.getClass().getResource("").getPath();
-
-        uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
-    		
-		File f = new File(uploadDir +"/" + fileSelct.getFileRealName()); // 파일 객체생성
-    	if( f.exists()) {// 파일이 존재하면 파일을 삭제한다. 
-    		imageboardService.deleteFile(fileIdx);
-    		f.delete(); 
-    	}
-    	
-	   return new ResponseEntity<String>("deleted",HttpStatus.OK);
-    }
+    
     
    
     
     //폴더생성
-    @RequestMapping(value="/imageboard/mkDir", method= RequestMethod.POST)
-    public ModelAndView mkDir(@ModelAttribute("mkDir") ImageBoardVO info,ModelMap model){
-    	ModelAndView view = new ModelAndView();
+    @RequestMapping(value = "/imageboard/mkDir", method = RequestMethod.GET)
+    public @ResponseBody String mkDir(@RequestParam("folderName") String folderName,HttpServletRequest request) {
     	
-         String uploadDir =this.getClass().getResource("").getPath();
+    	String id = GetSession.GetSessionId(request); //세션아이디 가져오기
+    	if(id != null) {
 
-         uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
-    	 
-         String filePath = uploadDir + "/" + info.getFolderName()+ "/";
-         
-    	 File fPath = new File(filePath); //경로생성
+			// 사용자 정보를 가져올 수 있다.
+			String uploadDir = this.getClass().getResource("").getPath();
 
-    	 if ( !fPath.exists() ) {
-    	   fPath.mkdirs(); //상위 디렉토리가 존재하지 않으면 상위디렉토리부터 생성.
-    	   imageboardService.mkDir(info);
-    	  }
+			uploadDir = uploadDir.substring(1, uploadDir.indexOf(".metadata"))
+					+ "daramzi/src/main/webapp/resources/uploadImage";
 
+			String filePath = uploadDir + "/" + id + "/" + folderName + "/";
 
-        //조건값 유지를 위한 model
-        view.setViewName("imageBoard/imageBoard_List.view");
-        return view;
-    }   
+			File fPath = new File(filePath); // 경로생성
+
+			if (!fPath.exists()) {
+				fPath.mkdirs(); // 상위 디렉토리가 존재하지 않으면 상위디렉토리부터 생성.
+				
+				ImageBoardVO info = new ImageBoardVO();
+				
+				info.setId(id);
+				info.setFolderName(folderName);
+				imageboardService.mkDir(info);
+			}else {
+				return "aleadyFolder"; // 같은 이름의 폴더가 이미 있는경우
+			}
+    	}
+
+        return "SUCCESS";
+    }
+   
     
     //폴더 삭제
-    @RequestMapping(value="/imageboard/delDir", method= RequestMethod.POST)
-    public ModelAndView delDir(@ModelAttribute("delDir") ImageBoardVO info,ModelMap model){
-		ModelAndView view = new ModelAndView();
-		System.out.println("delDir확인1 : " + info.toStringMultiline());
-		 String uploadDir =this.getClass().getResource("").getPath();
-		
-		 uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
-		 
-		 String filePath = uploadDir + "/" + info.getFolderName()+ "/";
-		 
-		 File fPath = new File(filePath); //경로생성
-		
-		 if ( fPath.exists() ) {
-		   fPath.delete(); //상위 디렉토리가 존재하지 않으면 상위디렉토리부터 생성.
-		   imageboardService.delDir(info);
-		  }
+    @RequestMapping(value = "/imageboard/delDir", method = RequestMethod.GET)
+    public @ResponseBody String delDir(@RequestParam("folderName") String folderName,HttpServletRequest request) {
 
+    	String id = GetSession.GetSessionId(request); //세션아이디 가져오기
+    	if(id != null) {
 
-        //조건값 유지를 위한 model
-        view.setViewName("imageBoard/imageBoard_List.view");
-        return view;
-    }  
+			// 사용자 정보를 가져올 수 있다.
+			String uploadDir = this.getClass().getResource("").getPath();
+
+			uploadDir = uploadDir.substring(1, uploadDir.indexOf(".metadata"))
+					+ "daramzi/src/main/webapp/resources/uploadImage";
+
+			String filePath = uploadDir + "/" + id + "/" + folderName + "/";
+
+			File fPath = new File(filePath); // 경로생성
+
+			if (fPath.exists()) {
+				System.out.println("폴더가 존재한다.");
+				
+				deleteFolder(filePath);
+				
+				
+				ImageBoardVO info = new ImageBoardVO();
+				
+				info.setId(id); 
+				info.setFolderName(folderName);
+				imageboardService.delDir(info);// 폴더삭제
+				
+				info.setFolderPath(id + "/" + folderName); 
+				imageboardService.delFileInPath(info);// 폴더 삭제시 하위 파일들 같이 삭제
+			}
+    	}
+        return "SUCCESS";
+    }
     
+    //폴더삭제시 폴더에 파일이 있을경우 안지워지기 때문에 재귀적으로 처리
+	public static void deleteFolder(String path) {
+
+		File folder = new File(path);
+		try {
+			if (folder.exists()) {
+				File[] folder_list = folder.listFiles(); // 파일리스트 얻어오기
+
+				for (int i = 0; i < folder_list.length; i++) {
+					if (folder_list[i].isFile()) {
+						folder_list[i].delete();
+						System.out.println("파일이 삭제되었습니다.");
+					} else {
+						deleteFolder(folder_list[i].getPath()); // 재귀함수호출
+						System.out.println("폴더가 삭제되었습니다.");
+					}
+					folder_list[i].delete();
+				}
+				folder.delete(); // 폴더 삭제
+			}
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+	}
+
     
-    
-    //게시판 view
-    @RequestMapping(value="/imageboard/imageboardView", method=RequestMethod.POST)
-    public ModelAndView imageboardView(@ModelAttribute("read") ImageBoardVO searchInfo,ModelMap model)
-    {
-        ModelAndView view = new ModelAndView();
-        
-        //내용불러오기
-        int seq = searchInfo.getSeq();
-        ImageBoardVO viewContent = imageboardService.imageviewContent(seq);
-        view.addObject("viewContent",viewContent);
-        
-        //검색조건 유지
-        view.addObject("search",searchInfo);
-        view.setViewName("imageBoard/Board_View.view");
-        return view;        
+    //폴더보기
+    @RequestMapping(value = "/imageboard/folderView", method = RequestMethod.GET)
+    public @ResponseBody List<ImageBoardVO> folderView(HttpServletRequest request) {
+    	
+    	String id = GetSession.GetSessionId(request); //세션아이디 가져오기
+    	List<ImageBoardVO> resultVO = imageboardService.selectFolder(id);
+
+        return resultVO;
     }
     
 }

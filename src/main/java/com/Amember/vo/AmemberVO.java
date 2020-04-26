@@ -9,7 +9,7 @@ public class AmemberVO extends commonVO {
     private String email;
     private String name;
     private int grade;
-    private String regdate;
+    private String ins_dt;
     private int pos;
     private int depth;
     
@@ -60,11 +60,12 @@ public class AmemberVO extends commonVO {
 	public void setGrade(int grade) {
 		this.grade = grade;
 	}
-	public String getRegdate() {
-		return regdate;
+
+	public String getIns_dt() {
+		return ins_dt;
 	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
+	public void setIns_dt(String ins_dt) {
+		this.ins_dt = ins_dt;
 	}
 	public int getPos() {
 		return pos;

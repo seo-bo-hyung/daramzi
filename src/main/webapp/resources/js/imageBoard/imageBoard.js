@@ -10,35 +10,124 @@
 	    });
 	});
 
-	
-	//폴더생성
-	function go_mkDir() {
-		$('form[name="mkDir"]').submit();
-    }
-	
-	//폴더삭제
-	function go_delDir() {
-		$('form[name="delDir"]').submit();
-    }
-	
-	//선택파일삭제
+	//선택파일삭제 ajax 로 변경
 	function go_chkDel() {
-		$('input[name="sendStyle"]').val('del');
-		$('form[name="chkFile"]').submit();
+		  var checkedValue = [];
+		  $("input[name='idxArr']:checked").each(function(index, item){
+			  checkedValue.push($(item).val());   
+			  });
+		  
+        $.ajax({
+	        type: "post",
+	        url : "/imageboard/fileChk",
+	        data: {
+	        	sendStyle : 'del',
+	        	idxArr	: checkedValue
+	        },
+
+	        success:function (data) {//사진삭제 - 성공시
+	        	
+	        	var objectValues = data;
+	        	for (var key in objectValues){
+	        		$("#" + objectValues[key]).empty();
+	        	}
+	        	alert("사진을 삭제하였습니다.");
+            },
+
+	        error: function (data) {//사진삭제 - 실패시
+	        	alert("사진을 삭제하지 못했습니다.관리자에게 문의 바랍니다.");
+            }
+
+     	});
+    }
+	
+    //사진삭제
+    function go_fileDel(fileIdx) {
+        $.ajax({
+	        type: "post",
+	        url : "/imageboard/fileDel",
+	        data: {
+	        	fileIdx : fileIdx
+	        },
+
+	        success:function (data) {//사진삭제 - 성공시
+	        	alert("사진을 삭제하였습니다.");
+	        	$("#" + fileIdx).empty();
+            },
+
+	        error: function (data) {//사진삭제 - 실패시
+	        	alert("사진을 삭제하지 못했습니다.관리자에게 문의 바랍니다.");
+            }
+
+     	});
+    }
+    
+    //파일추천
+    function fn_recommend(fileIdx,recommendYN) {
+        $.ajax({
+	        type: "post",
+	        url : "/imageboard/fileRecommend",
+	        data: {
+	        	fileIdx : fileIdx,
+	        	recommendYN : recommendYN
+	        },
+	        contentType : "application/x-www-form-urlencoded; charset=utf-8",
+
+	        success:function (data) {//추천성공
+	        	if(data.recommendYN == "Y"){
+	        		alert("사진을 추천하였습니다.");
+	        		$("#"+ data.fileIdx + "_recommendN").css('background','');
+	        		$("#"+ data.fileIdx + "_recommendY").css('background','red');
+	        		
+	        		$("#"+ data.fileIdx + "_recommendY").val('좋아요 ' + data.recommendYcnt);
+	        		$("#"+ data.fileIdx + "_recommendN").val('싫어요 ' + data.recommendNcnt);
+	        	}else{
+	        		alert("사진을 비추천하였습니다.");
+	        		$("#"+ data.fileIdx + "_recommendY").css('background','');
+	        		$("#"+ data.fileIdx + "_recommendN").css('background','red');
+	        		
+	        		$("#"+ data.fileIdx + "_recommendY").val('좋아요 ' + data.recommendYcnt);
+	        		$("#"+ data.fileIdx + "_recommendN").val('싫어요 ' + data.recommendNcnt);
+	        	}
+	        	
+            },
+
+	        error: function (data) {//추천실패
+	        	alert("기능 동작이 안됐습니다.관리자에게 문의 바랍니다.");
+            }
+
+     	});
+    }
+    
+    //파일비추천
+    function fn_notrecommend(fileIdx) {
+        $.ajax({
+	        type: "post",
+	        url : "/imageboard/fileNotRecommend",
+	        data: {
+	        	fileIdx : fileIdx
+	        },
+
+	        success:function (data) {//비추천성공
+	        	alert("사진을 비추천하였습니다.");
+            },
+
+	        error: function (data) {//비추천실패
+	        	alert("기능 동작이 안됐습니다.관리자에게 문의 바랍니다.");
+            }
+
+     	});
     }
 	
 	//선택파일다운로드
 	function go_chkDown() {
-/*		$('input[name="sendStyle"]').val('down');
-		$('form[name="chkFile"]').submit();*/
 		var iFrameCnt = 0;
         $('input[name="idxArr"]:checked').each(function(index, item){ //img 태그중 ImageList 명으로 시작하는 요소를 가져옴
             var url = "/imageboard/fileDown?fileIdx="+ $(item).val(); //다운로드 받는 경로 와 변수
             fnCreateIframe(iFrameCnt); // 보이지 않는 iframe 생성, name는 숫자로
             $("iframe[name=" + iFrameCnt + "]").attr("src", url);
             iFrameCnt++;
-            fnSleep(1000); //각 파일별 시간 텀을 준다
-
+            //fnSleep(1000); //각 파일별 시간 텀을 준다
         });
         
     }
@@ -105,10 +194,10 @@
     //사진업로드 화면
     function go_upload(loginId) {
     	//개발편의를 위해 우선 막음
-/*    	if(loginId == null){
+    	if(loginId == null){
     		alert("사진업로드는 로그인 후 가능합니다.");
     		return 0;
-    	}*/
+    	}
     	
     	location.href="/imageboard/fileUploadForm";
     }
@@ -124,26 +213,7 @@
     	location.href="/imageboard/myFileMng";
     } 
     
-    //사진삭제
-    function go_fileDel(fileIdx) {
-        $.ajax({
-	        type: "post",
-	        url : "/imageboard/fileDel",
-	        data: {
-	        	fileIdx : fileIdx
-	        },
 
-	        success:function (data) {//사진삭제 - 성공시
-	        	alert("사진을 삭제하였습니다.");
-	        	$("#" + fileIdx).empty();
-            },
-
-	        error: function (data) {//사진삭제 - 실패시
-	        	alert("사진을 삭제하지 못했습니다.관리자에게 문의 바랍니다.");
-            }
-
-     	});
-    }
 
     var imgCommonPreview = new Image(); 
     function viewPic(filepath) { 
@@ -194,219 +264,6 @@
     		imageWin.document.write("</body></html>"); 
 	} 
 
-
-																																																																																																																																							// 최소
-																																																																																																																																							// 크기
-																																																																																																																																							// if(hsize
-																																																																																																																																							// <
-																																																																																																																																							// 50)
-																																																																																																																																							// hsize
-																																																																																																																																							// =
-																																																																																																																																							// 50;
-																																																																																																																																							// //
-																																																																																																																																							// 세로
-																																																																																																																																							// 최소
-																																																																																																																																							// 크기
-																																																																																																																																							// if(wsize
-																																																																																																																																							// >
-																																																																																																																																							// swidth)
-																																																																																																																																							// wsize
-																																																																																																																																							// =
-																																																																																																																																							// swidth;
-																																																																																																																																							// //
-																																																																																																																																							// 가로
-																																																																																																																																							// 최대
-																																																																																																																																							// 크기
-																																																																																																																																							// if(hsize
-																																																																																																																																							// >
-																																																																																																																																							// sheight)
-																																																																																																																																							// hsize
-																																																																																																																																							// =
-																																																																																																																																							// sheight;
-																																																																																																																																							// //
-																																																																																																																																							// 세로
-																																																																																																																																							// 최대
-																																																																																																																																							// 크기
-																																																																																																																																							// //
-																																																																																																																																							// 세로가
-																																																																																																																																							// 최대크기를
-																																																																																																																																							// 초과한경우
-																																																																																																																																							// 세로스크롤바
-																																																																																																																																							// 자리
-																																																																																																																																							// 확보
-																																																																																																																																							// if((wsize
-																																																																																																																																							// <
-																																																																																																																																							// swidth-scrollsize)
-																																																																																																																																							// &&
-																																																																																																																																							// hsize
-																																																																																																																																							// >=
-																																																																																																																																							// sheight)
-																																																																																																																																							// wsize
-																																																																																																																																							// +=
-																																																																																																																																							// scrollsize;
-																																																																																																																																							// //
-																																																																																																																																							// 가로가
-																																																																																																																																							// 최대크기를
-																																																																																																																																							// 초과한경우
-																																																																																																																																							// 가로스크롤바
-																																																																																																																																							// 자리
-																																																																																																																																							// 확보
-																																																																																																																																							// if((hsize
-																																																																																																																																							// <
-																																																																																																																																							// sheight-scrollsize)
-																																																																																																																																							// &&
-																																																																																																																																							// wsize
-																																																																																																																																							// >=
-																																																																																																																																							// swidth)
-																																																																																																																																							// hsize
-																																																																																																																																							// +=
-																																																																																																																																							// scrollsize;
-																																																																																																																																							// //
-																																																																																																																																							// IE
-																																																																																																																																							// 6,7
-																																																																																																																																							// 전용 :
-																																																																																																																																							// 가로세로
-																																																																																																																																							// 크기가
-																																																																																																																																							// 보통일때
-																																																																																																																																							// 세로
-																																																																																																																																							// 스크롤바
-																																																																																																																																							// 자리
-																																																																																																																																							// 확보
-																																																																																																																																							// if((wsize
-																																																																																																																																							// <
-																																																																																																																																							// swidth-scrollsize)
-																																																																																																																																							// &&
-																																																																																																																																							// hsize
-																																																																																																																																							// <
-																																																																																																																																							// sheight&&
-																																																																																																																																							// (navigator.userAgent.indexOf("MSIE
-																																																																																																																																							// 6.0")
-																																																																																																																																							// >
-																																																																																																																																							// -1||
-																																																																																																																																							// navigator.userAgent.indexOf("MSIE
-																																																																																																																																							// 7.0")
-																																																																																																																																							// >
-																																																																																																																																							// -1))wsize
-																																																																																																																																							// +=
-																																																																																																																																							// scrollsize;
-																																																																																																																																							// //
-																																																																																																																																							// 듀얼
-																																																																																																																																							// 모니터에서
-																																																																																																																																							// 팝업
-																																																																																																																																							// 가운데
-																																																																																																																																							// 정렬하기
-																																																																																																																																							// var
-																																																																																																																																							// mtWidth
-																																																																																																																																							// =
-																																																																																																																																							// document.body.clientWidth;
-																																																																																																																																							// //
-																																																																																																																																							// 현재
-																																																																																																																																							// 브라우저가
-																																																																																																																																							// 있는
-																																																																																																																																							// 모니터의
-																																																																																																																																							// 화면 폭
-																																																																																																																																							// 사이즈
-																																																																																																																																							// var
-																																																																																																																																							// mtHeight
-																																																																																																																																							// =
-																																																																																																																																							// document.body.clientHeight;
-																																																																																																																																							// //
-																																																																																																																																							// 현재
-																																																																																																																																							// 브라우저가
-																																																																																																																																							// 있는
-																																																																																																																																							// 모니터의
-																																																																																																																																							// 화면
-																																																																																																																																							// 높이
-																																																																																																																																							// 사이즈
-																																																																																																																																							// var
-																																																																																																																																							// scX
-																																																																																																																																							// =
-																																																																																																																																							// window.screenLeft;
-																																																																																																																																							// //
-																																																																																																																																							// 현재
-																																																																																																																																							// 브라우저의
-																																																																																																																																							// x
-																																																																																																																																							// 좌표(모니터
-																																																																																																																																							// 두 대를
-																																																																																																																																							// 합한 총
-																																																																																																																																							// 위치
-																																																																																																																																							// 기준)
-																																																																																																																																							// var
-																																																																																																																																							// scY
-																																																																																																																																							// =
-																																																																																																																																							// window.screenTop;
-																																																																																																																																							// //
-																																																																																																																																							// 현재
-																																																																																																																																							// 브라우저의
-																																																																																																																																							// y
-																																																																																																																																							// 좌표(모니터
-																																																																																																																																							// 두 대를
-																																																																																																																																							// 합한 총
-																																																																																																																																							// 위치
-																																																																																																																																							// 기준)
-																																																																																																																																							// var
-																																																																																																																																							// popX
-																																																																																																																																							// =
-																																																																																																																																							// scX
-																																																																																																																																							// +
-																																																																																																																																							// (mtWidth
-																																																																																																																																							// -
-																																																																																																																																							// wsize)
-																																																																																																																																							// / 2
-																																																																																																																																							// -
-																																																																																																																																							// 50;
-																																																																																																																																							// //
-																																																																																																																																							// 팝업
-																																																																																																																																							// 창을
-																																																																																																																																							// 띄울 x
-																																																																																																																																							// 위치
-																																																																																																																																							// 지정(모니터
-																																																																																																																																							// 두 대를
-																																																																																																																																							// 합한 총
-																																																																																																																																							// 위치
-																																																																																																																																							// 기준)
-																																																																																																																																							// var
-																																																																																																																																							// popY
-																																																																																																																																							// =
-																																																																																																																																							// scY
-																																																																																																																																							// +
-																																																																																																																																							// (mtHeight
-																																																																																																																																							// -
-																																																																																																																																							// hsize)
-																																																																																																																																							// / 2
-																																																																																																																																							// -
-																																																																																																																																							// 50;
-																																																																																																																																							// //
-																																																																																																																																							// 팝업
-																																																																																																																																							// 창을
-																																																																																																																																							// 띄울 y
-																																																																																																																																							// 위치
-																																																																																																																																							// 지정(모니터
-																																																																																																																																							// 두 대를
-																																																																																																																																							// 합한 총
-																																																																																																																																							// 위치
-																																																																																																																																							// 기준)
-																																																																																																																																							// //
-																																																																																																																																							// window.open('주소',
-																																																																																																																																							// '이름(공란가능)',
-																																																																																																																																							// '속성');
-																																																																																																																																							// imageWin
-																																																																																																																																							// =
-																																																																																																																																							// window.open("",
-																																																																																																																																							// "",
-																																																																																																																																							// "top="
-																																																																																																																																							// +
-																																																																																																																																							// popY+
-																																																																																																																																							// ",left="
-																																																																																																																																							// +
-																																																																																																																																							// popX+
-																																																																																																																																							// ",width="
-																																																																																																																																							// +
-																																																																																																																																							// wsize+
-																																																																																																																																							// ",height="
-																																																																																																																																							// +
-																																																																																																																																							// hsize+",scrollbars=yes,resizable=yes,status=no");imageWin.document.write("<html><title>Preview</title><body
-																																																																																																																																							// style='margin:0;cursor:pointer;'
 																																																																																																																																							// title='Close'
 																																																																																																																																							// onclick='window.close()'>");imageWin.document.write("<img
 																																																																																																																																							// src='"

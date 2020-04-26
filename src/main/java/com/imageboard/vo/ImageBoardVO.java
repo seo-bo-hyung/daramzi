@@ -32,9 +32,21 @@ public class ImageBoardVO extends commonVO {
     
     //파일업로드용
     private String fileIdx;
+    private String fileSeq;
     private String fileName;
     private String fileRealName;
     private long fileSize;
+    
+
+    private String board_idx;
+    private String id;
+    private String folderPath;
+    private String del_yn;
+    private String open_yn;
+    private String down_yn;
+    private String fileDescription;
+    private String ins_dt;
+    private String upt_dt;
     
     // 게시판 표시 스타일
     private String viewStyle;
@@ -50,6 +62,12 @@ public class ImageBoardVO extends commonVO {
     private String sendStyle;
     
     
+    //파일 추천
+    private String recommendIdx;
+    private String recommendYN;
+    
+    private int recommendYcnt = 0;
+    private int recommendNcnt = 0;
     
     //getter setter 시작
     public String getUserIdx() {
@@ -163,13 +181,19 @@ public class ImageBoardVO extends commonVO {
 	public void setPageYN(String pageYN) {
 		this.pageYN = pageYN;
 	}
-	
+
 	//파일업로드
-	public String getFileIdx() {
+    public String getFileIdx() {
 		return fileIdx;
 	}
 	public void setFileIdx(String fileIdx) {
 		this.fileIdx = fileIdx;
+	}
+	public String getFileSeq() {
+		return fileSeq;
+	}
+	public void setFileSeq(String fileSeq) {
+		this.fileSeq = fileSeq;
 	}
 	public String getFileName() {
 		return fileName;
@@ -189,8 +213,56 @@ public class ImageBoardVO extends commonVO {
 	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
 	}
+	public String getBoard_idx() {
+		return board_idx;
+	}
+	public void setBoard_idx(String board_idx) {
+		this.board_idx = board_idx;
+	}
+	public String getFolderPath() {
+		return folderPath;
+	}
+	public void setFolderPath(String folderPath) {
+		this.folderPath = folderPath;
+	}
+	public String getDel_yn() {
+		return del_yn;
+	}
+	public void setDel_yn(String del_yn) {
+		this.del_yn = del_yn;
+	}
+	public String getOpen_yn() {
+		return open_yn;
+	}
+	public void setOpen_yn(String open_yn) {
+		this.open_yn = open_yn;
+	}
+	public String getDown_yn() {
+		return down_yn;
+	}
+	public void setDown_yn(String down_yn) {
+		this.down_yn = down_yn;
+	}
+	public String getFileDescription() {
+		return fileDescription;
+	}
+	public void setFileDescription(String fileDescription) {
+		this.fileDescription = fileDescription;
+	}
+	public String getIns_dt() {
+		return ins_dt;
+	}
+	public void setIns_dt(String ins_dt) {
+		this.ins_dt = ins_dt;
+	}
+	public String getUpt_dt() {
+		return upt_dt;
+	}
+	public void setUpt_dt(String upt_dt) {
+		this.upt_dt = upt_dt;
+	}
 	
-    // 게시판 표시 스타일
+	// 게시판 표시 스타일
 	public String getViewStyle() {
 		return viewStyle;
 	}
@@ -227,5 +299,38 @@ public class ImageBoardVO extends commonVO {
 	public void setSendStyle(String sendStyle) {
 		this.sendStyle = sendStyle;
 	}
-
+	//id 정보 전달
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	
+	//파일 추천
+	public String getRecommendIdx() {
+		return recommendIdx;
+	}
+	public void setRecommendIdx(String recommendIdx) {
+		this.recommendIdx = recommendIdx;
+	}
+	public String getRecommendYN() {
+		return recommendYN;
+	}
+	public void setRecommendYN(String recommendYN) {
+		this.recommendYN = recommendYN;
+	}
+	public int getRecommendYcnt() {
+		return recommendYcnt;
+	}
+	public void setRecommendYcnt(int recommendYcnt) {
+		this.recommendYcnt = recommendYcnt;
+	}
+	public int getRecommendNcnt() {
+		return recommendNcnt;
+	}
+	public void setRecommendNcnt(int recommendNcnt) {
+		this.recommendNcnt = recommendNcnt;
+	}
 }

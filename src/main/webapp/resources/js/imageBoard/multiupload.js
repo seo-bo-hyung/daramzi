@@ -12,8 +12,9 @@ function addPreview(input) {
 				continue;
 			setPreviewForm(file);
 		}
-	} else
+	} else{
 		alert('invalid file input'); // 첨부클릭 후 취소시의 대응책은 세우지 않았다.
+	}
 }
 
 function setPreviewForm(file, img) {
@@ -69,8 +70,104 @@ function validation(fileName) {
 	}
 }
 
+//폴더생성
+function go_mkDir(loginId) {
+	if (loginId == null) {
+		alert("폴더생성은 로그인 후 가능합니다.");
+		return 0;
+	}
+	
+	if($('#mkDirNm').val() == ''){
+		alert("생성할 폴더명을 입력해주세요.");
+		return 0;
+	}
+	
+    $.ajax({
+        type: "GET",
+        url : "/imageboard/mkDir",
+        cache : false,
+        data: {"folderName" : $('#mkDirNm').val() },
+        async: true,
+        success : function(res) {    // 변경 후
+        	if(res == "SUCCESS"){
+        		alert($('#mkDirNm').val()+"폴더가 생성되었습니다.");
+        		folder_view();
+        	}
+        	
+        	if(res == "aleadyFolder"){
+        		alert($('#mkDirNm').val()+"는 이미 존재하는 폴더 입니다.\n다른이름으로 폴더를 생성해 주세요.");
+        	}
+        	
+        	
+	     },
+        error: function(res) {    // 변경 후
+        	alert("폴더생성이 실패하였습니다.");
+	     }
+    });	
+}
+
+//폴더삭제
+function go_delDir(loginId) {
+
+	if (loginId == null) {
+		alert("폴더삭제는 로그인 후 가능합니다.");
+		return 0;
+	}
+	
+	if($('#delDirNm').val() == ''){
+		alert("삭제할 폴더명을 입력해주세요.");
+		return 0;
+	}
+	
+    $.ajax({
+        type: "GET",
+        url : "/imageboard/delDir",
+        cache : false,
+        data: {"folderName" : $('#delDirNm').val() },
+        async: true,
+        success : function(res) {    // 변경 후
+        	alert($('#delDirNm').val()+"폴더가 삭제되었습니다.");
+        	folder_view();
+	     },
+        error: function(res) {    // 변경 후
+        	alert("폴더삭제가 실패하였습니다.");
+	     }
+    });	
+}
+
+//유저 폴더  확인 영역
+function folder_view() {
+	$.ajax({
+        url : "/imageboard/folderView",
+        type : 'get',
+        cache : false,
+        success : function(data){
+        	$("#folderView").empty();
+        	
+            var str = '<label for = "folderName">내폴더 : </label>';
+        	str += '<TR>';
+        	str += '<br><input type = "radio" name = "folderName" value = ".." checked = "checked">..'; //최상위 폴더
+            $.each(data , function(i){
+                str += '<br><input type = "radio" name = "folderName" value = "'+ data[i].folderName +'">' + data[i].folderName;
+           });
+            str += '</TR>';
+            
+           $("#folderView").append(str); 
+        },
+        error : function(){
+            alert("error");
+        }
+    });
+
+}
+
+
+//맨처음 화면로드시 폴더 정보 뿌려주도록
+window.onload = folder_view;
+
+// 초기 js
 $(document).ready(function() {
-	//submit 등록. 실제로 submit type은 아니다.
+	// submit 등록. 실제로 submit type은 아니다.
 	$('input[name=submitBtn]').on('click', function() {
 		var form = $('#uploadForm')[0];
 		var formData = new FormData(form);

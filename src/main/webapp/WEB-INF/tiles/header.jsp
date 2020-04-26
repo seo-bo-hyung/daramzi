@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script language="javascript" type="text/javascript" src="/resources/js/user/login/login.js"></script>
 </head>
 <body>
 <span>다람쥐에 오신걸 환영합니다!!</span>
@@ -14,6 +15,12 @@
 		        <c:when test="${empty authInfo }">
 		                 <a href="/login">로그인</a>
 		                 <a href="/register/step1">회원가입</a>
+		                 
+		                 <div id="login">
+		                 	아이디 : <input type="text" id="loginID"/>
+		                 	pw : <input type="password" id="loginPW"/>
+		                 	<input type="button" value="로그인" onClick="login()"/>
+	                 	</div>
 		        </c:when>
 		        <c:otherwise>
 		            <c:choose>

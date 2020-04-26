@@ -1,7 +1,7 @@
 package com.imageboard.controller;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,17 +25,12 @@ public class MyFileMngController {
     //내파일 목록
     @ResponseBody
     @RequestMapping(value="/myFileMng/myFileList")
-    public JsonObj test(
+    public JsonObj myFileList(
 			@RequestParam(value = "page", required=false) String page,//page : 몇번째 페이지를 요청했는지
 			@RequestParam(value = "rows", required=false) String rows,//rows : 페이지 당 몇개의 행이 보여질건지
 			@RequestParam(value = "sidx", required=false) String sidx,//sidx : 소팅하는 기준이 되는 인덱스
 			@RequestParam(value = "sord", required=false) String sord) {//sord : 내림차순 또는 오름차순
-	    	
-		// 그리드에 뿌려주려는 데이터를 DB에서나 어디에서 가져온다.
-		JsonObj obj = new JsonObj();
 		
-		
-		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 
 		int int_page = Integer.parseInt(page);// 1 2 3
 		int perPageNum = (int)Double.parseDouble(rows);
@@ -47,33 +43,14 @@ public class MyFileMngController {
 		sendParam.setSord(sord);
 		
     	int totalCount = myFileMngService.myFileListCnt(sendParam);
-    	List<MyFileMngVO> resultlist = myFileMngService.myFileList(sendParam);
-
-    	for(MyFileMngVO vo:resultlist){
-				Map<String, Object> map = new HashMap<String, Object>();
-				
-				map.put("fileIdx", vo.getFileIdx());
-				map.put("fileSeq", vo.getFileSeq());
-				map.put("fileName", vo.getFileName());
-				map.put("fileRealName", vo.getFileRealName());
-				map.put("fileSize", vo.getFileSize());
-				map.put("board_idx", vo.getBoard_idx());
-				map.put("userIdx", vo.getUserIdx());
-				map.put("folderIdx", vo.getFolderIdx());
-				map.put("del_yn", vo.getDel_yn());
-				map.put("open_yn", vo.getOpen_yn());
-				map.put("down_yn", vo.getDown_yn());
-				map.put("fileDescription", vo.getFileDescription());
-				map.put("ins_dt", vo.getIns_dt());
-				map.put("upt_dt", vo.getUpt_dt());	
-				
-				list.add(map);
-
-		}
     	
-		// 그리고 이 JsonObj를 리턴해주면 @ResponseBody 애노테이션 그리고 Jackson라이브러리에 의해
-		// json타입으로 페이지에 데이터가 뿌려지게 된다.
-	       
+    	List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+    	list = myFileMngService.myFileList(sendParam);
+    	
+    	System.out.println("list 확인 : " + list.toString());
+    	
+    	JsonObj obj = new JsonObj();
+    	
 	    obj.setRows(list);  // list<map>형태의 받아온 데이터를 가공해서 셋( 그리드에 뿌려줄 행 데이터들 )
 	    	    
 	    //page : 현재 페이지
@@ -90,28 +67,37 @@ public class MyFileMngController {
 	    return obj;
 	}
 	
-    @RequestMapping("/myFileMng/myFileUpdate")
-    public @ResponseBody String cellEdit(
-        @RequestParam(value = "id") String id,
-        @RequestParam(value = "cellName") String cellName,
-        @RequestParam(value = "cellValue") String cellValue) {
+    //파일 정보 update
+    @RequestMapping(value = "/myFileMng/myFileUpdate", method = RequestMethod.GET)
+    public @ResponseBody String myFileUpdate(MyFileMngVO sendVO) {
 
-    	System.out.println("id 확인 : " + id);
-    	System.out.println("cellName 확인 : " + cellName);
-    	System.out.println("cellValue 확인 : " + cellValue);
+    	System.out.println("sendVO 확인 : " + sendVO.toStringMultiline());
     	
-		MyFileMngVO sendParam = new MyFileMngVO();
-		
-		sendParam.setFileIdx(id);
-		sendParam.setCellName(cellName);
-		sendParam.setCellValue(cellValue);
-    	
-    	int result = myFileMngService.updateFileInfo(sendParam);
+    	int result = myFileMngService.updateFileInfo(sendVO);
 
         // Edit 구현하기
 
 
         return "SUCCESS";
     }
-	
+
+    //파일 삭제 수행
+    @RequestMapping(value="/myFileMng/myFileDelete", method= RequestMethod.GET)
+    public @ResponseBody String myFileDelete(@RequestParam("id") String id){
+    	System.out.println("myFileDelete 타긴하는건가");
+
+    	MyFileMngVO fileSelct= myFileMngService.selectFile(id);
+    	
+    	String uploadDir =this.getClass().getResource("").getPath();
+        uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
+    		
+		File f = new File(uploadDir +"/" + fileSelct.getFolderPath() + "/" + fileSelct.getFileRealName()); // 파일 객체생성
+    	if( f.exists()) {// 파일이 존재하면 파일을 삭제한다. 
+    		myFileMngService.deleteFile(id);
+    		f.delete(); 
+    	}
+    	
+    	return "SUCCESS";
+    }
+    
 }

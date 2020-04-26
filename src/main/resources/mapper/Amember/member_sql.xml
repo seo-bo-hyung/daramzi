@@ -14,12 +14,12 @@
     <select id="memberList" parameterType="AmemberVO" resultType="AmemberVO">
       <include refid="COMMON_PAGING_HEADER"/>
       <![CDATA[
-		    select idx, 
+		    select userIdx, 
 		    		id,
 		            email, 
 		            name,
 		            grade, 
-		            regdate 
+		            ins_dt 
 		    from user
 		]]> 
 		<where>
@@ -30,7 +30,7 @@
 		</if>
 		</where>
 		<![CDATA[
-    		order by idx desc
+    		order by userIdx desc
 		]]> 
       <include refid="COMMON_PAGING_TAIL"/>
     </select> 
@@ -55,7 +55,4 @@
 		]]>
 		where seq = #{seq} 
     </select>
-    
- 
-    
 </mapper>

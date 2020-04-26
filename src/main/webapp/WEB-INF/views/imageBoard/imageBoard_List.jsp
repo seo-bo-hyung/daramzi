@@ -93,18 +93,6 @@
         <input type="hidden" name="pageYN" 		value="N" />
         <input type="hidden" name="viewStyle" 	value="${search.viewStyle}" />
     </form>
-    
-    
-    <form action="/imageboard/mkDir" name="mkDir" method="post"  >
-		<input type="text" size="16" name="folderName">
-		<input type="button" value="폴더생성" onClick="go_mkDir()">
-    </form>
-    
-    <form action="/imageboard/delDir" name="delDir" method="post"  >
-		<input type="text" size="16" name="folderName">
-		<input type="button" value="폴더삭제" onClick="go_delDir()">
-    </form>
-    
 <c:choose>
 
 <c:when test="${search.viewStyle eq 'listView'}"> <!-- 리스트로 표시 -->
@@ -152,7 +140,7 @@
 		                                            	onmouseover="contentprev('${resultlist[i].seq}');showlayer('layer1');" 
 		                                                onmouseout="hidelayer('layer1');">${resultlist[i].fileName }</a>
 		                                        </td>
-		                                        <td><img alt="" src="/resources/uploadImage/${resultlist[i].fileRealName}" style="width: 100px; height:auto;"></td>
+		                                        <td><img alt="" src="/resources/uploadImage/${resultlist[i].folderPath}/${resultlist[i].fileRealName}" style="width: 100px; height:auto;"></td>
 		                                    </tr>
 		                                    <c:if test="${i+1 == page.totalCount} }">
 		                                        <c:set var="doneLoop" value="true" />
@@ -169,13 +157,13 @@
 
 
 <c:otherwise> <!-- 이미지로 표시 -->
-<form:form action="/imageboard/fileChk" name="chkFile" ModelAttribute="chkFile" method="post">
-	<table width="600" align="center" style="font-family: &; font-size: 10pt;" cellspacing="2" cellpadding="1">
+<form:form action="/imageboard/fileChk" id="chkFile" name="chkFile" ModelAttribute="chkFile" method="post">
+	<table width="600" id="viewTable" align="center" style="font-family: &; font-size: 10pt;" cellspacing="2" cellpadding="1">
 				<tr>
 
 					<td align="right" colspan="3">
 
-						<input type="button" value="선택삭제" onClick="go_chkDel()">
+						<!-- <input type="button" value="선택삭제" onClick="go_chkDel()"> -->
 						<input type="button" value="선택파일다운" onClick="go_chkDown()">
 						<input type="hidden" name="sendStyle"/> 
 						
@@ -191,31 +179,65 @@
 					int cnt = 0;
 				%>
 				<c:forEach var="fileDtl" items="${resultlist}">
-				<%
-				 if(newLine ==0){
-					 out.print("<tr>");
-				 }
-				newLine++;
-				articleCount++;
-				%>
-				<td id="${fileDtl.fileIdx}" align="center" valign="bottom" width= "190">
-					
-					<a style="cursor:pointer;" onclick="javascript:viewPic('/resources/uploadImage/${fileDtl.fileRealName}')">
-					 
-		
-						<img alt="" src="/resources/uploadImage/${fileDtl.fileRealName}" style="width: 190px; height:auto;"><br>
-						${fileDtl.fileName }
-					</a>
-					<input type="checkbox" name="idxArr" value="${fileDtl.fileIdx}"/>
-					<a href="javascript:void(0);" onclick="go_fileDel(${fileDtl.fileIdx});">삭제</a>
-				</td>
-				<%
-				if(newLine==3){
 				
-				out.print("</tr>"); 
-				newLine = 0;
-				}
-				%>
+					<c:if test="${fileDtl.open_yn eq 'Y'}"> <!-- 공개 여부에 따른 이미지 표시 -->
+						<%
+						 if(newLine ==0){
+							 out.print("<tr>");
+						 }
+						newLine++;
+						articleCount++;
+						%>
+						<td id="${fileDtl.fileIdx}" align="center" valign="bottom" width= "190">
+							
+							<a style="cursor:pointer;" onclick="javascript:viewPic('/resources/uploadImage/${fileDtl.folderPath}/${fileDtl.fileRealName}')">
+							 
+				
+								<img alt="" src="/resources/uploadImage/${fileDtl.folderPath}/${fileDtl.fileRealName}" style="width: 190px; height:auto;" title="${fileDtl.fileDescription}"><br>
+								${fileDtl.fileName }
+							</a>
+							<br>
+							
+							<c:if test="${fileDtl.recommendYN eq 'Y'}">
+								<c:set var = "recommendY" scope = "session" value = "style=\"background-color:red\""/>
+							</c:if>
+							
+							<c:if test="${fileDtl.recommendYN eq 'N'}">
+								<c:set var = "recommendN" scope = "session" value = "style=\"background-color:red\""/>
+							</c:if>
+							
+							<!-- 본인이 추천한것인지 확인하기 위함 -->
+						      <c:choose>
+						         <c:when test = "${fileDtl.recommendYN eq 'Y'}">
+						            	<input type="button" value="좋아요  ${fileDtl.recommendYcnt}" id="${fileDtl.fileIdx}_recommendY" style="background-color:red" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">
+						            	<input type="button" value="싫어요  ${fileDtl.recommendNcnt}" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')">
+						         </c:when>
+						         <c:when test = "${fileDtl.recommendYN eq 'N'}">
+						            	<input type="button" value="좋아요  ${fileDtl.recommendYcnt}" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">
+						            	<input type="button" value="싫어요  ${fileDtl.recommendNcnt}" id="${fileDtl.fileIdx}_recommendN" style="background-color:red" onClick="fn_recommend(${fileDtl.fileIdx},'N')">
+						         </c:when>
+						         <c:otherwise>
+						            	<input type="button" value="좋아요  ${fileDtl.recommendYcnt}" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">
+										<input type="button" value="싫어요  ${fileDtl.recommendNcnt}" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')">
+						         </c:otherwise>
+						      </c:choose>
+							
+							<c:if test="${fileDtl.down_yn eq 'Y'}"> <!-- 다운 가능일 경우 체크 가능 -->
+								<input type="checkbox" name="idxArr" value="${fileDtl.fileIdx}"/>
+							</c:if>
+							
+							<c:if test="${fileDtl.id eq authInfo.id}"> <!-- 파일 등록 아이디와 세션 아이디 동일할 경우 삭제 가능 -->
+								<a href="javascript:void(0);" onclick="go_fileDel(${fileDtl.fileIdx});">삭제</a>
+							</c:if>
+						</td>
+						<%
+						if(newLine==3){ // 한줄에 3개의 이미지를 보여주기위한 count
+						
+						out.print("</tr>"); 
+						newLine = 0; // 3개의 이미지가 표시될경우 줄바꾸고 다시 0으로 되돌림
+						}
+						%>
+					</c:if>
 				</c:forEach>
 				<%
 						while(newLine>0&&newLine<3){ 

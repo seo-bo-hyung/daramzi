@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService {
         if(email!=null) {
             throw new AlreadyExistingEmailException(regReq.getEmail()+" is duplicate email.");
         }
-        UserVO id = userDAO.selectById(regReq.getId());
-        if(id!=null) {
+        UserVO userInfo = userDAO.selectById(regReq.getId());
+        if(userInfo!=null) {
             throw new AlreadyExistingIdException(regReq.getId()+" is duplicate id.");
         }
         userDAO.insertUser(regReq);
@@ -41,11 +41,14 @@ public class UserServiceImpl implements UserService {
         if(!user.matchPassword(loginCommand.getPw())) {
             throw new IdPasswordNotMatchingException();
         }
-        return new AuthInfo(user.getID(), user.getNAME(), user.getGRADE());
+        return new AuthInfo(user.getId(), user.getName(), user.getGrade());
     }
-
-
-	
+    
+    @Override
+    public void mkDir(UserVO userVo) throws Exception {
+        userDAO.mkDir(userVo);
+    }
+    
 }
 
 

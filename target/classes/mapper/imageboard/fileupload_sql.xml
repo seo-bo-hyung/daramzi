@@ -9,16 +9,16 @@
 		        filename,
 		        filerealname,
 		        filesize,
-		        folderIdx,
-		        userIdx,
+		        folderPath,
+		        id,
 		        ins_dt
 		    ) VALUES (
 		        (SELECT ifnull(MAX(fileseq) + 1, 1) FROM file_house A),
 		        #{fileName}, 
 		        #{fileRealName},
 		        #{fileSize},
-				1,
-		        1,
+				#{folderPath},
+		        #{id},
 		        sysdate()
 	        )
         ]]>
@@ -29,12 +29,12 @@
 		    INSERT INTO file_folder (
 		        folderSeq,
 		        folderName,
-		        userIdx,
+		        id,
 		        ins_dt
 		    ) VALUES (
 		        (SELECT ifnull(MAX(folderSeq) + 1, 1) FROM file_folder A),
 		        #{folderName},
-		        1, 
+		        #{id}, 
 		        sysdate()
 	        )
         ]]>
