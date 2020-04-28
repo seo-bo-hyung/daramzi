@@ -18,6 +18,7 @@
 		    select fileIdx
 					,fileSeq
 					,fileName
+					,fileExtension
 					,fileRealName
 					,fileSize
 					,board_idx
@@ -47,7 +48,8 @@
 	<update id="updateFileInfo" parameterType="MyFileMngVO">
 		<![CDATA[
 		UPDATE file_house 
-		SET del_yn = #{del_yn}
+		SET fileName = #{fileName}
+			,del_yn = #{del_yn}
 			,open_yn = #{open_yn}
 			,down_yn = #{down_yn}
 			,fileDescription = #{fileDescription}

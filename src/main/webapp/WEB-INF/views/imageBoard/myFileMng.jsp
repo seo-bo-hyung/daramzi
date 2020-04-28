@@ -23,12 +23,13 @@ $(function(){
 	$("#myFileList").jqGrid({
 	    url : '/myFileMng/myFileList',
 	    datatype : "json",
-        colNames : ['파일IDX','파일순번','파일명','파일원본명','파일크기','게시판IDX','ID','폴더경로','삭제YN','공개YN','다운YN','파일설명','입력일','수정일'],
+        colNames : ['파일IDX','파일순번','파일명','파일확장자','파일원본명','파일크기','게시판IDX','ID','폴더경로','삭제YN','공개YN','다운YN','파일설명','입력일','수정일'],
         colModel : [
 					{ name : 'fileIdx',		  	index : 'fileIdx',		  	 width : 40,   align : 'center' , key:true},
 					{ name : 'fileSeq',		  	index : 'fileSeq',		  	 width : 40,   align : 'center' },
-					{ name : 'fileName',		index : 'fileName',		     width : 40,   align : 'center' },
-					{ name : 'fileRealName',	index : 'fileRealName',	     width : 100,   align : 'center', formatter: imageFormatter },
+					{ name : 'fileName',		index : 'fileName',		     width : 40,   align : 'center' , editable:true},
+					{ name : 'fileExtension',	index : 'fileExtension',     width : 40,   align : 'center' },
+					{ name : 'fileRealName',	index : 'fileRealName',	     width : 100,  align : 'center' , formatter: imageFormatter },
 					{ name : 'fileSize',		index : 'fileSize',		     width : 40,   align : 'center' },
 					{ name : 'board_idx',		index : 'board_idx',		 width : 40,   align : 'center' },
 					{ name : 'id',		  		index : 'id',		  	 	 width : 40,   align : 'center' },

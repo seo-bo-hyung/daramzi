@@ -44,6 +44,10 @@
 	                    <td colspan=2><hr size=1></td>
 	                </tr>
 	                <tr>
+	                	<td>첨부파일</td>
+	                	<td><input type="file" name="file" id="filename" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp"></td>
+	                </tr>
+	                <tr>
 	                    <td colspan="3">
                     		<div align="center">
 	                            <input type="button" value="등록" onclick="check_write()" >  

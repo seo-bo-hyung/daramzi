@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -117,6 +118,7 @@ public class ImageBoardController {
         
         long sizeSum = 0;
         for(MultipartFile f : fileList){
+        	
         	String uuid = UUID.randomUUID().toString();
         	uuid = uuid.replace("-", "");
         	
@@ -136,6 +138,7 @@ public class ImageBoardController {
             if(!isValidExtension(getOrgFileName)){
                 return Const.RESULT_UNACCEPTED_EXTENSION;
             }
+
             
             //용량 검사
             sizeSum += f.getSize();
@@ -151,7 +154,12 @@ public class ImageBoardController {
         	File target = new File(uploadDir,savedName);
         	FileCopyUtils.copy(f.getBytes(), target);
         	
-        	info.setFileName(getOrgFileName);
+        	
+            String fileExtension = FilenameUtils.getExtension(f.getOriginalFilename()); // 확장자
+            String fileName = FilenameUtils.getBaseName(f.getOriginalFilename());	// 파일명
+        	
+        	info.setFileName(fileName);
+        	info.setFileExtension(fileExtension);
         	info.setFileRealName(savedName);
         	info.setFileSize(f.getSize());
         	info.setFolderPath(folderPath);
@@ -288,7 +296,7 @@ public class ImageBoardController {
 	    String filename = fileSelct.getFileRealName() ;
 
 	    // 실제 내보낼 파일명
-	    String orgfilename = fileSelct.getFileName() ;
+	    String orgfilename = fileSelct.getFileName() + "." + fileSelct.getFileExtension();
 	 
 	    InputStream in = null;
 	    OutputStream os = null;

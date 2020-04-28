@@ -7,6 +7,7 @@ public class MyFileMngVO extends commonVO {
 	private String fileIdx;
 	private String fileSeq;
 	private String fileName;
+	private String fileExtension;
 	private String fileRealName;
 	private String fileSize;
 	private String board_idx;
@@ -50,6 +51,12 @@ public class MyFileMngVO extends commonVO {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public String getFileExtension() {
+		return fileExtension;
+	}
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
 	}
 	public String getFileRealName() {
 		return fileRealName;

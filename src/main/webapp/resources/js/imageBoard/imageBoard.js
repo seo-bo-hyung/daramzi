@@ -121,6 +121,14 @@
 	
 	//선택파일다운로드
 	function go_chkDown() {
+
+		var agent = navigator.userAgent.toLowerCase(); 
+
+		if ($('input[name="idxArr"]:checked').length > 2 && agent.indexOf("chrome") == -1) {
+			alert("두개이상의 파일 다운로드는 크롬에서만 가능합니다.");
+			return false;
+		}
+		
 		var iFrameCnt = 0;
         $('input[name="idxArr"]:checked').each(function(index, item){ //img 태그중 ImageList 명으로 시작하는 요소를 가져옴
             var url = "/imageboard/fileDown?fileIdx="+ $(item).val(); //다운로드 받는 경로 와 변수
@@ -220,7 +228,8 @@
     	if(filepath == "") {
     		alert('등록된 이미지가 없습니다.'); 
     		return;
-		}imgCommonPreview.src = filepath;
+		}
+    	imgCommonPreview.src = filepath;
 		setTimeout("createPreviewWin(imgCommonPreview)", 100); 
 	} 
     
@@ -254,7 +263,7 @@
     		
     		// window.open('주소', '이름(공란가능)', '속성'); 
     		imageWin = window.open("", "", 
-    				"top=" + popY
+    				"top=" + 100
     				+ ",left="+ popX
     				+ ",width=" + wsize
     				+ ",height="+ hsize

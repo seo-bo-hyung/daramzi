@@ -34,6 +34,7 @@ public class ImageBoardVO extends commonVO {
     private String fileIdx;
     private String fileSeq;
     private String fileName;
+    private String fileExtension;
     private String fileRealName;
     private long fileSize;
     
@@ -200,6 +201,12 @@ public class ImageBoardVO extends commonVO {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public String getFileExtension() {
+		return fileExtension;
+	}
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
 	}
 	public String getFileRealName() {
 		return fileRealName;

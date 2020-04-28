@@ -18,6 +18,7 @@
 		    select a.fileIdx
 					,a.fileSeq
 					,a.fileName
+					,a.fileExtension
 					,a.fileRealName
 					,a.fileSize
 					,a.board_idx
@@ -37,7 +38,7 @@
 		<where>
 		<if test="keyWord != null and keyWord != ''">   
 				<if test="keyField == 'name'">
-					and NAME = #{keyWord, jdbcType=VARCHAR}
+					and fileName LIKE CONCAT('%',#{keyWord},'%')
 				</if>
 				<if test="keyField == 'title'">
 					and title = #{keyWord, jdbcType=VARCHAR}
@@ -58,7 +59,7 @@
 		<where>
 		<if test="keyWord != null and keyWord != ''">   
 				<if test="keyField == 'name'">
-					and NAME = #{keyWord, jdbcType=VARCHAR}
+					and fileName LIKE CONCAT('%',#{keyWord},'%')
 				</if>
 				<if test="keyField == 'title'">
 					and title = #{keyWord, jdbcType=VARCHAR}

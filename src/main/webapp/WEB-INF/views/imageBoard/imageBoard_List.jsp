@@ -13,7 +13,6 @@
 </head>
  
 <body>
-<div id="layer1">게시물 본문 미리 보기</div>
     <form:form action="/imageboard/imageboardList" name="search" ModelAttribute="search" method="post">
         <table width=610 >
         		<tr>
@@ -93,27 +92,34 @@
         <input type="hidden" name="pageYN" 		value="N" />
         <input type="hidden" name="viewStyle" 	value="${search.viewStyle}" />
     </form>
-<c:choose>
+    
+<form:form action="/imageboard/fileChk" id="chkFile" name="chkFile" ModelAttribute="chkFile" method="post">
 
+
+<!-- <input type="button" value="선택삭제" onClick="go_chkDel()"> -->
+<input type="button" value="선택파일다운" onClick="go_chkDown()">
+<input type="hidden" name="sendStyle"/> 
+
+<input type="button" value="사진올리기" onClick="go_upload(${authInfo.name })">
+<input type="button" value="내사진관리" onClick="go_myFile(${authInfo.name })">    
+    
+<c:choose>
 <c:when test="${search.viewStyle eq 'listView'}"> <!-- 리스트로 표시 -->
 
- 			<div align=Right>
-		    	<input type="button" value="사진올리기" onClick="go_upload(${authInfo.name })">
-		    </div>
 		    
 		    <table class="bbs" width="610" border="2" bgcolor="D8D8D8">
 		        <colgroup>
-		            <col width="100" />
+		            <col width="50" />
 		            <col width="100"/>
 		            <col width="100" />
-		            <col width="100" />
-		            <col width="100" />
+		            <col width="50" />
 		        </colgroup>
 		        <thead>
 		            <tr>
-		                <th>번 호</th>
+		                <th>선 택</th>
 		                <th>제 목</th>
 		                <th>이미지 미리보기</th>
+		                <th>삭 제</th>
 		            </tr>
 		        </thead>
 		        <tbody>
@@ -126,25 +132,33 @@
 		                    </c:when>
 		                    <c:otherwise>
 		                        <c:set var="doneLoop" value="false" />
-		                        <c:forEach begin="0" end="${resultlist.size()-1}" var="i">
+		                        <c:forEach var="fileDtl" items="${resultlist}">
 		                                <c:if test="${not doneLoop }">
-		                                    <tr>
-		                                        <td align=center>${resultlist[i].seq }</td>
+		                                    <tr id="${fileDtl.fileIdx}">
+		                                        <td align=center>
+													<c:if test="${fileDtl.down_yn eq 'Y'}"> <!-- 다운 가능일 경우 체크 가능 -->
+														<input type="checkbox" name="idxArr" value="${fileDtl.fileIdx}"/>
+													</c:if>
+												</td>
 		                                        <td>
 		                                            <!-- depth --> 
-		                                            <c:if test="${resultlist[i].depth != 0 }">
-		                                                <c:forEach begin="0" end="${resultlist[i].depth}">
+		                                            <c:if test="${fileDtl.depth != 0 }">
+		                                                <c:forEach begin="0" end="${fileDtl.depth}">
 		                                                </c:forEach>
 		                                            </c:if>
-		                                            <a href="javascript:read(${resultlist[i].seq })" 
-		                                            	onmouseover="contentprev('${resultlist[i].seq}');showlayer('layer1');" 
-		                                                onmouseout="hidelayer('layer1');">${resultlist[i].fileName }</a>
+		                                        	${fileDtl.fileName }
 		                                        </td>
-		                                        <td><img alt="" src="/resources/uploadImage/${resultlist[i].folderPath}/${resultlist[i].fileRealName}" style="width: 100px; height:auto;"></td>
+		                                        <td>
+                          							<a style="cursor:pointer;" onclick="javascript:viewPic('/resources/uploadImage/${fileDtl.folderPath}/${fileDtl.fileRealName}')">
+			                                        	<img alt="" src="/resources/uploadImage/${fileDtl.folderPath}/${fileDtl.fileRealName}" style="width: 100px; height:auto;">
+		                                        	</a>
+                                        		</td>
+                                        		<td>
+													<c:if test="${fileDtl.id eq authInfo.id}"> <!-- 파일 등록 아이디와 세션 아이디 동일할 경우 삭제 가능 -->
+														<a href="javascript:void(0);" onclick="go_fileDel(${fileDtl.fileIdx});">삭제</a>
+													</c:if>
+                                        		</td>
 		                                    </tr>
-		                                    <c:if test="${i+1 == page.totalCount} }">
-		                                        <c:set var="doneLoop" value="true" />
-		                                    </c:if>
 		                                </c:if>
 		                        </c:forEach>
 		                    </c:otherwise>
@@ -157,19 +171,8 @@
 
 
 <c:otherwise> <!-- 이미지로 표시 -->
-<form:form action="/imageboard/fileChk" id="chkFile" name="chkFile" ModelAttribute="chkFile" method="post">
+
 	<table width="600" id="viewTable" align="center" style="font-family: &; font-size: 10pt;" cellspacing="2" cellpadding="1">
-				<tr>
-
-					<td align="right" colspan="3">
-
-						<!-- <input type="button" value="선택삭제" onClick="go_chkDel()"> -->
-						<input type="button" value="선택파일다운" onClick="go_chkDown()">
-						<input type="hidden" name="sendStyle"/> 
-						
-						<input type="button" value="사진올리기" onClick="go_upload(${authInfo.name })">
-						<input type="button" value="내사진관리" onClick="go_myFile(${authInfo.name })">
-					</td>
 				<tr>
 					<td style="border-bottom: 2px solid #DBDBDB;" colspan="3"></td>
 				</tr>
@@ -191,20 +194,10 @@
 						<td id="${fileDtl.fileIdx}" align="center" valign="bottom" width= "190">
 							
 							<a style="cursor:pointer;" onclick="javascript:viewPic('/resources/uploadImage/${fileDtl.folderPath}/${fileDtl.fileRealName}')">
-							 
-				
 								<img alt="" src="/resources/uploadImage/${fileDtl.folderPath}/${fileDtl.fileRealName}" style="width: 190px; height:auto;" title="${fileDtl.fileDescription}"><br>
 								${fileDtl.fileName }
 							</a>
 							<br>
-							
-							<c:if test="${fileDtl.recommendYN eq 'Y'}">
-								<c:set var = "recommendY" scope = "session" value = "style=\"background-color:red\""/>
-							</c:if>
-							
-							<c:if test="${fileDtl.recommendYN eq 'N'}">
-								<c:set var = "recommendN" scope = "session" value = "style=\"background-color:red\""/>
-							</c:if>
 							
 							<!-- 본인이 추천한것인지 확인하기 위함 -->
 						      <c:choose>
@@ -262,10 +255,11 @@
 					</td>
 				</tr>
 			</table>
-</form:form>
-</c:otherwise>
 
+</c:otherwise>
 </c:choose>
+
+</form:form>
 
 </body>
 </html>
