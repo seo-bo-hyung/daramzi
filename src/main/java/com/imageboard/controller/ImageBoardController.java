@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.board.vo.PageVO;
 import com.common.util.Const;
 import com.common.util.GetSession;
+import com.common.vo.FolderVO;
 import com.imageboard.service.ImageBoardService;
 import com.imageboard.vo.ImageBoardVO;
  
@@ -53,6 +54,8 @@ public class ImageBoardController {
         }
         
         info.setId(id);
+        info.setCategoryCode("imageBoard");
+        
         
         int totalCount = imageboardService.imageboardListCnt(info);
         PageVO page = new PageVO();
@@ -109,9 +112,9 @@ public class ImageBoardController {
     	String id = GetSession.GetSessionId(request); //세션아이디 가져오기
     	//폴더별 사진 저장
     	if(folderName.equals("..")) {//제일 상위폴더를 선택했을경우
-    		folderPath = id;
+    		folderPath = id + "/imageBoard";
     	}else {//폴더를 선택했을 경우 폴더 명에 파일을 업로드 시킴
-    		folderPath = id + "/" + folderName;
+    		folderPath = id + "/imageBoard/" + folderName;
     	}
     	
     	uploadDir = uploadDir + "/" + folderPath;
@@ -162,6 +165,7 @@ public class ImageBoardController {
         	info.setFileExtension(fileExtension);
         	info.setFileRealName(savedName);
         	info.setFileSize(f.getSize());
+        	info.setCategoryCode("imageBoard");
         	info.setFolderPath(folderPath);
         	info.setId(id);
         	
@@ -434,17 +438,19 @@ public class ImageBoardController {
 			uploadDir = uploadDir.substring(1, uploadDir.indexOf(".metadata"))
 					+ "daramzi/src/main/webapp/resources/uploadImage";
 
-			String filePath = uploadDir + "/" + id + "/" + folderName + "/";
+			String filePath = uploadDir + "/" + id + "/imageBoard/" + folderName + "/";
 
 			File fPath = new File(filePath); // 경로생성
 
 			if (!fPath.exists()) {
 				fPath.mkdirs(); // 상위 디렉토리가 존재하지 않으면 상위디렉토리부터 생성.
 				
-				ImageBoardVO info = new ImageBoardVO();
+				FolderVO info = new FolderVO();
 				
 				info.setId(id);
 				info.setFolderName(folderName);
+				info.setUpperFolder("imageBoard");
+				info.setFolderDepth("3");
 				imageboardService.mkDir(info);
 			}else {
 				return "aleadyFolder"; // 같은 이름의 폴더가 이미 있는경우
@@ -468,7 +474,7 @@ public class ImageBoardController {
 			uploadDir = uploadDir.substring(1, uploadDir.indexOf(".metadata"))
 					+ "daramzi/src/main/webapp/resources/uploadImage";
 
-			String filePath = uploadDir + "/" + id + "/" + folderName + "/";
+			String filePath = uploadDir + "/" + id + "/imageBoard/" + folderName + "/";
 
 			File fPath = new File(filePath); // 경로생성
 
@@ -478,14 +484,21 @@ public class ImageBoardController {
 				deleteFolder(filePath);
 				
 				
-				ImageBoardVO info = new ImageBoardVO();
+				FolderVO info = new FolderVO();
 				
 				info.setId(id); 
 				info.setFolderName(folderName);
+				info.setUpperFolder("imageBoard");
+				info.setFolderDepth("3");
 				imageboardService.delDir(info);// 폴더삭제
 				
-				info.setFolderPath(id + "/" + folderName); 
-				imageboardService.delFileInPath(info);// 폴더 삭제시 하위 파일들 같이 삭제
+				
+				ImageBoardVO fileDelInfo = new ImageBoardVO();
+				
+				fileDelInfo.setId(id); 
+				fileDelInfo.setFolderName(folderName);
+				fileDelInfo.setFolderPath(id + "/imageBoard/" + folderName); 
+				imageboardService.delFileInPath(fileDelInfo);// 폴더 삭제시 하위 파일들 같이 삭제
 			}
     	}
         return "SUCCESS";

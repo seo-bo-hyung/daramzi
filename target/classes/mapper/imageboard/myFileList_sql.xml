@@ -21,7 +21,7 @@
 					,fileExtension
 					,fileRealName
 					,fileSize
-					,board_idx
+					,boardIdx
 					,id
 					,folderPath
 					,del_yn

@@ -22,23 +22,23 @@
     }
     
     //게시판 글 보기
-    function read(seq) {
-        $("input[name=seq]", "form[name=read]").val(seq);
+    function read(boardIdx) {
+        $("input[name=boardIdx]", "form[name=read]").val(boardIdx);
         $('form[name="read"]').submit();
         
     }
     
     //게시판 글 수정
-    function modContent(seq) {
+    function modContent(boardIdx) {
     	$('form[name="modContent"]').attr("action","/board/boardUpdate");
-    	$("input[name=seq]", "form[name=modContent]").val(seq);
+    	$("input[name=boardIdx]", "form[name=modContent]").val(boardIdx);
     	$('form[name="modContent"]').submit();
     }
     
     //게시판 글삭제
-    function delContent(seq) {
+    function delContent(boardIdx) {
     	$('form[name="modContent"]').attr("action","/board/boardDelete");
-    	$("input[name=seq]", "form[name=modContent]").val(seq);
+    	$("input[name=boardIdx]", "form[name=modContent]").val(boardIdx);
     	$('form[name="modContent"]').submit();
     }
 

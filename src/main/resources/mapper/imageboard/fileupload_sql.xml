@@ -10,6 +10,7 @@
 		        fileExtension,
 		        filerealname,
 		        filesize,
+		        categoryCode,
 		        folderPath,
 		        id,
 		        ins_dt
@@ -19,6 +20,7 @@
 		        #{fileExtension}, 
 		        #{fileRealName},
 		        #{fileSize},
+		        #{categoryCode},
 				#{folderPath},
 		        #{id},
 		        sysdate()
@@ -32,11 +34,15 @@
 		        folderSeq,
 		        folderName,
 		        id,
+		        upperFolder,
+		        folderDepth,
 		        ins_dt
 		    ) VALUES (
 		        (SELECT ifnull(MAX(folderSeq) + 1, 1) FROM file_folder A),
 		        #{folderName},
 		        #{id}, 
+		        #{upperFolder},
+		        #{folderDepth},
 		        sysdate()
 	        )
         ]]>
@@ -44,7 +50,9 @@
     
    	<delete id="delDir">
 	<![CDATA[
-		delete from file_folder where folderName = #{folderName}
+		delete from file_folder 
+		where folderName = #{folderName}
+		and folderDepth = 3
 	]]>
     </delete>
 </mapper>

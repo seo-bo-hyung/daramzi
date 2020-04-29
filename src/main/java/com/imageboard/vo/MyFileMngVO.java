@@ -10,8 +10,10 @@ public class MyFileMngVO extends commonVO {
 	private String fileExtension;
 	private String fileRealName;
 	private String fileSize;
-	private String board_idx;
+	private String boardIdx;
 	private String id;
+	private String upperFolder;
+	
 	private String folderPath;
 	private String del_yn;
 	private String open_yn;
@@ -70,17 +72,28 @@ public class MyFileMngVO extends commonVO {
 	public void setFileSize(String fileSize) {
 		this.fileSize = fileSize;
 	}
-	public String getBoard_idx() {
-		return board_idx;
+
+	
+	public String getBoardIdx() {
+		return boardIdx;
 	}
-	public void setBoard_idx(String board_idx) {
-		this.board_idx = board_idx;
+	public void setBoardIdx(String boardIdx) {
+		this.boardIdx = boardIdx;
 	}
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	
+	
+	public String getUpperFolder() {
+		return upperFolder;
+	}
+	public void setUpperFolder(String upperFolder) {
+		this.upperFolder = upperFolder;
 	}
 	public String getFolderPath() {
 		return folderPath;

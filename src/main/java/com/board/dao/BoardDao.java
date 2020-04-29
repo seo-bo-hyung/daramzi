@@ -23,22 +23,22 @@ public class BoardDao extends AbstractDAO  {
         return resultCnt;
     }
  
-    public String preView(int seq) {
+    public String preView(int boardIdx) {
 		/* String preContent = BoardManager.preView(seq); */
         String preContent = "";
         return preContent;
     }
     
     //글 수정시 내용 조회
-    public BoardVO findBySeq(int seq) {
-    	BoardVO result = (BoardVO) selectOne("board.findBySeq",seq);
+    public BoardVO findByIdx(int boardIdx) {
+    	BoardVO result = (BoardVO) selectOne("board.findByIdx",boardIdx);
         return result;
     }
  
-    public BoardVO viewContent(int seq) {
-    	update("board.readCount",seq);	// 글보면 카운트수 증가
+    public BoardVO viewContent(int boardIdx) {
+    	update("board.readCount",boardIdx);	// 글보면 카운트수 증가
     	BoardVO result = new BoardVO();
-    	result = (BoardVO) selectOne("board.findBySeq",seq);
+    	result = (BoardVO) selectOne("board.findByIdx",boardIdx);
         return result;
     }
  
@@ -67,7 +67,7 @@ public class BoardDao extends AbstractDAO  {
 		 return 1;
     }
  
-    public String deleteView(int seq) {
+    public String deleteView(int boardIdx) {
 		/*
 		 * String storPass = BoardManager.deleteView(seq); return storPass;
 		 */

@@ -14,22 +14,21 @@
     <select id="boardList" parameterType="BoardVO" resultType="BoardVO">
       <include refid="COMMON_PAGING_HEADER"/>
       <![CDATA[
-		    select seq, 
-		            NAME, 
-		            email, 
-		            homepage, 
-		            title, 
-		            content, 
-		            count, 
-		            regdate, 
-		            pos, 
-		            depth
-		    from tbl_board
+		    select 
+			    boardIdx
+				,id
+				,title
+				,content
+				,hitCnt
+				,ip
+				,ins_dt
+				,upt_dt
+		    from board
 		]]> 
 		<where>
 		<if test="keyWord != null and keyWord != ''">   
 				<if test="keyField == 'name'">
-					and NAME = #{keyWord, jdbcType=VARCHAR}
+					and id = #{keyWord, jdbcType=VARCHAR}
 				</if>
 				<if test="keyField == 'title'">
 					and title = #{keyWord, jdbcType=VARCHAR}
@@ -40,7 +39,7 @@
 		</if>
 		</where>
 		<![CDATA[
-    		order by seq desc
+    		order by boardIdx desc
 		]]> 
       <include refid="COMMON_PAGING_TAIL"/>
     </select> 
@@ -48,12 +47,12 @@
 	<select id="boardListCnt" parameterType="BoardVO" resultType="integer">
       <![CDATA[
 		    select count(1) as cnt
-		    from tbl_board
+		    from board
 		]]> 
 		<where>
 		<if test="keyWord != null and keyWord != ''">   
 				<if test="keyField == 'name'">
-					and NAME = #{keyWord, jdbcType=VARCHAR}
+					and id = #{keyWord, jdbcType=VARCHAR}
 				</if>
 				<if test="keyField == 'title'">
 					and title = #{keyWord, jdbcType=VARCHAR}
@@ -65,18 +64,18 @@
 		</where>
     </select> 
 
-	<select id="findBySeq" parameterType="int" resultType="BoardVO">
+	<select id="findByIdx" parameterType="int" resultType="BoardVO">
       <![CDATA[
-		select * from tbl_board 
+		select * from board 
 		]]>
-		where seq = #{seq} 
+		where boardIdx = #{boardIdx} 
     </select>
     
     
     
    	<update id="readCount">
 		<![CDATA[
-		update tbl_board set count = count + 1 where seq = #{seq}
+		update board set hitCnt = hitCnt + 1 where boardIdx = #{boardIdx}
 		]]>
     </update>  
     

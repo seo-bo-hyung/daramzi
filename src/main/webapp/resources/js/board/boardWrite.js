@@ -1,13 +1,5 @@
 	function check_write() {
-        if ($("#name").val() == "" || $("#name").val() == null) {
-            alert("이름을 입력하세요.");
-            $("#name").focus();
-            return;
-        } else if ($("#email").val() == "" || $("#email").val() == null) {
-            alert("이메일을 입력하세요.");
-            $("#email").focus();
-            return;
-        } else if ($("#title").val() == "" || $("#title").val() == null) {
+         if ($("#title").val() == "" || $("#title").val() == null) {
             alert("제목을 입력하세요.");
             $("#title").focus();
             return;
@@ -21,15 +13,7 @@
     }
 
 	function check_modify() {
-        if ($("#name").val() == "" || $("#name").val() == null) {
-            alert("이름을 입력하세요.");
-            $("#name").focus();
-            return;
-        } else if ($("#email").val() == "" || $("#email").val() == null) {
-            alert("이메일을 입력하세요.");
-            $("#email").focus();
-            return;
-        } else if ($("#title").val() == "" || $("#title").val() == null) {
+        if ($("#title").val() == "" || $("#title").val() == null) {
             alert("제목을 입력하세요.");
             $("#title").focus();
             return;

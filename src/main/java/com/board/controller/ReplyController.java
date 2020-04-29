@@ -21,7 +21,7 @@ public class ReplyController {
     @RequestMapping(value="/boardReply.action",method=RequestMethod.GET)
     public ModelAndView read(@RequestParam int seq){
         ModelAndView view = new ModelAndView();
-        BoardVO dto = boardService.findBySeq(seq);
+        BoardVO dto = boardService.findByIdx(seq);
         view.addObject("dto",dto);
         view.setViewName("Board_Reply");
         return view;
@@ -34,10 +34,8 @@ public class ReplyController {
         ModelAndView view =new ModelAndView();
         view.setViewName("Board_List");
         
-        BoardVO board = boardService.findBySeq(temp_seq);
+        BoardVO board = boardService.findByIdx(temp_seq);
         boardService.replyUpPos(board);
-        dto.setPos(board.getPos());
-        dto.setDepth(board.getDepth());
         String content = dto.getContent();
         String content2 = content.replace("\n", "<br/>");
         dto.setContent(content2);

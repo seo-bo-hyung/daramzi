@@ -71,13 +71,17 @@
         <![CDATA[
 		    INSERT INTO file_folder (
 		        folderSeq,
-		        folderName,
-		        id,
-		        ins_dt
+				folderName,
+				id,
+				upperFolder,
+				folderDepth,
+				ins_dt
 		    ) VALUES (
-		        (SELECT ifnull(MAX(folderSeq) + 1, 1) FROM file_folder A),
+		        (SELECT ifnull(MAX(folderSeq) + 1, 1) FROM file_folder A where id=#{id} and folderDepth=3),
+		        #{folderName},
 		        #{id},
-		        #{id}, 
+		        #{upperFolder},
+		        #{folderDepth},
 		        sysdate()
 	        )
         ]]>

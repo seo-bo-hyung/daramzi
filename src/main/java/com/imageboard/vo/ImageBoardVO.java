@@ -37,9 +37,10 @@ public class ImageBoardVO extends commonVO {
     private String fileExtension;
     private String fileRealName;
     private long fileSize;
+    private String categoryCode;
     
 
-    private String board_idx;
+    private String boardIdx;
     private String id;
     private String folderPath;
     private String del_yn;
@@ -220,11 +221,19 @@ public class ImageBoardVO extends commonVO {
 	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
 	}
-	public String getBoard_idx() {
-		return board_idx;
+
+	
+	public String getCategoryCode() {
+		return categoryCode;
 	}
-	public void setBoard_idx(String board_idx) {
-		this.board_idx = board_idx;
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
+	}
+	public String getBoardIdx() {
+		return boardIdx;
+	}
+	public void setBoardIdx(String boardIdx) {
+		this.boardIdx = boardIdx;
 	}
 	public String getFolderPath() {
 		return folderPath;

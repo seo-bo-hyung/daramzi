@@ -99,26 +99,6 @@
      	});
     }
     
-    //파일비추천
-    function fn_notrecommend(fileIdx) {
-        $.ajax({
-	        type: "post",
-	        url : "/imageboard/fileNotRecommend",
-	        data: {
-	        	fileIdx : fileIdx
-	        },
-
-	        success:function (data) {//비추천성공
-	        	alert("사진을 비추천하였습니다.");
-            },
-
-	        error: function (data) {//비추천실패
-	        	alert("기능 동작이 안됐습니다.관리자에게 문의 바랍니다.");
-            }
-
-     	});
-    }
-	
 	//선택파일다운로드
 	function go_chkDown() {
 
@@ -213,16 +193,16 @@
     //파일관리 화면
     function go_myFile(loginId) {
     	//개발편의를 위해 우선 막음
-/*    	if(loginId == null){
-    		alert("사진업로드는 로그인 후 가능합니다.");
+    	if(loginId == null){
+    		alert("파일관리는 로그인 후 가능합니다.");
     		return 0;
-    	}*/
+    	}
     	
     	location.href="/imageboard/myFileMng";
     } 
     
 
-
+    //그림 클릭시 미리보기
     var imgCommonPreview = new Image(); 
     function viewPic(filepath) { 
     	if(filepath == "") {

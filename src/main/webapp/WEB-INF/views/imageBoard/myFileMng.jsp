@@ -31,7 +31,7 @@ $(function(){
 					{ name : 'fileExtension',	index : 'fileExtension',     width : 40,   align : 'center' },
 					{ name : 'fileRealName',	index : 'fileRealName',	     width : 100,  align : 'center' , formatter: imageFormatter },
 					{ name : 'fileSize',		index : 'fileSize',		     width : 40,   align : 'center' },
-					{ name : 'board_idx',		index : 'board_idx',		 width : 40,   align : 'center' },
+					{ name : 'boardIdx',		index : 'boardIdx',		 	 width : 40,   align : 'center' },
 					{ name : 'id',		  		index : 'id',		  	 	 width : 40,   align : 'center' },
 					{ name : 'folderPath',		index : 'folderPath',		 width : 40,   align : 'center' },
 					{ name : 'del_yn',		  	index : 'del_yn',		  	 width : 40,   align : 'center' , editable:true, edittype:"select",editoptions:{value:"Y:Y;N:N"}},

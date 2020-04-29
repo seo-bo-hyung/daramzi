@@ -16,46 +16,36 @@
 	                <col width="80%">
 	            </colgroup>
 	 
-	            <table>
-	                <caption>게시판 글쓰기</caption>
-	                <tr>
-	                    <td>작성자</td>
-	                    <td><form:input type="text" path="name" id="name" size="10" value="${authInfo.name }" maxlength="8" readonly="true"/></td>
-	                </tr>
-	                <tr>
-	                    <td>E-Mail</td>
-	                    <td><form:input type="text" path="email" id="email" size="30" /></td>
-	                </tr>
-	                <tr>
-	                    <td>홈페이지</td>
-	                    <td><form:input type="text" path="homepage" id="homepage" size="30" /></td>
-	                </tr>
-	                <tr>
-	                    <td>제 목</td>
-	                    <td><form:input type="text" path="title" id="title" /></td>
-	                </tr>
-	                <tr>
-	                    <td>내 용</td>
-	                    <td><form:textarea path="content" id="content" rows="10" cols="100" /></td>
-	                </tr>
+                <caption>게시판 글쓰기</caption>
+                <tr>
+                    <td>작성자</td>
+                    <td><form:input type="text" path="id" id="id" size="10" value="${authInfo.id }" maxlength="8" readonly="true"/></td>
+                </tr>
+                <tr>
+                    <td>제 목</td>
+                    <td><form:input type="text" path="title" id="title" /></td>
+                </tr>
+                <tr>
+                    <td>내 용</td>
+                    <td><form:textarea path="content" id="content" rows="10" cols="100" /></td>
+                </tr>
 
-	                
-	                <tr>
-	                    <td colspan=2><hr size=1></td>
-	                </tr>
-	                <tr>
-	                	<td>첨부파일</td>
-	                	<td><input type="file" name="file" id="filename" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp"></td>
-	                </tr>
-	                <tr>
-	                    <td colspan="3">
-                    		<div align="center">
-	                            <input type="button" value="등록" onclick="check_write()" >  
-	                            <input type="button" value="뒤로" onclick="history.back()">
-	                        </div>
-                        </td>
-	                </tr>
-	            </table>
+                
+                <tr>
+                    <td colspan=2><hr size=1></td>
+                </tr>
+                <tr>
+                	<td>첨부파일</td>
+                	<td><input type="file" name="file" id="filename" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                   		<div align="center">
+                            <input type="button" value="등록" onclick="check_write()" >  
+                            <input type="button" value="뒤로" onclick="history.back()">
+                        </div>
+                       </td>
+                </tr>
 	    </table>
 	</form:form>
  

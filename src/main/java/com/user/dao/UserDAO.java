@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.common.dao.AbstractDAO;
 import com.common.util.LoginCommand;
 import com.common.util.RegisterRequest;
+import com.common.vo.FolderVO;
 import com.user.vo.UserVO;
 
 @Repository("userDAO")
@@ -24,8 +25,8 @@ public class UserDAO extends AbstractDAO {
     public void insertUser(RegisterRequest regReq) {
         insert("user.register", regReq);
     }
-    
-    public void mkDir(UserVO userVo) {
-        insert("user.mkDir", userVo);
+     
+    public void mkDir(FolderVO folderVo) {
+        insert("user.mkDir", folderVo);
     }
 }

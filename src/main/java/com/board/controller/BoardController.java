@@ -47,15 +47,18 @@ public class BoardController {
     @RequestMapping(value="/board/boardView", method=RequestMethod.POST)
     public ModelAndView boardView(@ModelAttribute("read") BoardVO searchInfo,ModelMap model)
     {
+    	System.out.println("인자값 확인 searchInfo: " + searchInfo.toStringMultiline());
+    	
         ModelAndView view = new ModelAndView();
         
         //내용불러오기
-        int seq = searchInfo.getSeq();
-        BoardVO viewContent = boardService.viewContent(seq);
+        int boardIdx = searchInfo.getBoardIdx();
+        BoardVO viewContent = boardService.viewContent(boardIdx);
         view.addObject("viewContent",viewContent);
         
         //검색조건 유지
         view.addObject("search",searchInfo);
+        
         view.setViewName("board/Board_View.view");
         return view;        
     }

@@ -80,18 +80,7 @@
 		</c:if>
 	</div>    
    	전체선택 <input id="ck_all" type="checkbox"/>
-	
    
-    <!-- 게시글 상세 -->
-    <form action="/board/boardView" name="read" method="post"  >
-        <input type="hidden" name="seq"/>
-		<input type="hidden" name="listNum" 	value="${search.listNum}" /> 
-        <input type="hidden" name="keyField" 	value="${search.keyField }" /> 
-        <input type="hidden" name="keyWord" 	value="${search.keyWord }" />
-        <input type="hidden" name="page" 		value="${search.page}" /> 
-        <input type="hidden" name="pageYN" 		value="N" />
-        <input type="hidden" name="viewStyle" 	value="${search.viewStyle}" />
-    </form>
     
 <form:form action="/imageboard/fileChk" id="chkFile" name="chkFile" ModelAttribute="chkFile" method="post">
 

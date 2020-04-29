@@ -21,7 +21,7 @@
 					,a.fileExtension
 					,a.fileRealName
 					,a.fileSize
-					,a.board_idx
+					,a.boardIdx
 					,a.id
 					,a.folderPath
 					,a.del_yn
@@ -36,6 +36,13 @@
 		    from file_house a
 		]]> 
 		<where>
+		
+		and categoryCode = #{categoryCode}
+		
+		<if test="boardIdx != null and boardIdx != ''"> <!-- 게시판 IDX 가 있을경우 -->
+			and boardIdx = #{boardIdx}	
+		</if>
+		
 		<if test="keyWord != null and keyWord != ''">   
 				<if test="keyField == 'name'">
 					and fileName LIKE CONCAT('%',#{keyWord},'%')
@@ -57,6 +64,12 @@
 		    from file_house
 		]]> 
 		<where>
+		and categoryCode = #{categoryCode}
+		
+		<if test="boardIdx != null and boardIdx != ''"> <!-- 게시판 IDX 가 있을경우 -->
+			and boardIdx = #{boardIdx}	
+		</if>
+		
 		<if test="keyWord != null and keyWord != ''">   
 				<if test="keyField == 'name'">
 					and fileName LIKE CONCAT('%',#{keyWord},'%')
@@ -70,13 +83,6 @@
 		</if>
 		</where>
     </select> 
-
-	<select id="findBySeq" parameterType="int" resultType="ImageBoardVO">
-      <![CDATA[
-		select * from file_house 
-		]]>
-		where fileSeq = #{fileSeq} 
-    </select>
     
   	<select id="selectFile" parameterType="String" resultType="ImageBoardVO">
       <![CDATA[
@@ -92,19 +98,12 @@
     </delete>
     
     
-    
-   	<update id="readCount">
-		<![CDATA[
-		update file_house set count = count + 1 where fileSeq = #{fileSeq}
-		]]>
-    </update>  
-    
-    
     <select id="selectFolder" parameterType="String" resultType="ImageBoardVO">
       <![CDATA[
 		    select folderName
 		    from file_folder
 		    where id = #{id}
+		    and folderDepth = 3
 		]]> 
     </select>
     

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.common.vo.FolderVO;
 import com.imageboard.dao.ImageBoardDao;
 import com.imageboard.vo.ImageBoardVO;
  
@@ -25,8 +26,8 @@ public class ImageBoardServiceImpl implements ImageBoardService {
         return imageboardDao.imageboardListCnt(imageboardVO);
     }
  
-    public ImageBoardVO findBySeq(int seq) {
-        return imageboardDao.findBySeq(seq);
+    public ImageBoardVO findByIdx(int seq) {
+        return imageboardDao.findByIdx(seq);
     }
  
     @Override
@@ -69,13 +70,13 @@ public class ImageBoardServiceImpl implements ImageBoardService {
         imageboardDao.fileupload(imageboard);
     }
     @Override
-    public void mkDir(ImageBoardVO imageboard) {
-        imageboardDao.mkDir(imageboard);
+    public void mkDir(FolderVO folderVo) {
+        imageboardDao.mkDir(folderVo);
     }
     
     @Override
-    public void delDir(ImageBoardVO imageboard) {
-        imageboardDao.delDir(imageboard);
+    public void delDir(FolderVO folderVo) {
+        imageboardDao.delDir(folderVo);
     }
     
     

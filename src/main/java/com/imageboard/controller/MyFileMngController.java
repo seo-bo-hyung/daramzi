@@ -47,8 +47,6 @@ public class MyFileMngController {
     	List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
     	list = myFileMngService.myFileList(sendParam);
     	
-    	System.out.println("list 확인 : " + list.toString());
-    	
     	JsonObj obj = new JsonObj();
     	
 	    obj.setRows(list);  // list<map>형태의 받아온 데이터를 가공해서 셋( 그리드에 뿌려줄 행 데이터들 )
@@ -71,20 +69,15 @@ public class MyFileMngController {
     @RequestMapping(value = "/myFileMng/myFileUpdate", method = RequestMethod.GET)
     public @ResponseBody String myFileUpdate(MyFileMngVO sendVO) {
 
-    	System.out.println("sendVO 확인 : " + sendVO.toStringMultiline());
-    	
     	int result = myFileMngService.updateFileInfo(sendVO);
 
         // Edit 구현하기
-
-
         return "SUCCESS";
     }
 
     //파일 삭제 수행
     @RequestMapping(value="/myFileMng/myFileDelete", method= RequestMethod.GET)
     public @ResponseBody String myFileDelete(@RequestParam("id") String id){
-    	System.out.println("myFileDelete 타긴하는건가");
 
     	MyFileMngVO fileSelct= myFileMngService.selectFile(id);
     	

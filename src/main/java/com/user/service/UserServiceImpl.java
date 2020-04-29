@@ -10,12 +10,13 @@ import com.common.exception.IdPasswordNotMatchingException;
 import com.common.util.AuthInfo;
 import com.common.util.LoginCommand;
 import com.common.util.RegisterRequest;
+import com.common.vo.FolderVO;
 import com.user.dao.UserDAO;
 import com.user.vo.UserVO;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
- 
+  
     @Resource(name="userDAO")
     private UserDAO userDAO;
   
@@ -45,8 +46,8 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void mkDir(UserVO userVo) throws Exception {
-        userDAO.mkDir(userVo);
+    public void mkDir(FolderVO folderVo) throws Exception {
+        userDAO.mkDir(folderVo);
     }
     
 }

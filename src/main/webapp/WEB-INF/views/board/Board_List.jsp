@@ -8,8 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시판 목록</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/board/board.css" />
-<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/js/board/board.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/css/board/board.css" />
+<script language="javascript" type="text/javascript" src="/resources/js/board/board.js"></script>
 </head>
  
 <body>
@@ -20,7 +20,7 @@
 	            <!-- 검색 part -->
 	            <td align=Right>
 		            <select name="keyField" size="1">
-		                <option value="name" 	<c:if test="${search.keyField eq 'name'}"> 		selected</c:if>> 이름 </option>
+		                <option value="id" 	<c:if test="${search.keyField eq 'id'}"> 		selected</c:if>> 아이디 </option>
 		                <option value="title" 	<c:if test="${search.keyField eq 'title'}"> 	selected</c:if>> 제목 </option>
 		                <option value="content" <c:if test="${search.keyField eq 'content'}"> 	selected</c:if>> 내용 </option>
 		            </select>
@@ -54,7 +54,7 @@
 
      <!-- 글쓰기 -->
     <div align=Right>
-    	<input type="button" value="글쓰기" onClick="go_write(${authInfo.name })">
+    	<input type="button" value="글쓰기" onClick="go_write(${authInfo.id })">
     </div>
  
     <table class="bbs" width="610" border="2" bgcolor="D8D8D8">
@@ -87,20 +87,20 @@
                         <c:forEach begin="0" end="${resultlist.size()-1}" var="i">
                                 <c:if test="${not doneLoop }">
                                     <tr>
-                                        <td align=center>${resultlist[i].seq }</td>
+                                        <td align=center>${resultlist[i].boardIdx }</td>
                                         <td>
                                             <!-- depth --> 
-                                            <c:if test="${resultlist[i].depth != 0 }">
+<%--                                             <c:if test="${resultlist[i].depth != 0 }">
                                                 <c:forEach begin="0" end="${resultlist[i].depth}">
                                                 </c:forEach>
-                                            </c:if>
-                                            <a href="javascript:read(${resultlist[i].seq })" 
-                                            	onmouseover="contentprev('${resultlist[i].seq}');showlayer('layer1');" 
+                                            </c:if> --%>
+                                            <a href="javascript:read(${resultlist[i].boardIdx })" 
+                                            	onmouseover="contentprev('${resultlist[i].boardIdx}');showlayer('layer1');" 
                                                 onmouseout="hidelayer('layer1');">${resultlist[i].title }</a>
                                         </td>
-                                        <td align="center"><a href="mailto:${resultlist[i].email}">${resultlist[i].name }</a>
-                                        <td align=center>${resultlist[i].regdate }</td>
-                                        <td align=center>${resultlist[i].count }</td>
+                                        <td align=center>${resultlist[i].id }</td>
+                                        <td align=center>${resultlist[i].ins_dt }</td>
+                                        <td align=center>${resultlist[i].hitCnt }</td>
                                     </tr>
                                     <c:if test="${i+1 == page.totalCount} }">
                                         <c:set var="doneLoop" value="true" />
@@ -136,7 +136,7 @@
    
     <!-- 게시글 상세 -->
     <form action="/board/boardView" name="read" method="post"  >
-        <input type="hidden" name="seq"/>
+        <input type="hidden" name="boardIdx"/>
 		<input type="hidden" name="listNum" 	value="${search.listNum}" /> 
         <input type="hidden" name="keyField" 	value="${search.keyField }" /> 
         <input type="hidden" name="keyWord" 	value="${search.keyWord }" />

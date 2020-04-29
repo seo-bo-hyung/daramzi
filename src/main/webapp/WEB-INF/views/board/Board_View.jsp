@@ -6,8 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>글 읽기</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/board/board.css" />
-<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/js/board/board.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/css/board/board.css" />
+<script language="javascript" type="text/javascript" src="/resources/js/board/board.js"></script>
 </head>
 
 <body>
@@ -21,15 +21,9 @@
 	        </td>
 	    <tr> 
 	        <td align=center bgcolor=#dddddd width=20%> 작성자</td>
-	        <td bgcolor=#ffffe8 width=30%>${viewContent.name}</td>
+	        <td bgcolor=#ffffe8 width=30%>${viewContent.id}</td>
 	        <td align=center bgcolor=#dddddd width=15%> 작성일</td>
-	        <td bgcolor=#ffffe8 width=50%>${viewContent.regdate }</td>
-	    </tr>
-	    <tr>
-	        <td align=center bgcolor=#dddddd> E-mail </td>
-	        <td bgcolor=#ffffe8 >${viewContent.email }</td> 
-	        <td align=center bgcolor=#dddddd> 홈페이지 </td>
-	        <td bgcolor=#ffffe8><a href="http://${viewContent.homepage}" target="_new">http://${viewContent.homepage}</a></td> 
+	        <td bgcolor=#ffffe8 width=50%>${viewContent.ins_dt }</td>
 	    </tr>
 	    <tr> 
 	        <td align=center bgcolor=#dddddd> 제 목</td>
@@ -39,7 +33,7 @@
 		     <td colspan=4><br>${viewContent.content }<br></td>
 		</tr>
 		<tr>
-		     <td colspan=4 align=right> 조회수  : ${viewContent.count}</td>
+		     <td colspan=4 align=right> 조회수  : ${viewContent.hitCnt}</td>
 		</tr>
 	</table>
     
@@ -48,9 +42,9 @@
         <hr size=1>
         <div align="center">
         [ <a href="javascript:list()">목 록</a> | 
-            <a href="javascript:modContent(${viewContent.seq})">수 정</a> |
-            <a href="boardReply.action?seq=${viewContent.seq}">답 변</a> |
-            <a href="javascript:delContent(${viewContent.seq})">삭 제 </a>]<br>
+            <a href="javascript:modContent(${viewContent.boardIdx})">수 정</a> |
+            <a href="boardReply.action?seq=${viewContent.boardIdx}">답 변</a> |
+            <a href="javascript:delContent(${viewContent.boardIdx})">삭 제 </a>]<br>
         </div>
         </td>
     </tr>
@@ -58,7 +52,7 @@
 </body>
     <!-- 게시글 수정 -->
     <form name="modContent" method="post"  >
-        <input type="hidden" name="seq"/>
+        <input type="hidden" name="boardIdx"/>
        	<input type="hidden" name="listNum" 	value="${search.listNum}" /> 
         <input type="hidden" name="keyField" 	value="${search.keyField }" /> 
         <input type="hidden" name="keyWord" 	value="${search.keyWord }" />

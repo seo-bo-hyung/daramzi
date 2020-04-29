@@ -4,17 +4,14 @@ import com.common.vo.commonVO;
 
 public class BoardVO extends commonVO {
 
-    private int seq;
-    private String name;
-    private String email;
-    private String homepage;
-    private String title;
-    private String content;
-    private int count;
-    private String ip;
-    private String regdate;
-    private int pos;
-    private int depth;
+	private int boardIdx;
+	private String id;
+	private String title;
+	private String content;
+	private String hitCnt;
+	private String ip;
+	private String ins_dt;
+	private String upt_dt;
     
 	//게시판 리스트용
 	private String keyField;
@@ -34,30 +31,18 @@ public class BoardVO extends commonVO {
     private String fileName;
     private String fileRealName;
     
-    
-	public int getSeq() {
-		return seq;
+	
+	public int getBoardIdx() {
+		return boardIdx;
 	}
-	public void setSeq(int seq) {
-		this.seq = seq;
+	public void setBoardIdx(int boardIdx) {
+		this.boardIdx = boardIdx;
 	}
-	public String getName() {
-		return name;
+	public String getId() {
+		return id;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getHomepage() {
-		return homepage;
-	}
-	public void setHomepage(String homepage) {
-		this.homepage = homepage;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getTitle() {
 		return title;
@@ -71,11 +56,11 @@ public class BoardVO extends commonVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getCount() {
-		return count;
+	public String getHitCnt() {
+		return hitCnt;
 	}
-	public void setCount(int count) {
-		this.count = count;
+	public void setHitCnt(String hitCnt) {
+		this.hitCnt = hitCnt;
 	}
 	public String getIp() {
 		return ip;
@@ -83,25 +68,18 @@ public class BoardVO extends commonVO {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	public String getRegdate() {
-		return regdate;
+	public String getIns_dt() {
+		return ins_dt;
 	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
+	public void setIns_dt(String ins_dt) {
+		this.ins_dt = ins_dt;
 	}
-	public int getPos() {
-		return pos;
+	public String getUpt_dt() {
+		return upt_dt;
 	}
-	public void setPos(int pos) {
-		this.pos = pos;
+	public void setUpt_dt(String upt_dt) {
+		this.upt_dt = upt_dt;
 	}
-	public int getDepth() {
-		return depth;
-	}
-	public void setDepth(int depth) {
-		this.depth = depth;
-	}
-	
 	//게시판 리스트용 getter, setter
 	public String getKeyField() {
 		return keyField;

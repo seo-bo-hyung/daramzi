@@ -2,6 +2,8 @@ package com.board.controller;
 
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Iterator;
 
 import javax.annotation.Resource;
@@ -30,6 +32,7 @@ public class WriteController {
     //글쓰기 화면가기
     @RequestMapping(value="/board/boardWrite", method=RequestMethod.GET)
     public ModelAndView wirteView(@ModelAttribute("writeRequest") BoardVO vo){
+    	System.out.println("들어오긴해야하는데1");
     	ModelAndView view = new ModelAndView();
         view.setViewName("board/Board_Write.view");
         
@@ -38,39 +41,49 @@ public class WriteController {
     
     //글쓰기
     @RequestMapping(value="/board/boardWrite", method=RequestMethod.POST)
-    public ModelAndView insert(@ModelAttribute("writeRequest") BoardVO vo,MultipartHttpServletRequest request, HttpServletResponse response){
-    	System.out.println("vo확인1 : " + vo.toStringMultiline());
-    	ModelAndView view = new ModelAndView();
-        view.setViewName("redirect:/board/boardList");
-        
-        String content = vo.getContent();
-        String content2 = content.replace("\n", "<br/>");
-        
-        vo.setContent(content2);
-        boardService.insertBoard(vo);
-        String uploadDir =this.getClass().getResource("").getPath();
-        String fileName = request.getParameter("file");
-        
-      MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
-      Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-      MultipartFile multipartFile = null;
-      while(iterator.hasNext()){
-      	multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-      	if(multipartFile.isEmpty() == false){
-      		System.out.println("------------- file start -------------");
-      	}
-      	
-      	System.out.println("name : "+multipartFile.getName());
-      	System.out.println("filename : "+multipartFile.getOriginalFilename());
-      	System.out.println("size : "+multipartFile.getSize());
-      	System.out.println("-------------- file end --------------\n");
-  	}        
-        
-        
-        System.out.println("fileName 확인 : " + fileName);
-        
-        uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
-        System.out.println("어디까지 들어오는가5");
+	public ModelAndView insert(@ModelAttribute("writeRequest") BoardVO vo, 
+			HttpServletRequest request,
+			HttpServletResponse response) throws UnknownHostException {
+		System.out.println("들어오긴해야하는데2");
+		System.out.println("vo확인1 : " + vo.toStringMultiline());
+		ModelAndView view = new ModelAndView();
+		view.setViewName("redirect:/board/boardList");
+
+		
+        // 자신의 IP 출력
+        InetAddress local = InetAddress.getLocalHost();
+        String ip = local.getHostAddress();
+        vo.setIp(ip);
+		
+		
+		String content = vo.getContent();
+		String content2 = content.replace("\n", "<br/>");
+
+		vo.setContent(content2);
+		boardService.insertBoard(vo);
+		String uploadDir = this.getClass().getResource("").getPath();
+		String fileName = request.getParameter("file");
+
+		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+		Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
+		MultipartFile multipartFile = null;
+		while (iterator.hasNext()) {
+			multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+			if (multipartFile.isEmpty() == false) {
+				System.out.println("------------- file start -------------");
+			}
+
+			System.out.println("name : " + multipartFile.getName());
+			System.out.println("filename : " + multipartFile.getOriginalFilename());
+			System.out.println("size : " + multipartFile.getSize());
+			System.out.println("-------------- file end --------------\n");
+		}
+
+		System.out.println("fileName 확인 : " + fileName);
+
+		uploadDir = uploadDir.substring(1, uploadDir.indexOf(".metadata"))
+				+ "daramzi/src/main/webapp/resources/uploadImage";
+		System.out.println("어디까지 들어오는가5");
 		// 총 100M 까지 저장 가능하게 함
 		int maxSize = 1024 * 1024 * 100;
 		String encoding = "UTF-8";
@@ -80,7 +93,8 @@ public class WriteController {
 		System.out.println("어디까지 들어오는가7");
 		try {
 			System.out.println("어디까지 들어오는가8");
-			multipartRequest = new MultipartRequest(request, uploadDir, maxSize, encoding,new DefaultFileRenamePolicy());
+			multipartRequest = new MultipartRequest(request, uploadDir, maxSize, encoding,
+					new DefaultFileRenamePolicy());
 			// 중복된 파일이름이 있기에 fileRealName이 실제로 서버에 저장된 경로이자 파일
 			// fineName은 사용자가 올린 파일의 이름이다
 			// 이전 클래스 name = "file" 실제 사용자가 저장한 실제 네임
@@ -91,13 +105,13 @@ public class WriteController {
 			System.out.println("vo확인 : " + vo.toStringMultiline());
 			// 디비에 업로드 메소드
 			boardService.fileupload(vo);
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
-        return view;
+
+		return view;
     }
     
     //수정화면가기
@@ -105,8 +119,8 @@ public class WriteController {
     public ModelAndView boardUpdate(@ModelAttribute("modContent") BoardVO searchInfo)
     {
         ModelAndView view = new ModelAndView();
-        int seq = searchInfo.getSeq();
-        BoardVO modContent = boardService.findBySeq(seq);
+        int boardIdx = searchInfo.getBoardIdx();
+        BoardVO modContent = boardService.findByIdx(boardIdx);
         
         view.addObject("search",searchInfo);
         view.addObject("modContent",modContent);

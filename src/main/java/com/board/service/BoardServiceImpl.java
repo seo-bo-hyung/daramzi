@@ -25,13 +25,13 @@ public class BoardServiceImpl implements BoardService {
         return boardDao.boardListCnt(boardVO);
     }
  
-    public BoardVO findBySeq(int seq) {
-        return boardDao.findBySeq(seq);
+    public BoardVO findByIdx(int boardIdx) {
+        return boardDao.findByIdx(boardIdx);
     }
  
     @Override
-    public BoardVO viewContent(int seq) {
-        return boardDao.viewContent(seq);
+    public BoardVO viewContent(int boardIdx) {
+        return boardDao.viewContent(boardIdx);
     }
  
     @Override
@@ -45,8 +45,8 @@ public class BoardServiceImpl implements BoardService {
     }
  
     @Override
-    public String deleteView(int seq) {
-        return boardDao.deleteView(seq);
+    public String deleteView(int boardIdx) {
+        return boardDao.deleteView(boardIdx);
     }
  
     @Override

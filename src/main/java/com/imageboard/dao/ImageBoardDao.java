@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.common.dao.AbstractDAO;
+import com.common.vo.FolderVO;
 import com.imageboard.vo.ImageBoardVO;
 
 @Repository("imageboardDao")
@@ -30,15 +31,15 @@ public class ImageBoardDao extends AbstractDAO  {
     }
     
     //글 수정시 내용 조회
-    public ImageBoardVO findBySeq(int seq) {
-    	ImageBoardVO result = (ImageBoardVO) selectOne("imageboard.findBySeq",seq);
+    public ImageBoardVO findByIdx(int seq) {
+    	ImageBoardVO result = (ImageBoardVO) selectOne("imageboard.findByIdx",seq);
         return result;
     }
  
     public ImageBoardVO imageviewContent(int seq) {
     	update("imageboard.readCount",seq);	// 글보면 카운트수 증가
     	ImageBoardVO result = new ImageBoardVO();
-    	result = (ImageBoardVO) selectOne("imageboard.findBySeq",seq);
+    	result = (ImageBoardVO) selectOne("imageboard.findByIdx",seq);
         return result;
     }
  
@@ -87,12 +88,11 @@ public class ImageBoardDao extends AbstractDAO  {
     	insert("fileupload.fileupload", imageboard);
     }
     
-    public void mkDir(ImageBoardVO imageboard) {
-    	System.out.println("뭐야 이건");
-    	insert("fileupload.mkDir", imageboard);
+    public void mkDir(FolderVO folderVo) {
+    	insert("fileupload.mkDir", folderVo);
     }
-    public void delDir(ImageBoardVO imageboard) {
-    	delete("fileupload.delDir", imageboard);
+    public void delDir(FolderVO folderVo) {
+    	delete("fileupload.delDir", folderVo);
     }
     
     
