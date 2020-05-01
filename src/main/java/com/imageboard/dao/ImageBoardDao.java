@@ -84,28 +84,11 @@ public class ImageBoardDao extends AbstractDAO  {
     }
     
     
-    public void fileupload(ImageBoardVO imageboard) {
-    	insert("fileupload.fileupload", imageboard);
-    }
-    
     public void mkDir(FolderVO folderVo) {
     	insert("fileupload.mkDir", folderVo);
     }
     public void delDir(FolderVO folderVo) {
     	delete("fileupload.delDir", folderVo);
-    }
-    
-    
-    
-    public ImageBoardVO selectFile(String fileIdx) {
-    	ImageBoardVO result = new ImageBoardVO();
-    	result = (ImageBoardVO) selectOne("imageboard.selectFile",fileIdx);
-        return result;
-    }
-    
-    public String deleteFile(String fileIdx) {
-    	delete("imageboard.deleteFile",fileIdx);
-        return "1";
     }
     
 	@SuppressWarnings("unchecked")

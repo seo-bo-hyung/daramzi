@@ -3,21 +3,15 @@ package com.board.controller;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.board.service.BoardService;
-import com.board.vo.BoardVO;
  
 @Controller
 public class ReplyController {
     @Resource(name="boardService")
     private BoardService boardService;
     
-    
+    /*
     @RequestMapping(value="/boardReply.action",method=RequestMethod.GET)
     public ModelAndView read(@RequestParam int seq){
         ModelAndView view = new ModelAndView();
@@ -43,4 +37,5 @@ public class ReplyController {
         
         return "redirect:boardList.action";
     }
+    */
 }

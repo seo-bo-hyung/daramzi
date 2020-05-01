@@ -9,6 +9,8 @@
 		<typeAlias type="com.imageboard.vo.MyFileMngVO" alias="MyFileMngVO"/>
 		
 		<typeAlias type="com.user.vo.UserVO" alias="UserVO"/>
-		<typeAlias type="com.Amember.vo.AmemberVO" alias="AmemberVO"/>				
+		<typeAlias type="com.Amember.vo.AmemberVO" alias="AmemberVO"/>
+		
+		<typeAlias type="com.common.vo.FileVO" alias="FileVO"/>
 	</typeAliases>
 </configuration>

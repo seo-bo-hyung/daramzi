@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.board.dao.BoardDao;
 import com.board.vo.BoardVO;
+import com.common.vo.FileVO;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
@@ -25,23 +26,23 @@ public class BoardServiceImpl implements BoardService {
         return boardDao.boardListCnt(boardVO);
     }
  
-    public BoardVO findByIdx(int boardIdx) {
-        return boardDao.findByIdx(boardIdx);
+    public BoardVO findByIdx(BoardVO boardVO) {
+        return boardDao.findByIdx(boardVO);
     }
  
     @Override
-    public BoardVO viewContent(int boardIdx) {
-        return boardDao.viewContent(boardIdx);
+    public BoardVO viewContent(BoardVO boardVO) {
+        return boardDao.viewContent(boardVO);
     }
  
     @Override
-    public void insertBoard(BoardVO board) {
-        boardDao.insertBoard(board);        
+    public void insertBoard(BoardVO boardVO) {
+    	boardDao.insertBoard(boardVO);
     }
  
     @Override
-    public int updateBoard(BoardVO board) {
-        return boardDao.updateBoard(board);
+    public int updateBoard(BoardVO boardVO) {
+        return boardDao.updateBoard(boardVO);
     }
  
     @Override
@@ -50,23 +51,38 @@ public class BoardServiceImpl implements BoardService {
     }
  
     @Override
-    public int deleteBoard(BoardVO board) {
-        return boardDao.deleteBoard(board);
+    public int deleteBoard(BoardVO boardVO) {
+        return boardDao.deleteBoard(boardVO);
     }
  
     @Override
-    public void replyBoard(BoardVO board) {
-        boardDao.replyBoard(board);
+    public void replyBoard(BoardVO boardVO) {
+        boardDao.replyBoard(boardVO);
     }
  
     @Override
-    public void replyUpPos(BoardVO board) {
-        boardDao.replyUpPos(board);
+    public void replyUpPos(BoardVO boardVO) {
+        boardDao.replyUpPos(boardVO);
     }
     
     @Override
-    public void fileupload(BoardVO board) {
-    	boardDao.fileupload(board);
+    public List<FileVO> fileList(int boardIdx) {
+        return boardDao.fileList(boardIdx);
+    }
+    
+    @Override
+    public void insertBoardRecommend(BoardVO boardVO) {
+    	boardDao.insertBoardRecommend(boardVO);        
+    }
+    
+    @Override
+    public int deleteBoardRecommend(BoardVO boardVO) {
+        int result = boardDao.deleteBoardRecommend(boardVO);
+        return result;
+    }
+    
+    public BoardVO selectBoardRecommendCnt(BoardVO boardVO) {
+        return boardDao.selectBoardRecommendCnt(boardVO);
     }
  
 }

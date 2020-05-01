@@ -31,6 +31,13 @@ public class BoardVO extends commonVO {
     private String fileName;
     private String fileRealName;
     
+    //게시글 추천
+    private String recommendIdx;
+    private String recommendYN;
+    
+    private int recommendYcnt = 0;
+    private int recommendNcnt = 0;
+    
 	
 	public int getBoardIdx() {
 		return boardIdx;
@@ -155,6 +162,32 @@ public class BoardVO extends commonVO {
 	}
 	public void setFileRealName(String fileRealName) {
 		this.fileRealName = fileRealName;
+	}
+	
+	//게시글 추천
+	public String getRecommendIdx() {
+		return recommendIdx;
+	}
+	public void setRecommendIdx(String recommendIdx) {
+		this.recommendIdx = recommendIdx;
+	}
+	public String getRecommendYN() {
+		return recommendYN;
+	}
+	public void setRecommendYN(String recommendYN) {
+		this.recommendYN = recommendYN;
+	}
+	public int getRecommendYcnt() {
+		return recommendYcnt;
+	}
+	public void setRecommendYcnt(int recommendYcnt) {
+		this.recommendYcnt = recommendYcnt;
+	}
+	public int getRecommendNcnt() {
+		return recommendNcnt;
+	}
+	public void setRecommendNcnt(int recommendNcnt) {
+		this.recommendNcnt = recommendNcnt;
 	}
 
 }

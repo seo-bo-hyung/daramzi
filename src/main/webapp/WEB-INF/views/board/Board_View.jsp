@@ -13,41 +13,67 @@
 <body>
 	<table summary="전체 테이블 구성" width=600 height=400 cellpadding=5 cellspacing=0>
 	    <tr>
-	        <td ><div align="center"><h3><b>글 읽기</b></h3></div></td>
+	        <td><div align="center"><h3><b>글 읽기</b></h3></div></td>
 	    </tr>
 	    <tr>
 	        <td colspan=2>
 	        <table border="1" summary="목록 테이블 구성"> 
+			    <tr> 
+			        <td align=center bgcolor=#dddddd width=20%> 작성자</td>
+			        <td bgcolor=#ffffe8 width=30%>${viewContent.id}</td>
+			        <td align=center bgcolor=#dddddd width=15%> 작성일</td>
+			        <td bgcolor=#ffffe8 width=50%>${viewContent.ins_dt }</td>
+			    </tr>
+			    <tr> 
+			        <td align=center bgcolor=#dddddd> 제 목</td>
+			        <td bgcolor=#ffffe8 colspan=3>${viewContent.title}</td>
+			    </tr>
+				<tr> 
+				     <td colspan=4>
+				     <br>
+					     <c:forEach var="fileDtl" items="${resultlist}">
+					     	<br><img alt="" src="/resources/uploadImage/${fileDtl.folderPath}/${fileDtl.fileRealName}" style="width: 190px; height:auto;" title="${fileDtl.fileDescription}">
+					     </c:forEach>
+				     <br>${viewContent.content }
+				     <br>
+				     </td>
+				</tr>
+				<tr>
+				     <td colspan=4 align=right> 조회수  : ${viewContent.hitCnt}</td>
+				</tr>
+			</table>
+			</td>
+    	</tr>
+    	<tr>
+    		<td>
+			<!-- 본인이 추천한것인지 확인하기 위함 -->
+		      <c:choose>
+		         <c:when test = "${viewContent.recommendYN eq 'Y'}">
+		            	<input type="button" value="좋아요  ${viewContent.recommendYcnt}" id="${viewContent.boardIdx}_recommendY" style="background-color:red" onClick="fn_recommend(${viewContent.boardIdx},'Y')">
+		            	<input type="button" value="싫어요  ${viewContent.recommendNcnt}" id="${viewContent.boardIdx}_recommendN" onClick="fn_recommend(${viewContent.boardIdx},'N')">
+		         </c:when>
+		         <c:when test = "${viewContent.recommendYN eq 'N'}">
+		            	<input type="button" value="좋아요  ${viewContent.recommendYcnt}" id="${viewContent.boardIdx}_recommendY" onClick="fn_recommend(${viewContent.boardIdx},'Y')">
+		            	<input type="button" value="싫어요  ${viewContent.recommendNcnt}" id="${viewContent.boardIdx}_recommendN" style="background-color:red" onClick="fn_recommend(${viewContent.boardIdx},'N')">
+		         </c:when>
+		         <c:otherwise>
+		            	<input type="button" value="좋아요  ${viewContent.recommendYcnt}" id="${viewContent.boardIdx}_recommendY" onClick="fn_recommend(${viewContent.boardIdx},'Y')">
+						<input type="button" value="싫어요  ${viewContent.recommendNcnt}" id="${viewContent.boardIdx}_recommendN" onClick="fn_recommend(${viewContent.boardIdx},'N')">
+		         </c:otherwise>
+		      </c:choose>
+		      </td>
+    	</tr>
+	    <tr>
+	        <td align=center colspan=2> 
+	        <hr size=1>
+	        <div align="center">
+	        [ <a href="javascript:list()">목 록</a> | 
+	            <a href="javascript:modContent(${viewContent.boardIdx})">수 정</a> |
+	            <a href="boardReply.action?seq=${viewContent.boardIdx}">답 변</a> |
+	            <a href="javascript:delContent(${viewContent.boardIdx})">삭 제 </a>]<br>
+	        </div>
 	        </td>
-	    <tr> 
-	        <td align=center bgcolor=#dddddd width=20%> 작성자</td>
-	        <td bgcolor=#ffffe8 width=30%>${viewContent.id}</td>
-	        <td align=center bgcolor=#dddddd width=15%> 작성일</td>
-	        <td bgcolor=#ffffe8 width=50%>${viewContent.ins_dt }</td>
 	    </tr>
-	    <tr> 
-	        <td align=center bgcolor=#dddddd> 제 목</td>
-	        <td bgcolor=#ffffe8 colspan=3>${viewContent.title}</td>
-	    </tr>
-		<tr> 
-		     <td colspan=4><br>${viewContent.content }<br></td>
-		</tr>
-		<tr>
-		     <td colspan=4 align=right> 조회수  : ${viewContent.hitCnt}</td>
-		</tr>
-	</table>
-    
-    <tr>
-        <td align=center colspan=2> 
-        <hr size=1>
-        <div align="center">
-        [ <a href="javascript:list()">목 록</a> | 
-            <a href="javascript:modContent(${viewContent.boardIdx})">수 정</a> |
-            <a href="boardReply.action?seq=${viewContent.boardIdx}">답 변</a> |
-            <a href="javascript:delContent(${viewContent.boardIdx})">삭 제 </a>]<br>
-        </div>
-        </td>
-    </tr>
     </table>
 </body>
     <!-- 게시글 수정 -->

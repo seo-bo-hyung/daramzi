@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.board.vo.BoardVO;
 import com.common.dao.AbstractDAO;
+import com.common.vo.FileVO;
 
 @Repository("boardDao")
 public class BoardDao extends AbstractDAO  {
@@ -30,15 +31,15 @@ public class BoardDao extends AbstractDAO  {
     }
     
     //글 수정시 내용 조회
-    public BoardVO findByIdx(int boardIdx) {
-    	BoardVO result = (BoardVO) selectOne("board.findByIdx",boardIdx);
+    public BoardVO findByIdx(BoardVO boardVO) {
+    	BoardVO result = (BoardVO) selectOne("board.findByIdx",boardVO);
         return result;
     }
  
-    public BoardVO viewContent(int boardIdx) {
-    	update("board.readCount",boardIdx);	// 글보면 카운트수 증가
+    public BoardVO viewContent(BoardVO boardVO) {
+    	update("board.readCount",boardVO.getBoardIdx());	// 글보면 카운트수 증가
     	BoardVO result = new BoardVO();
-    	result = (BoardVO) selectOne("board.findByIdx",boardIdx);
+    	result = (BoardVO) selectOne("board.findByIdx",boardVO);
         return result;
     }
  
@@ -82,8 +83,26 @@ public class BoardDao extends AbstractDAO  {
 		/* BoardManager.replyUpPos(board); */
     }
     
-    public void fileupload(BoardVO board) {
-    	insert("imageboard.fileupload", board);
+	@SuppressWarnings("unchecked")
+	public List<FileVO> fileList(int boardIdx) {
+        List<FileVO> result = new ArrayList<FileVO>();
+        result = (List<FileVO>)selectList("board.fileList",boardIdx);
+        return result;
+    }
+	
+    public void insertBoardRecommend(BoardVO boardVO) {
+        insert("board.insertBoardRecommend", boardVO);
+    }
+    
+    public int deleteBoardRecommend(BoardVO boardVO) {
+    	delete("board.deleteBoardRecommend",boardVO);
+        return 1;
+    }
+    
+    public BoardVO selectBoardRecommendCnt(BoardVO boardVO) {
+    	BoardVO result = new BoardVO();
+    	result = (BoardVO) selectOne("board.selectBoardRecommendCnt",boardVO);
+        return result;
     }
 }
 

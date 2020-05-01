@@ -29,8 +29,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.board.vo.PageVO;
+import com.common.service.FileMngService;
 import com.common.util.Const;
 import com.common.util.GetSession;
+import com.common.vo.FileVO;
 import com.common.vo.FolderVO;
 import com.imageboard.service.ImageBoardService;
 import com.imageboard.vo.ImageBoardVO;
@@ -39,6 +41,9 @@ import com.imageboard.vo.ImageBoardVO;
 public class ImageBoardController {
     @Resource(name="imageboardService")
     private ImageBoardService imageboardService;
+    
+    @Resource(name="fileMngService")
+    private FileMngService fileMngService;
     
     //사진게시판 목록
     @RequestMapping(value="/imageboard/imageboardList")
@@ -161,15 +166,19 @@ public class ImageBoardController {
             String fileExtension = FilenameUtils.getExtension(f.getOriginalFilename()); // 확장자
             String fileName = FilenameUtils.getBaseName(f.getOriginalFilename());	// 파일명
         	
-        	info.setFileName(fileName);
-        	info.setFileExtension(fileExtension);
-        	info.setFileRealName(savedName);
-        	info.setFileSize(f.getSize());
-        	info.setCategoryCode("imageBoard");
-        	info.setFolderPath(folderPath);
-        	info.setId(id);
+            FileVO sendVO = new FileVO();
+            
+        	sendVO.setFileName(fileName);
+        	sendVO.setFileExtension(fileExtension);
+        	sendVO.setFileRealName(savedName);
+        	sendVO.setFileSize(f.getSize());
+        	sendVO.setCategoryCode("imageBoard");
+        	sendVO.setFolderPath(folderPath);
+        	sendVO.setFileSeq(0);
+        	//sendVO.setBoardIdx(vo.getBoardIdx()); // auto increment 값을 쿼리에서 설정으로 받아올수 있음
+        	sendVO.setId(id);
         	
-        	imageboardService.fileupload(info);
+        	fileMngService.fileupload(sendVO);
         }
 
         return Const.RESULT_SUCCESS;
@@ -236,7 +245,7 @@ public class ImageBoardController {
     //파일 삭제 수행
     @RequestMapping(value="/imageboard/fileDel", method= RequestMethod.POST)
     public ResponseEntity<String> fileDel(String fileIdx){
-		ImageBoardVO fileSelct= imageboardService.selectFile(fileIdx);
+		FileVO fileSelct= fileMngService.selectFile(fileIdx);
 		
         String uploadDir =this.getClass().getResource("").getPath();
 
@@ -244,7 +253,7 @@ public class ImageBoardController {
     		
 		File f = new File(uploadDir +"/" + fileSelct.getFolderPath() + "/" + fileSelct.getFileRealName()); // 파일 객체생성
     	if( f.exists()) {// 파일이 존재하면 파일을 삭제한다. 
-    		imageboardService.deleteFile(fileIdx);
+    		fileMngService.deleteFile(fileIdx);
     		f.delete(); 
     	}
     	
@@ -286,7 +295,7 @@ public class ImageBoardController {
     //파일 다운로드 수행
     @RequestMapping(value="/imageboard/fileDown")
     public ResponseEntity<String> fileDown(@RequestParam String fileIdx, HttpServletRequest request,HttpServletResponse response) throws Exception{
-		ImageBoardVO fileSelct= imageboardService.selectFile(fileIdx);
+    	FileVO fileSelct= fileMngService.selectFile(fileIdx);
         String uploadDir =this.getClass().getResource("").getPath();
 
         uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage/" + fileSelct.getFolderPath() ;

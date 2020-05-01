@@ -8,7 +8,7 @@
     <title>다람쥐</title>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/template.css" />
+    <link rel="stylesheet" type="text/css" href="/resources/css/template.css" />
 </head>
 
 <body>

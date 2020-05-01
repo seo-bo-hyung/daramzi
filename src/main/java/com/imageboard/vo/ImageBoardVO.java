@@ -32,7 +32,7 @@ public class ImageBoardVO extends commonVO {
     
     //파일업로드용
     private String fileIdx;
-    private String fileSeq;
+    private int fileSeq;
     private String fileName;
     private String fileExtension;
     private String fileRealName;
@@ -40,7 +40,7 @@ public class ImageBoardVO extends commonVO {
     private String categoryCode;
     
 
-    private String boardIdx;
+    private int boardIdx;
     private String id;
     private String folderPath;
     private String del_yn;
@@ -191,10 +191,10 @@ public class ImageBoardVO extends commonVO {
 	public void setFileIdx(String fileIdx) {
 		this.fileIdx = fileIdx;
 	}
-	public String getFileSeq() {
+	public int getFileSeq() {
 		return fileSeq;
 	}
-	public void setFileSeq(String fileSeq) {
+	public void setFileSeq(int fileSeq) {
 		this.fileSeq = fileSeq;
 	}
 	public String getFileName() {
@@ -229,10 +229,10 @@ public class ImageBoardVO extends commonVO {
 	public void setCategoryCode(String categoryCode) {
 		this.categoryCode = categoryCode;
 	}
-	public String getBoardIdx() {
+	public int getBoardIdx() {
 		return boardIdx;
 	}
-	public void setBoardIdx(String boardIdx) {
+	public void setBoardIdx(int boardIdx) {
 		this.boardIdx = boardIdx;
 	}
 	public String getFolderPath() {

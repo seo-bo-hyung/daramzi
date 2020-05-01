@@ -57,7 +57,41 @@
     	$('form[name="search"]').submit();
     }
     
- 
+    //게시글추천
+    function fn_recommend(boardIdx,recommendYN) {
+        $.ajax({
+	        type: "post",
+	        url : "/board/boardRecommend",
+	        data: {
+	        	boardIdx : boardIdx,
+	        	recommendYN : recommendYN
+	        },
+	        contentType : "application/x-www-form-urlencoded; charset=utf-8",
+
+	        success:function (data) {//추천성공
+	        	if(data.recommendYN == "Y"){
+	        		alert("게시글을 추천하였습니다.");
+	        		$("#"+ data.boardIdx + "_recommendN").css('background','');
+	        		$("#"+ data.boardIdx + "_recommendY").css('background','red');
+	        		
+	        		$("#"+ data.boardIdx + "_recommendY").val('좋아요 ' + data.recommendYcnt);
+	        		$("#"+ data.boardIdx + "_recommendN").val('싫어요 ' + data.recommendNcnt);
+	        	}else{
+	        		alert("게시글을 비추천하였습니다.");
+	        		$("#"+ data.boardIdx + "_recommendY").css('background','');
+	        		$("#"+ data.boardIdx + "_recommendN").css('background','red');
+	        		
+	        		$("#"+ data.boardIdx + "_recommendY").val('좋아요 ' + data.recommendYcnt);
+	        		$("#"+ data.boardIdx + "_recommendN").val('싫어요 ' + data.recommendNcnt);
+	        	}
+            },
+
+	        error: function (data) {//추천실패
+	        	alert("기능 동작이 안됐습니다.관리자에게 문의 바랍니다.");
+            }
+
+     	});
+    } 
 
  
 

@@ -66,10 +66,6 @@ public class ImageBoardServiceImpl implements ImageBoardService {
     }
     
     @Override
-    public void fileupload(ImageBoardVO imageboard) {
-        imageboardDao.fileupload(imageboard);
-    }
-    @Override
     public void mkDir(FolderVO folderVo) {
         imageboardDao.mkDir(folderVo);
     }
@@ -77,17 +73,6 @@ public class ImageBoardServiceImpl implements ImageBoardService {
     @Override
     public void delDir(FolderVO folderVo) {
         imageboardDao.delDir(folderVo);
-    }
-    
-    
-    @Override
-    public ImageBoardVO selectFile(String fileIdx) {
-    	return imageboardDao.selectFile(fileIdx);
-    }
-    
-    @Override
-    public String deleteFile(String fileIdx) {
-        return imageboardDao.deleteFile(fileIdx);
     }
     
     @Override

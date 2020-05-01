@@ -1,27 +1,35 @@
 package com.board.controller;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.board.service.BoardService;
 import com.board.vo.BoardVO;
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.common.service.FileMngService;
+import com.common.util.Const;
+import com.common.util.GetSession;
+import com.common.vo.FileVO;
  
 @Controller
 public class WriteController {
@@ -29,101 +37,146 @@ public class WriteController {
     @Resource(name="boardService")
     private BoardService boardService;
     
+    @Resource(name="fileMngService")
+    private FileMngService fileMngService;
+    
     //글쓰기 화면가기
     @RequestMapping(value="/board/boardWrite", method=RequestMethod.GET)
     public ModelAndView wirteView(@ModelAttribute("writeRequest") BoardVO vo){
-    	System.out.println("들어오긴해야하는데1");
     	ModelAndView view = new ModelAndView();
+    	
         view.setViewName("board/Board_Write.view");
         
         return view;
     }
     
     //글쓰기
+    @ResponseBody //리턴되는 값은 View 를 통해서 출력되지 않고 HTTP Response Body 에 직접 쓰여지게 됨.
     @RequestMapping(value="/board/boardWrite", method=RequestMethod.POST)
-	public ModelAndView insert(@ModelAttribute("writeRequest") BoardVO vo, 
-			HttpServletRequest request,
-			HttpServletResponse response) throws UnknownHostException {
+	public int boardWrite(@RequestParam("files") List<MultipartFile> fileList,
+			@RequestParam("id") String id,
+			@RequestParam("title") String title,
+			@RequestParam("content") String content,
+			HttpServletRequest request) throws IOException{
 		System.out.println("들어오긴해야하는데2");
-		System.out.println("vo확인1 : " + vo.toStringMultiline());
-		ModelAndView view = new ModelAndView();
-		view.setViewName("redirect:/board/boardList");
-
+		System.out.println("id 확인 : " + id);
+		System.out.println("title 확인 : " + title);
+		System.out.println("content 확인 : " + content);
+		
+		BoardVO vo = new BoardVO();
+		
+		String content2 = content.replace("\n", "<br/>");
 		
         // 자신의 IP 출력
         InetAddress local = InetAddress.getLocalHost();
         String ip = local.getHostAddress();
+        
+        vo.setId(id);
+        vo.setTitle(title);
+        vo.setContent(content2);
         vo.setIp(ip);
 		
-		
-		String content = vo.getContent();
-		String content2 = content.replace("\n", "<br/>");
+        boardService.insertBoard(vo);
+        
+        String uploadDir =this.getClass().getResource("").getPath();
+        uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
+        
+    	String folderPath = "";
+    	
+    	folderPath = id + "/board";
+    	
+    	uploadDir = uploadDir + "/" + folderPath;
+        
+        long sizeSum = 0;
+        int i =0;
+        for(MultipartFile f : fileList){
+        	
+        	String uuid = UUID.randomUUID().toString();
+        	uuid = uuid.replace("-", "");
+        	
+        	// check for Unix-style path
+    		int pos = f.getOriginalFilename().lastIndexOf("/");
+    		String getOrgFileName = "";
+    		if (pos == -1) {
+    			// check for Windows-style path
+    			pos = f.getOriginalFilename().lastIndexOf("\\");
+    		}
+    		if (pos != -1)  {
+    			// any sort of path separator found
+    			getOrgFileName= f.getOriginalFilename().substring(pos + 1);
+    		}
+    		
+            //확장자 검사
+            if(!isValidExtension(getOrgFileName)){
+                return Const.RESULT_UNACCEPTED_EXTENSION;
+            }
 
-		vo.setContent(content2);
-		boardService.insertBoard(vo);
-		String uploadDir = this.getClass().getResource("").getPath();
-		String fileName = request.getParameter("file");
+            
+            //용량 검사
+            sizeSum += f.getSize();
+            if(sizeSum >= Const.LIMIT_SIZE) {
+                return Const.RESULT_EXCEED_SIZE;
+            }
 
-		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
-		Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-		MultipartFile multipartFile = null;
-		while (iterator.hasNext()) {
-			multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-			if (multipartFile.isEmpty() == false) {
-				System.out.println("------------- file start -------------");
-			}
+        	
+        	// 파일이 실제 저장될때 고유의 값으로 저장 되도록 random 값으로 파일명 설정
+        	String savedName = uuid + "_" + getOrgFileName;
+        	
+        	File target = new File(uploadDir,savedName);
+        	FileCopyUtils.copy(f.getBytes(), target);
+        	
+        	
+            String fileExtension = FilenameUtils.getExtension(f.getOriginalFilename()); // 확장자
+            String fileName = FilenameUtils.getBaseName(f.getOriginalFilename());	// 파일명
+        	
+            
+            FileVO sendVO = new FileVO();
+            
+        	sendVO.setFileName(fileName);
+        	sendVO.setFileExtension(fileExtension);
+        	sendVO.setFileRealName(savedName);
+        	sendVO.setFileSize(f.getSize());
+        	sendVO.setCategoryCode("board");
+        	sendVO.setFolderPath(folderPath);
+        	sendVO.setFileSeq(i);
+        	sendVO.setBoardIdx(vo.getBoardIdx()); // auto increment 값을 쿼리에서 설정으로 받아올수 있음
+        	sendVO.setId(id);
+        	i++;
+        	fileMngService.fileupload(sendVO);
 
-			System.out.println("name : " + multipartFile.getName());
-			System.out.println("filename : " + multipartFile.getOriginalFilename());
-			System.out.println("size : " + multipartFile.getSize());
-			System.out.println("-------------- file end --------------\n");
-		}
-
-		System.out.println("fileName 확인 : " + fileName);
-
-		uploadDir = uploadDir.substring(1, uploadDir.indexOf(".metadata"))
-				+ "daramzi/src/main/webapp/resources/uploadImage";
-		System.out.println("어디까지 들어오는가5");
-		// 총 100M 까지 저장 가능하게 함
-		int maxSize = 1024 * 1024 * 100;
-		String encoding = "UTF-8";
-		System.out.println("어디까지 들어오는가6");
-		// 사용자가 전송한 파일정보 토대로 업로드 장소에 파일 업로드 수행할 수 있게 함
-		MultipartRequest multipartRequest;
-		System.out.println("어디까지 들어오는가7");
-		try {
-			System.out.println("어디까지 들어오는가8");
-			multipartRequest = new MultipartRequest(request, uploadDir, maxSize, encoding,
-					new DefaultFileRenamePolicy());
-			// 중복된 파일이름이 있기에 fileRealName이 실제로 서버에 저장된 경로이자 파일
-			// fineName은 사용자가 올린 파일의 이름이다
-			// 이전 클래스 name = "file" 실제 사용자가 저장한 실제 네임
-			System.out.println("어디까지 들어오는가9");
-			vo.setFileName(multipartRequest.getOriginalFileName("file"));
-			// 실제 서버에 업로드 된 파일시스템 네임
-			vo.setFileRealName(multipartRequest.getFilesystemName("file"));
-			System.out.println("vo확인 : " + vo.toStringMultiline());
-			// 디비에 업로드 메소드
-			boardService.fileupload(vo);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return view;
+        }
+        
+        return Const.RESULT_SUCCESS;
     }
+    
+    //required above jdk 1.7 - switch(String)
+	private boolean isValidExtension(String originalName) {
+		String originalNameExtension = originalName.substring(originalName.lastIndexOf(".") + 1);
+		switch (originalNameExtension) {
+		case "jpg":
+		case "png":
+		case "gif":
+			return true;
+		}
+		return false;
+	}
     
     //수정화면가기
     @RequestMapping(value="/board/boardUpdate", method=RequestMethod.POST)
-    public ModelAndView boardUpdate(@ModelAttribute("modContent") BoardVO searchInfo)
+    public ModelAndView boardUpdate(@ModelAttribute("modContent") BoardVO searchInfo,HttpServletRequest request)
     {
         ModelAndView view = new ModelAndView();
         int boardIdx = searchInfo.getBoardIdx();
-        BoardVO modContent = boardService.findByIdx(boardIdx);
+        
+    	String id = GetSession.GetSessionId(request); //세션아이디 가져오기
+    	searchInfo.setId(id);
+        
+        BoardVO modContent = boardService.findByIdx(searchInfo);
+        List<FileVO> resultlist = boardService.fileList(boardIdx);
         
         view.addObject("search",searchInfo);
         view.addObject("modContent",modContent);
+        view.addObject("resultlist", resultlist);
         
         view.setViewName("board/Board_Update.view");
         return view; 
@@ -136,58 +189,6 @@ public class WriteController {
     {
     	ModelAndView view = new ModelAndView();
         int result = boardService.updateBoard(modComp);
-        
-        String uploadDir =this.getClass().getResource("").getPath();
-        String fileName = request.getParameter("file");
-
-        
-//        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
-//        Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-//        MultipartFile multipartFile = null;
-//        while(iterator.hasNext()){
-//        	multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-//        	if(multipartFile.isEmpty() == false){
-//        		System.out.println("------------- file start -------------");
-//        	}
-//        	
-//        	System.out.println("name : "+multipartFile.getName());
-//        	System.out.println("filename : "+multipartFile.getOriginalFilename());
-//        	System.out.println("size : "+multipartFile.getSize());
-//        	System.out.println("-------------- file end --------------\n");
-//    	}
-
-        
-        System.out.println("fileName 확인 : " + fileName);
-        
-        uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
-
-		// 총 100M 까지 저장 가능하게 함
-		int maxSize = 1024 * 1024 * 100;
-		String encoding = "UTF-8";
- 
-		// 사용자가 전송한 파일정보 토대로 업로드 장소에 파일 업로드 수행할 수 있게 함
-		MultipartRequest multipartRequest;
-		try {
-			multipartRequest = new MultipartRequest(request, uploadDir, maxSize, encoding,new DefaultFileRenamePolicy());
-			// 중복된 파일이름이 있기에 fileRealName이 실제로 서버에 저장된 경로이자 파일
-			// fineName은 사용자가 올린 파일의 이름이다
-			// 이전 클래스 name = "file" 실제 사용자가 저장한 실제 네임
-			
-			modComp.setFileName(multipartRequest.getOriginalFileName("file"));
-			// 실제 서버에 업로드 된 파일시스템 네임
-			modComp.setFileRealName(multipartRequest.getFilesystemName("file"));
-			
-			// 디비에 업로드 메소드
-			boardService.fileupload(modComp);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-        
-        
-        
         if(result == 1){
         	
             view.addObject("search",modComp);
@@ -196,21 +197,46 @@ public class WriteController {
             view.addObject("modContent",modComp);
             view.setViewName("board/Board_Update.view");
         }return view;
-    }   
+    }
     
     //글삭제
     @RequestMapping(value="/board/boardDelete", method=RequestMethod.POST)
-    public ModelAndView boardDelete(@ModelAttribute("modContent") BoardVO modContent)
+    public ModelAndView boardDelete(@ModelAttribute("modContent") BoardVO boardVO)
     {
     	ModelAndView view = new ModelAndView();
-        int result = boardService.deleteBoard(modContent);
+    	
+    	List<FileVO> fileList = boardService.fileList(boardVO.getBoardIdx());
+
+    	for(FileVO f : fileList){
+    		fileDel(f.getFileIdx());
+    	}
+    	
+        int result = boardService.deleteBoard(boardVO);
         if(result == 1){
-            view.addObject("search",modContent);
+            view.addObject("search",boardVO);
             view.setViewName("forward:/board/boardList");
         }else{
-            view.addObject("modContent",modContent);
+            view.addObject("modContent",boardVO);
             view.setViewName("board/Board_View.view");
         }return view;
-    } 
+    }
+    
+    //파일 삭제 수행
+    @RequestMapping(value="/board/fileDel", method= RequestMethod.POST)
+    public ResponseEntity<String> fileDel(String fileIdx){
+    	FileVO fileSelct= fileMngService.selectFile(fileIdx);
+		
+        String uploadDir =this.getClass().getResource("").getPath();
+
+        uploadDir = uploadDir.substring(1,uploadDir.indexOf(".metadata"))+"daramzi/src/main/webapp/resources/uploadImage";
+    		
+		File f = new File(uploadDir +"/" + fileSelct.getFolderPath() + "/" + fileSelct.getFileRealName()); // 파일 객체생성
+    	if( f.exists()) {// 파일이 존재하면 파일을 삭제한다. 
+    		fileMngService.deleteFile(fileIdx);
+    		f.delete(); 
+    	}
+    	
+	   return new ResponseEntity<String>("deleted",HttpStatus.OK);
+    }
 }
 

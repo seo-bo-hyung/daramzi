@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/resources/css/board/boardWrite.css"/>
 <script language="javascript" type="text/javascript" src="/resources/js/board/boardWrite.js"></script>
 </head>
 <body>
-	<form:form role="form" commandName="writeRequest" method="post" id="boardWrite" name="boardWrite" action="/board/boardWrite" enctype="multipart/form-data">
+	<form method="post" id="boardWrite" name="boardWrite" action="/board/boardWrite" enctype="multipart/form-data">
 	    <table>
 	            <colgroup>
 	                <col width="20%">
@@ -19,18 +20,16 @@
                 <caption>게시판 글쓰기</caption>
                 <tr>
                     <td>작성자</td>
-                    <td><form:input type="text" path="id" id="id" size="10" value="${authInfo.id }" maxlength="8" readonly="true"/></td>
+                    <td><input type="text" id="id" name="id" size="10" value="${authInfo.id }" maxlength="8" readonly="true"/></td>
                 </tr>
                 <tr>
                     <td>제 목</td>
-                    <td><form:input type="text" path="title" id="title" /></td>
+                    <td><input type="text"  id="title" name="title"/></td>
                 </tr>
                 <tr>
                     <td>내 용</td>
-                    <td><form:textarea path="content" id="content" rows="10" cols="100" /></td>
+                    <td><textarea name="content" id="content" rows="10" cols="100" ></textarea></td>
                 </tr>
-
-                
                 <tr>
                     <td colspan=2><hr size=1></td>
                 </tr>
@@ -41,13 +40,19 @@
                 <tr>
                     <td colspan="2">
                    		<div align="center">
-                            <input type="button" value="등록" onclick="check_write()" >  
+                            <input type="button" name="submitBtn" value="등록">  
                             <input type="button" value="뒤로" onclick="history.back()">
                         </div>
                        </td>
                 </tr>
 	    </table>
-	</form:form>
- 
+	</form>
+	<!-- 해당 위치 안에 이미지가 쌓이게 된다. -->
+	<div id="preview"></div>
+	
 </body>
+
+    <!-- 목록으로 -->
+    <form action="/board/boardList" name="search" method="post"  >
+    </form>
 </html>

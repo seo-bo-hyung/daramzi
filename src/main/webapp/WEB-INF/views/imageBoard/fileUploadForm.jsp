@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/imageBoard/style.css"/>
+<link rel="stylesheet" href="/resources/css/imageBoard/style.css"/>
 <script language="javascript" type="text/javascript" src="/resources/js/imageBoard/multiupload.js"></script>
 
 <!-- 폴더생성 -->

@@ -31,6 +31,7 @@
 					,ins_dt
 					,upt_dt
 		    from file_house
+		    where categoryCode = "imageBoard"
 		]]> 
 		<![CDATA[
     		order by fileSeq desc
@@ -57,18 +58,4 @@
 		WHERE  fileIdx = #{fileIdx}
 		]]>  
     </update>  
-    
-  	<select id="selectFile" parameterType="String" resultType="MyFileMngVO">
-      <![CDATA[
-		select * from file_house 
-		]]>
-		where fileIdx = #{fileIdx} 
-    </select>
-    
-    <delete id="deleteFile">
-	<![CDATA[
-		delete from file_house where fileIdx = #{fileIdx}
-	]]>
-    </delete>
-
 </mapper>
