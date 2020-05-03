@@ -4,6 +4,7 @@ package com.board.service;
 import java.util.List;
 
 import com.board.vo.BoardVO;
+import com.board.vo.ReplyVO;
 import com.common.vo.FileVO;
 
 public interface BoardService {
@@ -26,4 +27,7 @@ public interface BoardService {
     public int deleteBoardRecommend(BoardVO boardVO);
     
     public BoardVO selectBoardRecommendCnt(BoardVO boardVO);
+    
+    public void insertReply(ReplyVO replyVO);
+    public List<ReplyVO> replyList(int boardIdx);
 }

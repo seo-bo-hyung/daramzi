@@ -69,13 +69,37 @@
 	        <div align="center">
 	        [ <a href="javascript:list()">목 록</a> | 
 	            <a href="javascript:modContent(${viewContent.boardIdx})">수 정</a> |
-	            <a href="boardReply.action?seq=${viewContent.boardIdx}">답 변</a> |
 	            <a href="javascript:delContent(${viewContent.boardIdx})">삭 제 </a>]<br>
 	        </div>
 	        </td>
 	    </tr>
     </table>
 </body>
+
+<!-- 답글 -->
+<form name="replyForm" id="replyForm" method="post">
+<div>
+	<textarea name="replyCont" id="replyCont" rows="2" cols="50" ></textarea>
+	<input type="hidden" name="boardIdx" value="${viewContent.boardIdx}"/>
+	
+	<input type="button" value="답변등록" onClick="fn_replyReg()">
+</div>
+</form>
+
+<form name="replyList" id="replyList" method="post">
+	<input type="hidden" name="boardIdx" value="${viewContent.boardIdx}"/>
+	<input type="hidden" id="upperReplyIdx" name="upperReplyIdx"/>
+
+	<table border="1" summary="답변 테이블 구성"> 
+		<c:forEach var="replyDtl" items="${replylist}">
+			<tr id="${replyDtl.replyIdx}">
+				<td>${replyDtl.replyCont}</td>
+				<td><input type="button" value="답글 " onClick="fn_replyReShow(${replyDtl.replyIdx})"></td>
+			</tr>
+		</c:forEach>
+	</table>
+</form>
+
     <!-- 게시글 수정 -->
     <form name="modContent" method="post"  >
         <input type="hidden" name="boardIdx"/>

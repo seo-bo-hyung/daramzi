@@ -5,6 +5,7 @@
 	<!-- vo 별칭 설정을 이곳에다 해줍니다. -->
 	<typeAliases>
 		<typeAlias type="com.board.vo.BoardVO" alias="BoardVO"/>
+		<typeAlias type="com.board.vo.ReplyVO" alias="ReplyVO"/>
 		<typeAlias type="com.imageboard.vo.ImageBoardVO" alias="ImageBoardVO"/>
 		<typeAlias type="com.imageboard.vo.MyFileMngVO" alias="MyFileMngVO"/>
 		

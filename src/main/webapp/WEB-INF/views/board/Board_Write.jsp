@@ -28,7 +28,7 @@
                 </tr>
                 <tr>
                     <td>내 용</td>
-                    <td><textarea name="content" id="content" rows="10" cols="100" ></textarea></td>
+                    <td><textarea name="content" id="content" rows="10" cols="50" ></textarea></td>
                 </tr>
                 <tr>
                     <td colspan=2><hr size=1></td>

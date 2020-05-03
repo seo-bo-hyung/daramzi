@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.board.service.BoardService;
 import com.board.vo.BoardVO;
 import com.board.vo.PageVO;
+import com.board.vo.ReplyVO;
 import com.common.util.GetSession;
 import com.common.vo.FileVO;
  
@@ -63,10 +64,13 @@ public class BoardController {
         BoardVO viewContent = boardService.viewContent(searchInfo);
         view.addObject("viewContent",viewContent);
         
+        //게시글 첨부파일 불러오기
         List<FileVO> resultlist = boardService.fileList(boardIdx);
-        
         view.addObject("resultlist", resultlist);
-        
+
+        //답글 불러오기
+        List<ReplyVO> replylist = boardService.replyList(boardIdx);
+        view.addObject("replylist", replylist);
         
         //검색조건 유지
         view.addObject("search",searchInfo);
@@ -96,6 +100,23 @@ public class BoardController {
     	
     	info.setRecommendYcnt(getCnt.getRecommendYcnt());
     	info.setRecommendNcnt(getCnt.getRecommendNcnt());
+    	
+    	System.out.println("나중 info인자값 확인 : " + info.toStringMultiline());
+    	
+    	
+	   return info;
+    }
+    
+    //답글 등록
+    @RequestMapping(value="/board/replyReg", method= RequestMethod.POST)
+    public @ResponseBody ReplyVO replyReg(ReplyVO info,HttpServletRequest request) throws Exception {
+    	
+    	System.out.println("replyReg info인자값 확인 : " + info.toStringMultiline());
+    	
+    	String id = GetSession.GetSessionId(request); //세션아이디 가져오기
+    	info.setId(id);
+    	    	
+    	boardService.insertReply(info);
     	
     	System.out.println("나중 info인자값 확인 : " + info.toStringMultiline());
     	

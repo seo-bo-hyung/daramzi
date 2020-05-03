@@ -92,6 +92,70 @@
 
      	});
     } 
+    
+    //게시글추천
+    function fn_replyReg() {
+    	// submit 등록. 실제로 submit type은 아니다.
+		var form = $('#replyForm')[0];
+		var formData = new FormData(form);
+		
+		//ajax 통신으로 multipart form을 전송한다.
+		$.ajax({
+			type : 'POST',
+			enctype : 'multipart/form-data',
+			processData : false,
+			contentType : false,
+			cache : false,
+			timeout : 600000,
+			url : '/board/replyReg',
+			dataType : 'JSON',
+			data : formData,
+			success : function(result) {
+				alert('답변이 등록되었습니다.');
+				location.reload();
+			}
+		//전송실패에대한 핸들링은 고려하지 않음
+		});
+    } 
+    
+    //게시글추천
+    function fn_replyReReg(upperIdx) {
+    	
+    	$("#upperReplyIdx").val(upperIdx);
+    	// submit 등록. 실제로 submit type은 아니다.
+		var form = $('#replyList')[0];
+		var formData = new FormData(form);
+		
+		//ajax 통신으로 multipart form을 전송한다.
+		$.ajax({
+			type : 'POST',
+			enctype : 'multipart/form-data',
+			processData : false,
+			contentType : false,
+			cache : false,
+			timeout : 600000,
+			url : '/board/replyReg',
+			dataType : 'JSON',
+			data : formData,
+			success : function(result) {
+				alert('답변이 등록되었습니다.');
+				location.reload();
+			}
+		//전송실패에대한 핸들링은 고려하지 않음
+		});
+    } 
+    
+    function fn_replyReShow(upperIdx) {
+    	
+        var str = '<TR>';
+        str += '<td>';
+    	str += '<textarea name="replyCont" id="replyCont" rows="2" cols="50" ></textarea>';
+    	str += '<input type="button" value="답변등록" onClick="fn_replyReReg('+upperIdx+')">'
+        str += '</td>';
+        str += '</TR>';
+        
+       $("#" + upperIdx).after(str); 
+    }
 
  
 

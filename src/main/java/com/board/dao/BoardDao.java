@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.board.vo.BoardVO;
+import com.board.vo.ReplyVO;
 import com.common.dao.AbstractDAO;
 import com.common.vo.FileVO;
 
@@ -102,6 +103,17 @@ public class BoardDao extends AbstractDAO  {
     public BoardVO selectBoardRecommendCnt(BoardVO boardVO) {
     	BoardVO result = new BoardVO();
     	result = (BoardVO) selectOne("board.selectBoardRecommendCnt",boardVO);
+        return result;
+    }
+    
+    public void insertReply(ReplyVO replyVO) {
+        insert("board.insertReply", replyVO);
+    }
+    
+	@SuppressWarnings("unchecked")
+	public List<ReplyVO> replyList(int boardIdx) {
+        List<ReplyVO> result = new ArrayList<ReplyVO>();
+        result = (List<ReplyVO>)selectList("board.replyList",boardIdx);
         return result;
     }
 }

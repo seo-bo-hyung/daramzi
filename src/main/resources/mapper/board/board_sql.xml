@@ -149,5 +149,44 @@
 				,(select count(1) from board_recommend where boardIdx = #{boardIdx} and recommendYN = 'N') as recommendNcnt
 		]]> 
     </select>
+
+    <insert id="insertReply" parameterType="ReplyVO" >
+        <![CDATA[
+		INSERT INTO reply 
+		            (
+			            replySeq
+						,replyCont
+						,boardIdx
+						,id
+						,upperReplyIdx
+						,ins_dt
+		             ) 
+		VALUES     (
+			            IFNULL((SELECT IFNULL(MAX(replySeq) + 1, 1) FROM reply b where b.boardIdx = #{boardIdx}), 1)
+						,#{replyCont}
+						,#{boardIdx}
+						,#{id}
+						,#{upperReplyIdx}
+			            ,sysdate()
+		            ) 
+        ]]>
+    </insert>
+    
+  	<select id="replyList" parameterType="int" resultType="ReplyVO">
+      <![CDATA[
+		SELECT CASE WHEN LEVEL-1 > 0 then CONCAT(CONCAT(REPEAT('    ', level  - 1),'┗'), a.replyCont)
+		                 ELSE a.replyCont
+		           END AS replyCont
+		     , a.replyIdx
+		     , a.upperReplyIdx
+		     , fnc.level
+		  FROM
+		     (SELECT fnc_hierarchi() AS replyIdx, @level AS level
+		        FROM (SELECT @start_with:=0, @replyIdx:=@start_with, @level:=0) vars
+		          JOIN reply
+		         WHERE @replyIdx IS NOT NULL) fnc
+		  left JOIN reply a ON fnc.replyIdx = a.replyIdx
+		]]> 
+    </select>
     
 </mapper>

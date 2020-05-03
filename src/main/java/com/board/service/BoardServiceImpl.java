@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.board.dao.BoardDao;
 import com.board.vo.BoardVO;
+import com.board.vo.ReplyVO;
 import com.common.vo.FileVO;
 
 @Service("boardService")
@@ -83,6 +84,14 @@ public class BoardServiceImpl implements BoardService {
     
     public BoardVO selectBoardRecommendCnt(BoardVO boardVO) {
         return boardDao.selectBoardRecommendCnt(boardVO);
+    }
+    
+    public void insertReply(ReplyVO replyVO) {
+    	boardDao.insertReply(replyVO);
+    }
+    
+    public List<ReplyVO> replyList(int boardIdx) {
+    	return boardDao.replyList(boardIdx);
     }
  
 }
