@@ -2,62 +2,72 @@
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <title>게시판 목록</title>
-<link rel="stylesheet" type="text/css" href="/resources/css/board/board.css" />
 <script language="javascript" type="text/javascript" src="/resources/js/board/board.js"></script>
 </head>
  
 <body>
-<div id="layer1">게시물 본문 미리 보기</div>
+
     <form:form action="/board/boardList" name="search" ModelAttribute="search" method="post">
-        <table width=610 >
-        		<tr>
-	            <!-- 검색 part -->
-	            <td align=Right>
-		            <select name="keyField" size="1">
-		                <option value="id" 	<c:if test="${search.keyField eq 'id'}"> 		selected</c:if>> 아이디 </option>
-		                <option value="title" 	<c:if test="${search.keyField eq 'title'}"> 	selected</c:if>> 제목 </option>
-		                <option value="content" <c:if test="${search.keyField eq 'content'}"> 	selected</c:if>> 내용 </option>
-		            </select>
-		            <input type="text" size="16" name="keyWord" value="${search.keyWord}">
-		            <input type="button" value="검색" onClick="check_search()">
-	            </td>
+    	<div align="right" style="margin:2px 2px 20px 2px;">
+	        <table>
+	       		<tr>
+					<!-- 검색 part -->
+		            <td align=Right>
+						<div class="rs-select2--light rs-select2--md">
+				            <select class="form-control" style="width:100px;" name="keyField">
+				                <option value="id" 	<c:if test="${search.keyField eq 'id'}"> 		selected</c:if>> 아이디 </option>
+				                <option value="title" 	<c:if test="${search.keyField eq 'title'}"> 	selected</c:if>> 제목 </option>
+				                <option value="content" <c:if test="${search.keyField eq 'content'}"> 	selected</c:if>> 내용 </option>
+				            </select>
+			            </div>
+			            <div class="header-wrap" style="float: right;">
+				            <input name="keyWord" class="au-input au-input--xl" style="min-width:100px!important;width:200px;height:40px;" type="text" value="${search.keyWord}">
+				            <button class="au-btn--submit" style="width:40px;height:40px;" onClick="check_search()">
+			                  <i class="zmdi zmdi-search"></i>&nbsp;
+			                </button>
+		                </div>
+		            </td>
+	            </tr>
 	            <tr>
 	            <!-- 리스트 선택 -->
-	            <td align=Right>
-	            <select name="listNum" onchange="listCnt_search()" >
-	            	<option value="2"   <c:if test="${search.listNum eq '2'  }"> selected</c:if>> 2개씩보기  </option>
-	            	<option value="20"  <c:if test="${search.listNum eq '20' }"> selected</c:if>> 20개씩보기  </option>
-					<option value="50"  <c:if test="${search.listNum eq '50' }"> selected</c:if>> 50개씩보기  </option>
-					<option value="100" <c:if test="${search.listNum eq '100'}"> selected</c:if>> 100개씩보기</option>
-				</select>
-				</td>
-				<tr>
-	            <!-- 정보 part -->
-	            <td align=left>▶게시물수 : ${page.totalCount }개 </td><tr>
-	            <td align=right valign=top>
-	            
-	            <!-- 페이지 이동시 값 유지를 위한 hidden 값 -->
-				<input type="hidden" name="listNumOrg" 	value="${search.listNum}" /> 
-		        <input type="hidden" name="keyFieldOrg" value="${search.keyField }" /> 
-		        <input type="hidden" name="keyWordOrg" 	value="${search.keyWord }" />
-		        <input type="hidden" name="page" 		value="${search.page}" /> 
-		        <input type="hidden" name="pageYN" 		value="N" />
-        	</tr>                
-        </table>
+		            <td align=Right>
+			            <select name="listNum" class="form-control" style="width:150px;" onchange="listCnt_search()" >
+			            	<option value="2"   <c:if test="${search.listNum eq '2'  }"> selected</c:if>> 2개씩보기  </option>
+			            	<option value="20"  <c:if test="${search.listNum eq '20' }"> selected</c:if>> 20개씩보기  </option>
+							<option value="50"  <c:if test="${search.listNum eq '50' }"> selected</c:if>> 50개씩보기  </option>
+							<option value="100" <c:if test="${search.listNum eq '100'}"> selected</c:if>> 100개씩보기</option>
+						</select>
+					</td>
+	
+	       		</tr>                
+	        </table>
+        </div>
+		<!-- 페이지 이동시 값 유지를 위한 hidden 값 -->
+		<input type="hidden" name="listNumOrg" 	value="${search.listNum}" /> 
+        <input type="hidden" name="keyFieldOrg" value="${search.keyField }" /> 
+        <input type="hidden" name="keyWordOrg" 	value="${search.keyWord }" />
+        <input type="hidden" name="page" 		value="${search.page}" /> 
+        <input type="hidden" name="pageYN" 		value="N" />
+        
     </form:form>   
 
+
+	<div align=left style="float: left; width: 50%;">게시물수 : ${page.totalCount}개 </div>
      <!-- 글쓰기 -->
-    <div align=Right>
-    	<input type="button" value="글쓰기" onClick="go_write(${authInfo.id })">
+    <div align=Right style="float: right; width: 50%;margin-bottom: 10px;">
+		<button class="btn btn-success btn-sm" onClick="go_write(${authInfo.id })">
+			<i class="fa fa-pencil-square-o"></i>
+			글쓰기
+		</button>
     </div>
  
-    <table class="bbs" width="610" border="2" bgcolor="D8D8D8">
+    <table class="table table-borderless table-striped table-earning">
         <colgroup>
             <col width="50" />
             <col width="300" />

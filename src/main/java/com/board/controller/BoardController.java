@@ -44,7 +44,7 @@ public class BoardController {
         
         //조건값 유지를 위한 model
         view.addObject("search",info);
-        view.setViewName("board/Board_List.page");
+        view.setViewName("board/Board_List.view");
         return view;
     }
     

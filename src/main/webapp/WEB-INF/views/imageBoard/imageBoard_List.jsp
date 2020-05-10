@@ -14,50 +14,57 @@
  
 <body>
     <form:form action="/imageboard/imageboardList" name="search" ModelAttribute="search" method="post">
-        <table width=610 >
-        		<tr>
-	            <!-- 검색 part -->
-	            <td align=Right>
-		            <select name="keyField" size="1">
-		                <option value="name" 	<c:if test="${search.keyField eq 'name'}"> 		selected</c:if>> 이름 </option>
-		                <option value="title" 	<c:if test="${search.keyField eq 'title'}"> 	selected</c:if>> 제목 </option>
-		                <option value="content" <c:if test="${search.keyField eq 'tag'}"> 		selected</c:if>> 태그 </option>
-		            </select>
-		            <input type="text" size="16" name="keyWord" value="${search.keyWord}">
-		            <input type="button" value="검색" onClick="check_search()">
-	            </td>
+	   <div align="right" style="margin:2px 2px 20px 2px;">
+	       <table>
+	       		<tr>
+		            <!-- 검색 part -->
+		            <td align=Right>
+			            <div class="rs-select2--light rs-select2--md">
+				            <select class="form-control" style="width:100px;" name="keyField">
+				                <option value="name" 	<c:if test="${search.keyField eq 'name'}"> 		selected</c:if>> 이름 </option>
+				                <option value="title" 	<c:if test="${search.keyField eq 'title'}"> 	selected</c:if>> 제목 </option>
+				                <option value="content" <c:if test="${search.keyField eq 'tag'}"> 		selected</c:if>> 태그 </option>
+				            </select>
+						</div>
+						<div class="header-wrap" style="float: right;">		            
+				            <input type="text" size="16" name="keyWord" value="${search.keyWord}" class="au-input au-input--xl" style="min-width:100px!important;width:200px;height:40px;">
+							<button class="au-btn--submit" style="width:40px;height:40px;" onClick="check_search()">
+			                  <i class="zmdi zmdi-search"></i>&nbsp;
+			                </button>
+			            </div>
+		            </td>
+	            </tr>
 	            <tr>
- 	            <!-- 리스트 선택 - 리스트 표시형태 -->
-	            <td align=Right>
-	            <select name="viewStyle" onchange="viewStyle_search()" >
-	            	<option value="imageView"   <c:if test="${search.viewStyle eq 'imageView'}"> selected</c:if>> 이미지뷰보기  </option>
-	            	<option value="listView"  	<c:if test="${search.viewStyle eq 'listView' }"> selected</c:if>> 리스트보기  </option>
-				</select>
-				</td>
-	            
-	            <!-- 리스트 선택 - 표시수 -->
-	            <td align=Right>
-	            <select name="listNum" onchange="listCnt_search()" >
-	            	<option value="2"   <c:if test="${search.listNum eq '2'  }"> selected</c:if>> 2개씩보기  </option>
-	            	<option value="20"  <c:if test="${search.listNum eq '20' }"> selected</c:if>> 20개씩보기  </option>
-					<option value="50"  <c:if test="${search.listNum eq '50' }"> selected</c:if>> 50개씩보기  </option>
-					<option value="100" <c:if test="${search.listNum eq '100'}"> selected</c:if>> 100개씩보기</option>
-				</select>
-				</td>
-				<tr>
-	            <!-- 정보 part -->
-	            <td align=left>▶게시물수 : ${page.totalCount }개 </td><tr>
-	            <td align=right valign=top>
-	            
-	            <!-- 페이지 이동시 값 유지를 위한 hidden 값 -->
-				<input type="hidden" name="listNumOrg" 		value="${search.listNum}" /> 
-		        <input type="hidden" name="keyFieldOrg" 	value="${search.keyField }" /> 
-		        <input type="hidden" name="keyWordOrg" 		value="${search.keyWord }" />
-		        <input type="hidden" name="page" 			value="${search.page}" /> 
-		        <input type="hidden" name="pageYN" 			value="N" />
-		        <input type="hidden" name="viewStyleOrg" 	value="${search.viewStyle}" />
-        	</tr>                
-        </table>
+		            <!-- 리스트 선택 - 표시수 -->
+		            <td align=Right>
+						<div class="rs-select2--light rs-select2--md">
+				            <select class="form-control" style="width:150px;" name="viewStyle" onchange="viewStyle_search()">
+				            	<option value="imageView"   <c:if test="${search.viewStyle eq 'imageView'}"> selected</c:if>> 이미지뷰보기  </option>
+				            	<option value="listView"  	<c:if test="${search.viewStyle eq 'listView' }"> selected</c:if>> 리스트보기  </option>
+				            </select>
+						
+		            	</div>
+		            	<div class="rs-select2--light rs-select2--md" style="float: right;">
+			            <select name="listNum" class="form-control" style="width:150px;" onchange="listCnt_search()" >
+			            	<option value="2"   <c:if test="${search.listNum eq '2'  }"> selected</c:if>> 2개씩보기  </option>
+			            	<option value="20"  <c:if test="${search.listNum eq '20' }"> selected</c:if>> 20개씩보기  </option>
+							<option value="50"  <c:if test="${search.listNum eq '50' }"> selected</c:if>> 50개씩보기  </option>
+							<option value="100" <c:if test="${search.listNum eq '100'}"> selected</c:if>> 100개씩보기</option>
+						</select>
+						</div>
+					</td>
+				</tr>
+	       </table>
+        </div>
+        
+			<!-- 페이지 이동시 값 유지를 위한 hidden 값 -->
+			<input type="hidden" name="listNumOrg" 		value="${search.listNum}" /> 
+	        <input type="hidden" name="keyFieldOrg" 	value="${search.keyField }" /> 
+	        <input type="hidden" name="keyWordOrg" 		value="${search.keyWord }" />
+	        <input type="hidden" name="page" 			value="${search.page}" /> 
+	        <input type="hidden" name="pageYN" 			value="N" />
+	        <input type="hidden" name="viewStyleOrg" 	value="${search.viewStyle}" />
+        
     </form:form>   
     
 	<div id="paging">
@@ -79,19 +86,23 @@
 		    <a href="javascript:pagemove(${page.endPage+1})">next</a>
 		</c:if>
 	</div>    
-   	전체선택 <input id="ck_all" type="checkbox"/>
+   	
    
     
 <form:form action="/imageboard/fileChk" id="chkFile" name="chkFile" ModelAttribute="chkFile" method="post">
 
-
+<div align=left style="float: left;">게시물수 : ${page.totalCount}개</div>
+<div style="float: left;">
+	&nbsp;&nbsp;&nbsp;전체선택 <input id="ck_all" type="checkbox"/>
+</div>
 <!-- <input type="button" value="선택삭제" onClick="go_chkDel()"> -->
-<input type="button" value="선택파일다운" onClick="go_chkDown()">
-<input type="hidden" name="sendStyle"/> 
-
-<input type="button" value="사진올리기" onClick="go_upload(${authInfo.name })">
-<input type="button" value="내사진관리" onClick="go_myFile(${authInfo.name })">    
-    
+<div style="float:right;">
+	<button class="btn btn-info" onClick="go_chkDown()">선택파일다운</button>
+	<input type="hidden" name="sendStyle"/> 
+	
+	<button class="btn btn-info" onClick="go_upload(${authInfo.name })">사진올리기</button>
+	<button class="btn btn-info" onClick="go_myFile(${authInfo.name })">내사진관리</button>
+</div>
 <c:choose>
 <c:when test="${search.viewStyle eq 'listView'}"> <!-- 리스트로 표시 -->
 
@@ -161,7 +172,7 @@
 
 <c:otherwise> <!-- 이미지로 표시 -->
 
-	<table width="600" id="viewTable" align="center" style="font-family: &; font-size: 10pt;" cellspacing="2" cellpadding="1">
+	<table id="viewTable" align="center" style="border-spacing: 15px; border-collapse: separate;">
 				<tr>
 					<td style="border-bottom: 2px solid #DBDBDB;" colspan="3"></td>
 				</tr>
@@ -180,37 +191,46 @@
 						newLine++;
 						articleCount++;
 						%>
-						<td id="${fileDtl.fileIdx}" align="center" valign="bottom" width= "190">
+						<td id="${fileDtl.fileIdx}" align="center" valign="bottom">
+							
+
 							
 							<a style="cursor:pointer;" onclick="javascript:viewPic('/resources/uploadImage/${fileDtl.folderPath}/${fileDtl.fileRealName}')">
 								<img alt="" src="/resources/uploadImage/${fileDtl.folderPath}/${fileDtl.fileRealName}" style="width: 190px; height:auto;" title="${fileDtl.fileDescription}"><br>
-								${fileDtl.fileName }
 							</a>
+							<br>
+								<div>								
+									<c:if test="${fileDtl.down_yn eq 'Y'}"> <!-- 다운 가능일 경우 체크 가능 -->
+										<input type="checkbox" name="idxArr" value="${fileDtl.fileIdx}"/>
+									</c:if>
+									
+									<c:if test="${fileDtl.id eq authInfo.id}"> <!-- 파일 등록 아이디와 세션 아이디 동일할 경우 삭제 가능 -->
+										<a href="javascript:void(0);" onclick="go_fileDel(${fileDtl.fileIdx});">삭제</a>
+									</c:if>
+								</div>
+								<div style="width:190px; overflow:hidden; word-break:break-all;">
+								${fileDtl.fileName}
+								</div>
+							
 							<br>
 							
 							<!-- 본인이 추천한것인지 확인하기 위함 -->
 						      <c:choose>
 						         <c:when test = "${fileDtl.recommendYN eq 'Y'}">
-						            	<input type="button" value="좋아요  ${fileDtl.recommendYcnt}" id="${fileDtl.fileIdx}_recommendY" style="background-color:red" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">
-						            	<input type="button" value="싫어요  ${fileDtl.recommendNcnt}" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')">
+						            	<button class="btn btn-success btn-sm" id="${fileDtl.fileIdx}_recommendY" style="background-color:red" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">좋아요 ${fileDtl.recommendYcnt}</button>
+						            	<button class="btn btn-danger btn-sm" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')">싫어요  ${fileDtl.recommendNcnt}</button>
 						         </c:when>
 						         <c:when test = "${fileDtl.recommendYN eq 'N'}">
-						            	<input type="button" value="좋아요  ${fileDtl.recommendYcnt}" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">
-						            	<input type="button" value="싫어요  ${fileDtl.recommendNcnt}" id="${fileDtl.fileIdx}_recommendN" style="background-color:red" onClick="fn_recommend(${fileDtl.fileIdx},'N')">
+						            	<button class="btn btn-success btn-sm" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">좋아요 ${fileDtl.recommendYcnt}</button>
+						            	<button class="btn btn-danger btn-sm" id="${fileDtl.fileIdx}_recommendN" style="background-color:red" onClick="fn_recommend(${fileDtl.fileIdx},'N')">싫어요  ${fileDtl.recommendNcnt}</button>
 						         </c:when>
 						         <c:otherwise>
-						            	<input type="button" value="좋아요  ${fileDtl.recommendYcnt}" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">
-										<input type="button" value="싫어요  ${fileDtl.recommendNcnt}" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')">
+						            	<button class="btn btn-success btn-sm" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">좋아요 ${fileDtl.recommendYcnt}</button>
+										<button class="btn btn-danger btn-sm" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')">싫어요  ${fileDtl.recommendNcnt}</button>
 						         </c:otherwise>
 						      </c:choose>
 							
-							<c:if test="${fileDtl.down_yn eq 'Y'}"> <!-- 다운 가능일 경우 체크 가능 -->
-								<input type="checkbox" name="idxArr" value="${fileDtl.fileIdx}"/>
-							</c:if>
-							
-							<c:if test="${fileDtl.id eq authInfo.id}"> <!-- 파일 등록 아이디와 세션 아이디 동일할 경우 삭제 가능 -->
-								<a href="javascript:void(0);" onclick="go_fileDel(${fileDtl.fileIdx});">삭제</a>
-							</c:if>
+
 						</td>
 						<%
 						if(newLine==3){ // 한줄에 3개의 이미지를 보여주기위한 count
