@@ -219,16 +219,16 @@
 							<!-- 본인이 추천한것인지 확인하기 위함 -->
 						      <c:choose>
 						         <c:when test = "${fileDtl.recommendYN eq 'Y'}">
-						            	<button class="btn btn-success btn-sm" id="${fileDtl.fileIdx}_recommendY" style="background-color:red" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">좋아요 ${fileDtl.recommendYcnt}</button>
-						            	<button class="btn btn-danger btn-sm" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')">싫어요  ${fileDtl.recommendNcnt}</button>
+						            	<input type="button" class="btn btn-success btn-sm" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')" value="좋아요  ${fileDtl.recommendYcnt}">
+						            	<input type="button" class="btn btn-danger btn-sm" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')" value="싫어요  ${fileDtl.recommendNcnt}"></button>
 						         </c:when>
 						         <c:when test = "${fileDtl.recommendYN eq 'N'}">
-						            	<button class="btn btn-success btn-sm" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">좋아요 ${fileDtl.recommendYcnt}</button>
-						            	<button class="btn btn-danger btn-sm" id="${fileDtl.fileIdx}_recommendN" style="background-color:red" onClick="fn_recommend(${fileDtl.fileIdx},'N')">싫어요  ${fileDtl.recommendNcnt}</button>
+						            	<input type="button" class="btn btn-success btn-sm" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')" value="좋아요  ${fileDtl.recommendYcnt}">
+						            	<input type="button" class="btn btn-danger btn-sm" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')" value="싫어요  ${fileDtl.recommendNcnt}">
 						         </c:when>
 						         <c:otherwise>
-						            	<button class="btn btn-success btn-sm" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')">좋아요 ${fileDtl.recommendYcnt}</button>
-										<button class="btn btn-danger btn-sm" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')">싫어요  ${fileDtl.recommendNcnt}</button>
+										<input type="button" class="btn btn-success btn-sm" id="${fileDtl.fileIdx}_recommendY" onClick="fn_recommend(${fileDtl.fileIdx},'Y')" value="좋아요  ${fileDtl.recommendYcnt}">
+						            	<input type="button" class="btn btn-danger btn-sm" id="${fileDtl.fileIdx}_recommendN" onClick="fn_recommend(${fileDtl.fileIdx},'N')" value="싫어요  ${fileDtl.recommendNcnt}">
 						         </c:otherwise>
 						      </c:choose>
 							
