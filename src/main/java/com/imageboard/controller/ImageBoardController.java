@@ -83,8 +83,9 @@ public class ImageBoardController {
     @RequestMapping(value="/imageboard/fileUploadForm")
     public ModelAndView fileUploadForm(@ModelAttribute("search") ImageBoardVO info,ModelMap model)
     {
+    	System.out.println("컨트롤러 : fileUploadForm");
         ModelAndView view = new ModelAndView();
-        view.setViewName("imageBoard/fileUploadForm.page");
+        view.setViewName("imageBoard/fileUploadForm.view");
         return view;
     }
     

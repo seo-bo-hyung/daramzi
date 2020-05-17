@@ -19,3 +19,10 @@ body {
 	color : red;
 	font-size : 9pt;
 }
+
+table,tr,td, th{
+  border-collapse : collapse;
+  padding-left:5px;
+  padding-right:5px;
+}
+

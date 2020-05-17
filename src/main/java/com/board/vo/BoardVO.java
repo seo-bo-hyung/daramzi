@@ -12,6 +12,9 @@ public class BoardVO extends commonVO {
 	private String ip;
 	private String ins_dt;
 	private String upt_dt;
+	
+	//로그인 확인
+	private String login_id;
     
 	//게시판 리스트용
 	private String keyField;
@@ -86,6 +89,12 @@ public class BoardVO extends commonVO {
 	}
 	public void setUpt_dt(String upt_dt) {
 		this.upt_dt = upt_dt;
+	}
+	public String getLogin_id() {
+		return login_id;
+	}
+	public void setLogin_id(String login_id) {
+		this.login_id = login_id;
 	}
 	//게시판 리스트용 getter, setter
 	public String getKeyField() {

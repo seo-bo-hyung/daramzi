@@ -79,15 +79,15 @@
 	        		$("#"+ data.fileIdx + "_recommendN").css('background','');
 	        		$("#"+ data.fileIdx + "_recommendY").css('background','red');
 	        		
-	        		$("#"+ data.fileIdx + "_recommendY").val('좋아요 ' + data.recommendYcnt);
-	        		$("#"+ data.fileIdx + "_recommendN").val('싫어요 ' + data.recommendNcnt);
+	        		$("#"+ data.fileIdx + "_recommendY").html('좋아요 ' + data.recommendYcnt);
+	        		$("#"+ data.fileIdx + "_recommendN").html('싫어요 ' + data.recommendNcnt);
 	        	}else{
 	        		alert("사진을 비추천하였습니다.");
 	        		$("#"+ data.fileIdx + "_recommendY").css('background','');
 	        		$("#"+ data.fileIdx + "_recommendN").css('background','red');
 	        		
-	        		$("#"+ data.fileIdx + "_recommendY").val('좋아요 ' + data.recommendYcnt);
-	        		$("#"+ data.fileIdx + "_recommendN").val('싫어요 ' + data.recommendNcnt);
+	        		$("#"+ data.fileIdx + "_recommendY").html('좋아요 ' + data.recommendYcnt);
+	        		$("#"+ data.fileIdx + "_recommendN").html('싫어요 ' + data.recommendNcnt);
 	        	}
 	        	
             },
@@ -197,7 +197,6 @@
     		alert("파일관리는 로그인 후 가능합니다.");
     		return 0;
     	}
-    	
     	location.href="/imageboard/myFileMng";
     } 
     

@@ -7,22 +7,18 @@
 
 <!-- 폴더생성 -->
 <input type="text" size="16" name="folderName" id="mkDirNm"> 
-<input type="button" value="폴더생성" onClick="go_mkDir(${authInfo.name})">
+<input type="button" class="btn btn-info" value="폴더생성" onClick="go_mkDir(${authInfo.name})">
 
 <!-- 폴더삭제 -->
 <input type="text" size="16" name="folderName" id="delDirNm"> 
-<input type="button" value="폴더삭제" onClick="go_delDir(${authInfo.name})">
+<input type="button" value="폴더삭제" class="btn btn-danger" onClick="go_delDir(${authInfo.name})">
 
 <form id="uploadForm">
 	<div id="folderView">
 	</div>
 	<div id="form">
-		<ul>
-		  <li>
-		    <input type="file" name="file" id="filename" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp">
-		  <li>    
-		    <input type="button" name="submitBtn" value="사진올리기">
-		</ul>
+	    <input type="file" name="file" id="filename" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp">
+	    <input type="button" name="submitBtn" class="btn btn-success" value="사진올리기">
 	</div>
 </form>
 <!-- 해당 위치 안에 이미지가 쌓이게 된다. -->

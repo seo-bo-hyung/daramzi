@@ -183,10 +183,10 @@ $(function(){
 </head>
  
 <body>
-<input type="BUTTON" id="ed1" value="선택수정" />
-<input type="BUTTON" id="sved1" disabled='true' value="저장" />
-<input type="BUTTON" id="cned1" disabled='true' value="수정취소" />
-<input type="BUTTON" id="delFile" value="선택삭제" />
+<input type="BUTTON" style="margin-bottom:10px;" class="btn btn-primary" id="ed1" value="선택수정" />
+<input type="BUTTON" style="margin-bottom:10px;"class="btn btn-primary" id="sved1" disabled='true' value="저장" />
+<input type="BUTTON" style="margin-bottom:10px;"class="btn btn-primary" id="cned1" disabled='true' value="수정취소" />
+<input type="BUTTON" style="margin-bottom:10px;"class="btn btn-danger" id="delFile" value="선택삭제" />
 	<table id="myFileList"></table>
 	<div id="pager"></div>
 </body>

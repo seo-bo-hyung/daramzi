@@ -9,6 +9,7 @@
 
 <title>게시판 목록</title>
 <script language="javascript" type="text/javascript" src="/resources/js/board/board.js"></script>
+
 </head>
  
 <body>
@@ -65,9 +66,18 @@
 			<i class="fa fa-pencil-square-o"></i>
 			글쓰기
 		</button>
+		<button class="btn btn-success btn-sm" onclick="doExcelDownloadProcess('/board/downloadExcelFile')">Excel</button>
     </div>
- 
-    <table class="table table-borderless table-striped table-earning">
+    
+    <!-- 엑셀 다운로드 폼-->
+	<form id="excelDown" name="excelDown" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="keyFieldOrg" value="${search.keyField }" /> 
+        <input type="hidden" name="keyWordOrg" 	value="${search.keyWord }" />
+        <input type="hidden" name="page" 		value="${search.page}" /> 
+        <input type="hidden" name="pageYN" 		value="N" />
+	</form>
+    
+    <table class="table table-borderless table-striped table-earning" id="table">
         <colgroup>
             <col width="50" />
             <col width="300" />

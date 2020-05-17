@@ -1,11 +1,14 @@
 package com.board.controller;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,7 @@ import com.board.service.BoardService;
 import com.board.vo.BoardVO;
 import com.board.vo.PageVO;
 import com.board.vo.ReplyVO;
+import com.common.service.ExcelService;
 import com.common.util.GetSession;
 import com.common.vo.FileVO;
  
@@ -24,7 +28,11 @@ import com.common.vo.FileVO;
 public class BoardController {
     @Resource(name="boardService")
     private BoardService boardService;
-    
+
+    @Resource(name="excelService")
+    private ExcelService service;
+	
+	
     //게시판 글 목록
     @RequestMapping(value="/board/boardList")
     public ModelAndView boardList(@ModelAttribute("search") BoardVO info,ModelMap model)
@@ -56,12 +64,18 @@ public class BoardController {
     	
         ModelAndView view = new ModelAndView();
         
-    	String id = GetSession.GetSessionId(request); //세션아이디 가져오기
-    	searchInfo.setId(id);
-        
         //내용불러오기
         int boardIdx = searchInfo.getBoardIdx();
         BoardVO viewContent = boardService.viewContent(searchInfo);
+        
+        //로그인한 사람인지 확인
+		try {
+			String login_id = GetSession.GetSessionId(request); //세션아이디 가져오기
+			viewContent.setLogin_id(login_id);
+		}catch (Exception e) {
+			viewContent.setLogin_id("");
+		}
+        
         view.addObject("viewContent",viewContent);
         
         //게시글 첨부파일 불러오기
@@ -122,6 +136,22 @@ public class BoardController {
     	
     	
 	   return info;
+    }
+
+    //엑셀 다운로드
+    @RequestMapping(value = "/board/downloadExcelFile", method = RequestMethod.POST)
+    public String downloadExcelFile(@ModelAttribute("excelDown") BoardVO info,Model model) {
+		System.out.println("downloadExcelFile 확인");
+        
+        List<BoardVO> resultlist = boardService.boardList(info);
+        
+        SXSSFWorkbook workbook = service.excelFileDownloadProcess(resultlist);
+        
+        model.addAttribute("locale", Locale.KOREA);
+        model.addAttribute("workbook", workbook);
+        model.addAttribute("workbookName", "게시판 리스트");
+        
+        return "excelDownloadView";
     }
     
     

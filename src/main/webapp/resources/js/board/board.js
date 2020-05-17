@@ -29,7 +29,7 @@
     }
     
     //게시판 글 수정
-    function modContent(boardIdx) {
+    function mod_Content(boardIdx) {
     	$('form[name="modContent"]').attr("action","/board/boardUpdate");
     	$("input[name=boardIdx]", "form[name=modContent]").val(boardIdx);
     	$('form[name="modContent"]').submit();
@@ -157,13 +157,19 @@
        $("#" + upperIdx).after(str); 
     }
 
- 
-
- 
+    //엑셀 다운로드
+    function doExcelDownloadProcess(mappingValue){
+        var f = document.excelDown;
+        f.action = mappingValue;
+        f.submit();
+    }
+    
+    //이건 모하는 기능이야
     function blockmovef() {
         document.blockmovef.submit();
     }
- 
+    
+    //이건 모하는 기능이야
     function blockMoveb() {
         console.log("##" + document.blockmoveb.nowBlock.value);
         document.blockmoveb.submit();

@@ -85,9 +85,13 @@
 		<c:if test="${page.next}">
 		    <a href="javascript:pagemove(${page.endPage+1})">next</a>
 		</c:if>
+	</div>
+	
+	<!-- 내사진관리 - 폼안에 있으면 자꾸 폼을 타서 밖으로 뺌-->
+	<div style="float:right;margin-left:5px;">
+		<button class="btn btn-info" onClick="go_upload(${authInfo.name })">사진올리기</button>
+		<button class="btn btn-info" onClick="go_myFile(${authInfo.name })">내사진관리</button>
 	</div>    
-   	
-   
     
 <form:form action="/imageboard/fileChk" id="chkFile" name="chkFile" ModelAttribute="chkFile" method="post">
 
@@ -100,8 +104,6 @@
 	<button class="btn btn-info" onClick="go_chkDown()">선택파일다운</button>
 	<input type="hidden" name="sendStyle"/> 
 	
-	<button class="btn btn-info" onClick="go_upload(${authInfo.name })">사진올리기</button>
-	<button class="btn btn-info" onClick="go_myFile(${authInfo.name })">내사진관리</button>
 </div>
 <c:choose>
 <c:when test="${search.viewStyle eq 'listView'}"> <!-- 리스트로 표시 -->

@@ -27,7 +27,7 @@
 		]]> 
 		<where>
 		<if test="keyWord != null and keyWord != ''">   
-				<if test="keyField == 'name'">
+				<if test="keyField == 'id'">
 					and id = #{keyWord, jdbcType=VARCHAR}
 				</if>
 				<if test="keyField == 'title'">
@@ -113,6 +113,7 @@
 				,ins_dt
 				,upt_dt
 		    from file_house
+		    where boardIdx = #{boardIdx}
     		order by fileSeq
 		]]> 
     </select>
@@ -186,6 +187,7 @@
 		          JOIN reply
 		         WHERE @replyIdx IS NOT NULL) fnc
 		  left JOIN reply a ON fnc.replyIdx = a.replyIdx
+		  WHERE a.boardIdx = #{boardIdx}
 		]]> 
     </select>
     

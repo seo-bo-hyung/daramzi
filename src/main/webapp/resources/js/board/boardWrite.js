@@ -96,6 +96,8 @@ $(document).ready(function() {
 			dataType : 'JSON',
 			data : formData,
 			success : function(result) {
+				
+				
 				//이 부분을 수정해서 다양한 행동을 할 수 있으며,
 				//여기서는 데이터를 전송받았다면 순수하게 OK 만을 보내기로 하였다.
 				//-1 = 잘못된 확장자 업로드, -2 = 용량초과, 그외 = 성공(1)
@@ -149,6 +151,11 @@ function check_modify() {
 
 //사진삭제
 function go_fileDel(fileIdx) {
+	if(confirm("사진은 삭제시 복구 되지 않습니다. 삭제하시겠습니까?")==false){
+		return false;    		
+	}
+	
+	
     $.ajax({
         type: "post",
     url : "/board/fileDel",

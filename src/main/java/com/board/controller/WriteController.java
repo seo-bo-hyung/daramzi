@@ -44,7 +44,7 @@ public class WriteController {
     @RequestMapping(value="/board/boardWrite", method=RequestMethod.GET)
     public ModelAndView wirteView(@ModelAttribute("writeRequest") BoardVO vo){
     	ModelAndView view = new ModelAndView();
-    	
+    	System.out.println("GET 인가");
         view.setViewName("board/Board_Write.view");
         
         return view;
@@ -89,6 +89,8 @@ public class WriteController {
         
         long sizeSum = 0;
         int i =0;
+        
+        System.out.println("파일리스트 확인 : " + fileList.size());
         for(MultipartFile f : fileList){
         	
         	String uuid = UUID.randomUUID().toString();
