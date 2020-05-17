@@ -7,7 +7,9 @@
 	
 	<sql id="COMMON_PAGING_TAIL">
 		) R
+		<if test='pageYN == "Y"'>
 		LIMIT #{listNum, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}	
+		</if>
 	</sql>
 
     

@@ -54,7 +54,7 @@
         <input type="hidden" name="keyFieldOrg" value="${search.keyField }" /> 
         <input type="hidden" name="keyWordOrg" 	value="${search.keyWord }" />
         <input type="hidden" name="page" 		value="${search.page}" /> 
-        <input type="hidden" name="pageYN" 		value="N" />
+        <input type="hidden" name="pageYN" 		value="Y" />
         
     </form:form>   
 
@@ -71,9 +71,8 @@
     
     <!-- 엑셀 다운로드 폼-->
 	<form id="excelDown" name="excelDown" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="keyFieldOrg" value="${search.keyField }" /> 
-        <input type="hidden" name="keyWordOrg" 	value="${search.keyWord }" />
-        <input type="hidden" name="page" 		value="${search.page}" /> 
+        <input type="hidden" name="keyField" 	value="${search.keyField }" /> 
+        <input type="hidden" name="keyWord" 	value="${search.keyWord }" />
         <input type="hidden" name="pageYN" 		value="N" />
 	</form>
     
@@ -161,7 +160,7 @@
         <input type="hidden" name="keyField" 	value="${search.keyField }" /> 
         <input type="hidden" name="keyWord" 	value="${search.keyWord }" />
         <input type="hidden" name="page" 		value="${search.page}" /> 
-        <input type="hidden" name="pageYN" 		value="N" />
+        <input type="hidden" name="pageYN" 		value="Y" />
     </form>
 
 

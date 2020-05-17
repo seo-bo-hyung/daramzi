@@ -27,7 +27,7 @@ public class BoardVO extends commonVO {
 	private String keyFieldOrg;
 	private String keyWordOrg;
     private int page = 1;
-    private String pageYN;
+    private String pageYN = "Y";
     
     //파일업로드용
     private String file;

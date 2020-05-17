@@ -45,9 +45,8 @@ public class ExcelService {
         // 해당 행의 네번째 열 셀 생성
         headerCell = headerRow.createCell(3);
         headerCell.setCellValue("작성일");
-        
         // 해당 행의 네번째 열 셀 생성
-        headerCell = headerRow.createCell(3);
+        headerCell = headerRow.createCell(4);
         headerCell.setCellValue("조 회");
         
         // 과일표 내용 행 및 셀 생성

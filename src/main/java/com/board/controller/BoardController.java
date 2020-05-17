@@ -142,7 +142,7 @@ public class BoardController {
     @RequestMapping(value = "/board/downloadExcelFile", method = RequestMethod.POST)
     public String downloadExcelFile(@ModelAttribute("excelDown") BoardVO info,Model model) {
 		System.out.println("downloadExcelFile 확인");
-        
+        System.out.println("인자값 확인 : " + info.toStringMultiline());
         List<BoardVO> resultlist = boardService.boardList(info);
         
         SXSSFWorkbook workbook = service.excelFileDownloadProcess(resultlist);
