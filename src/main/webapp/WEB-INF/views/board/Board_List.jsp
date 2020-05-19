@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>게시판 목록-강남구청</title>
+<title>게시판 목록-강남구청 뭐지</title>
 <script language="javascript" type="text/javascript" src="/resources/js/board/board.js"></script>
 
 </head>
